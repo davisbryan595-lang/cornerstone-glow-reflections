@@ -2,7 +2,6 @@ import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { Button } from "./ui/button";
 import { ChevronDown } from "lucide-react";
 import { useEffect } from "react";
-import logo from "@/assets/logo.png";
 
 const Hero = () => {
   const scrollToSection = (id: string) => {
