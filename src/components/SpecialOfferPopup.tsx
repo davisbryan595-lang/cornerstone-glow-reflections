@@ -30,9 +30,9 @@ const SpecialOfferPopup = () => {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.8, y: 20 }}
           transition={{ duration: 0.3 }}
-          className="fixed bottom-8 right-8 z-40 max-w-sm"
+          className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-40 w-80 sm:w-96 md:max-w-sm"
         >
-          <div className="bg-gradient-to-br from-primary/95 via-secondary/95 to-accent/95 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-primary/30">
+          <div className="bg-gradient-to-br from-primary/95 via-secondary/95 to-accent/95 backdrop-blur-md rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-2xl border border-primary/30">
             <button
               onClick={() => setIsVisible(false)}
               className="absolute top-3 right-3 text-white/60 hover:text-white transition-colors"
