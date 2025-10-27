@@ -90,10 +90,7 @@ const Footer = () => {
           <div>
             <h3 className="font-montserrat font-bold mb-4">Service Areas</h3>
             <ul className="space-y-2 text-sm text-muted-foreground font-inter">
-              <li className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-primary" />
-                Charlotte
-              </li>
+              <li>Charlotte</li>
               <li>Pineville</li>
               <li>Fort Mill</li>
               <li>Huntersville</li>
