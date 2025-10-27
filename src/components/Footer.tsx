@@ -1,5 +1,5 @@
 import { Facebook, Instagram, Mail, Phone } from "lucide-react";
-import logo from "@/assets/logo.png";
+const logoUrl = "https://cdn.builder.io/api/v1/image/assets%2Fbbaa1bd46cba4346a5396fea34722449%2Ff2b93411919b40fb838f6d56405cc19d?format=webp&width=800";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -22,9 +22,9 @@ const Footer = () => {
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <img
-                src={logo}
+                src={logoUrl}
                 alt="Cornerstone Mobile Detailing"
-                className="w-12 h-12"
+                className="w-16 h-16"
               />
               <span className="font-montserrat font-bold text-lg">
                 Cornerstone

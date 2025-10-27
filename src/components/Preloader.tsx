@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import logo from "@/assets/logo.png";
+const logoUrl = "https://cdn.builder.io/api/v1/image/assets%2Fbbaa1bd46cba4346a5396fea34722449%2Ff2b93411919b40fb838f6d56405cc19d?format=webp&width=800";
 
 const Preloader = ({ onComplete }: { onComplete: () => void }) => {
   const [progress, setProgress] = useState(0);
@@ -40,7 +40,7 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
           className="relative"
         >
           <motion.img
-            src={logo}
+            src={logoUrl}
             alt="Cornerstone Mobile Detailing"
             className="w-32 h-32 md:w-40 md:h-40"
             animate={{

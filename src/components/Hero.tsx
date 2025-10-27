@@ -100,7 +100,7 @@ const Hero = () => {
       </div>
 
       {/* Content */}
-      <div className="container mx-auto px-4 z-10">
+      <div className="container mx-auto px-4 z-10 pt-24">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -111,7 +111,8 @@ const Hero = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-montserrat font-bold mb-6 leading-tight"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-montserrat font-bold mb-6 leading-tight px-4"
+            style={{ marginTop: "10px" }}
           >
             <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent animate-float">
               The Foundation
