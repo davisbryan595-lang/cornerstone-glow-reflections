@@ -44,6 +44,8 @@ const Index = () => {
           <Areas />
           <Contact />
           <Footer />
+          <SpecialOfferPopup />
+          <BackToTopButton />
         </main>
       )}
     </>
