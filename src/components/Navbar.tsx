@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Facebook, Instagram, Mail, Phone, Menu, X } from "lucide-react";
 import { Button } from "./ui/button";
 
-const logoUrl = "https://cdn.builder.io/api/v1/image/assets%2Fbbaa1bd46cba4346a5396fea34722449%2Fcc649cf72db84c36a6950f60dece1e7d?format=webp&width=800";
+const logoUrl = "https://cdn.builder.io/api/v1/image/assets%2Fbbaa1bd46cba4346a5396fea34722449%2F79418139b63f456d824731499f38a8a1?format=webp&width=800";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
