@@ -41,10 +41,10 @@ const SpecialOfferPopup = () => {
             </button>
 
             <div className="pr-6">
-              <h3 className="text-lg font-bold text-white mb-2 font-montserrat">
+              <h3 className="text-base sm:text-lg font-bold text-white mb-2 font-montserrat">
                 🎉 Special Offer!
               </h3>
-              <p className="text-sm text-white/90 mb-4 font-inter">
+              <p className="text-xs sm:text-sm text-white/90 mb-4 font-inter">
                 Get 20% off your first ceramic coating service. Limited time offer!
               </p>
               <Button
