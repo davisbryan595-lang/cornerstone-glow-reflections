@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Facebook, Instagram, Mail, Phone, Menu, X } from "lucide-react";
-import logo from "@/assets/logo.png";
 import { Button } from "./ui/button";
+
+const logoUrl = "https://cdn.builder.io/api/v1/image/assets%2Fbbaa1bd46cba4346a5396fea34722449%2Fcc649cf72db84c36a6950f60dece1e7d?format=webp&width=800";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -97,14 +98,11 @@ const Navbar = () => {
               <div className="relative">
                 <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary/30 to-accent/30 blur-lg group-hover:from-primary/50 group-hover:to-accent/50 transition-all duration-300" />
                 <img
-                  src={logo}
+                  src={logoUrl}
                   alt="Cornerstone Mobile Detailing"
                   className="w-16 h-16 drop-shadow-[0_0_20px_rgba(23,200,200,0.6)] group-hover:drop-shadow-[0_0_30px_rgba(23,200,200,1)] transition-all duration-300 relative z-10"
                 />
               </div>
-              <span className="font-montserrat font-bold text-xl hidden sm:block">
-                Cornerstone
-              </span>
             </motion.button>
 
             {/* Desktop Navigation */}
@@ -159,7 +157,7 @@ const Navbar = () => {
       >
         <div className="p-6 flex flex-col h-full">
           <div className="flex justify-between items-center mb-8">
-            <img src={logo} alt="Logo" className="w-16 h-16" />
+            <img src={logoUrl} alt="Logo" className="w-16 h-16" />
             <button onClick={() => setIsMobileMenuOpen(false)}>
               <X className="w-6 h-6" />
             </button>
