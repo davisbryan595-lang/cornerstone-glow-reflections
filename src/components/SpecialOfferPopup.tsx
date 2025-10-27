@@ -30,21 +30,21 @@ const SpecialOfferPopup = () => {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.8, y: 20 }}
           transition={{ duration: 0.3 }}
-          className="fixed bottom-8 right-8 z-40 max-w-sm"
+          className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-40 w-80 sm:w-96 md:max-w-sm"
         >
-          <div className="bg-gradient-to-br from-primary/95 via-secondary/95 to-accent/95 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-primary/30">
+          <div className="bg-gradient-to-br from-primary/95 via-secondary/95 to-accent/95 backdrop-blur-md rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-2xl border border-primary/30">
             <button
               onClick={() => setIsVisible(false)}
-              className="absolute top-3 right-3 text-white/60 hover:text-white transition-colors"
+              className="absolute top-2 right-2 sm:top-3 sm:right-3 text-white/60 hover:text-white transition-colors"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
 
             <div className="pr-6">
-              <h3 className="text-lg font-bold text-white mb-2 font-montserrat">
+              <h3 className="text-base sm:text-lg font-bold text-white mb-2 font-montserrat">
                 🎉 Special Offer!
               </h3>
-              <p className="text-sm text-white/90 mb-4 font-inter">
+              <p className="text-xs sm:text-sm text-white/90 mb-4 font-inter">
                 Get 20% off your first ceramic coating service. Limited time offer!
               </p>
               <Button
