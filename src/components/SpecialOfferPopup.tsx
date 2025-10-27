@@ -35,9 +35,9 @@ const SpecialOfferPopup = () => {
           <div className="bg-gradient-to-br from-primary/95 via-secondary/95 to-accent/95 backdrop-blur-md rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-2xl border border-primary/30">
             <button
               onClick={() => setIsVisible(false)}
-              className="absolute top-3 right-3 text-white/60 hover:text-white transition-colors"
+              className="absolute top-2 right-2 sm:top-3 sm:right-3 text-white/60 hover:text-white transition-colors"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
 
             <div className="pr-6">
