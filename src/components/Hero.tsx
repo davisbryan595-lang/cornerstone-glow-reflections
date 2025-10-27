@@ -15,22 +15,38 @@ const Hero = () => {
   // Animated counter hook
   const useCounter = (target: number, duration: number = 2) => {
     const count = useMotionValue(0);
-    
+
     useEffect(() => {
-      const controls = animate(count, target, {
-        duration,
-        onComplete: () => {
-          setTimeout(() => {
-            animate(count, 0, { duration: 0.5 });
+      let isMounted = true;
+
+      const startAnimation = () => {
+        if (!isMounted) return;
+
+        const controls = animate(count, target, {
+          duration,
+          onComplete: () => {
+            if (!isMounted) return;
             setTimeout(() => {
-              animate(count, target, { duration });
-            }, 500);
-          }, 2000);
-        },
-      });
-      return controls.stop;
+              if (!isMounted) return;
+              animate(count, 0, { duration: 0.5 });
+              setTimeout(() => {
+                if (!isMounted) return;
+                startAnimation();
+              }, 500);
+            }, 5000);
+          },
+        });
+
+        return controls;
+      };
+
+      startAnimation();
+
+      return () => {
+        isMounted = false;
+      };
     }, [target, duration, count]);
-    
+
     return useTransform(count, (latest) => Math.round(latest));
   };
 
@@ -98,31 +114,20 @@ const Hero = () => {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="mb-8 inline-block"
           >
-            <div className="relative p-4 rounded-full bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/20 shadow-glow-primary animate-glow">
+            <div className="relative p-6 rounded-full bg-gradient-to-br from-primary/30 via-secondary/30 to-accent/30 shadow-glow-primary animate-glow before:absolute before:inset-0 before:rounded-full before:bg-gradient-to-br before:from-primary/20 before:to-accent/20 before:animate-pulse before:blur-xl">
               <img
                 src={logo}
                 alt="Cornerstone Mobile Detailing"
-                className="w-24 h-24 drop-shadow-[0_0_25px_rgba(23,200,200,0.8)] animate-float"
+                className="w-24 h-24 drop-shadow-[0_0_35px_rgba(23,200,200,1)] drop-shadow-[0_0_20px_rgba(99,179,237,0.8)] animate-float relative z-10"
               />
             </div>
-          </motion.div>
-          
-          <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="mb-6 inline-block"
-          >
-            <span className="px-6 py-2 bg-gradient-primary rounded-full text-sm font-semibold font-inter shadow-glow-primary">
-              Charlotte's Premier Mobile Detailing
-            </span>
           </motion.div>
 
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-montserrat font-bold mb-6 leading-tight"
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-montserrat font-bold mb-6 leading-tight"
           >
             <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent animate-float">
               The Foundation

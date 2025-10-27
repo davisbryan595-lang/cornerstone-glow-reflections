@@ -94,11 +94,14 @@ const Navbar = () => {
               className="flex items-center gap-3 group"
               whileHover={{ scale: 1.05 }}
             >
-              <img
-                src={logo}
-                alt="Cornerstone Mobile Detailing"
-                className="w-16 h-16 group-hover:drop-shadow-[0_0_20px_rgba(23,200,200,0.8)] transition-all duration-300"
-              />
+              <div className="relative">
+                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary/30 to-accent/30 blur-lg group-hover:from-primary/50 group-hover:to-accent/50 transition-all duration-300" />
+                <img
+                  src={logo}
+                  alt="Cornerstone Mobile Detailing"
+                  className="w-16 h-16 drop-shadow-[0_0_20px_rgba(23,200,200,0.6)] group-hover:drop-shadow-[0_0_30px_rgba(23,200,200,1)] transition-all duration-300 relative z-10"
+                />
+              </div>
               <span className="font-montserrat font-bold text-xl hidden sm:block">
                 Cornerstone
               </span>
