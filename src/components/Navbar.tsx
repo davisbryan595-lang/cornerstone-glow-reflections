@@ -42,7 +42,7 @@ const Navbar = () => {
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
           isScrolled
             ? "bg-background/80 backdrop-blur-xl shadow-lg border-b border-primary/20"
-            : "bg-transparent"
+            : "bg-background/30 backdrop-blur-md border-b border-primary/10"
         }`}
       >
         {/* Top Bar */}
@@ -97,9 +97,9 @@ const Navbar = () => {
               <img
                 src={logo}
                 alt="Cornerstone Mobile Detailing"
-                className="w-12 h-12 group-hover:drop-shadow-[0_0_15px_rgba(23,200,200,0.6)] transition-all duration-300"
+                className="w-16 h-16 group-hover:drop-shadow-[0_0_20px_rgba(23,200,200,0.8)] transition-all duration-300"
               />
-              <span className="font-montserrat font-bold text-lg hidden sm:block">
+              <span className="font-montserrat font-bold text-xl hidden sm:block">
                 Cornerstone
               </span>
             </motion.button>
@@ -156,7 +156,7 @@ const Navbar = () => {
       >
         <div className="p-6 flex flex-col h-full">
           <div className="flex justify-between items-center mb-8">
-            <img src={logo} alt="Logo" className="w-12 h-12" />
+            <img src={logo} alt="Logo" className="w-16 h-16" />
             <button onClick={() => setIsMobileMenuOpen(false)}>
               <X className="w-6 h-6" />
             </button>

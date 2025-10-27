@@ -12,32 +12,26 @@ const Gallery = () => {
     {
       url: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800&h=600&fit=crop",
       title: "Paint Correction",
-      category: "Before & After",
     },
     {
       url: "https://images.unsplash.com/photo-1607860108855-64acf2078ed9?w=800&h=600&fit=crop",
       title: "Ceramic Coating",
-      category: "Premium Service",
     },
     {
       url: "https://images.unsplash.com/photo-1625047509168-a7026f36de04?w=800&h=600&fit=crop",
       title: "Interior Detailing",
-      category: "Deep Clean",
     },
     {
       url: "https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?w=800&h=600&fit=crop",
       title: "Exterior Wash",
-      category: "Basic Service",
     },
     {
       url: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&h=600&fit=crop",
       title: "Luxury Detail",
-      category: "Premium Service",
     },
     {
       url: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&h=600&fit=crop",
       title: "Sports Car Detail",
-      category: "Specialty",
     },
   ];
 
@@ -108,9 +102,6 @@ const Gallery = () => {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                  <span className="text-xs text-accent font-semibold mb-1 font-inter">
-                    {image.category}
-                  </span>
                   <h4 className="text-xl font-montserrat font-bold">
                     {image.title}
                   </h4>
