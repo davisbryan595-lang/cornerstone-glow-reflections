@@ -15,22 +15,38 @@ const Hero = () => {
   // Animated counter hook
   const useCounter = (target: number, duration: number = 2) => {
     const count = useMotionValue(0);
-    
+
     useEffect(() => {
-      const controls = animate(count, target, {
-        duration,
-        onComplete: () => {
-          setTimeout(() => {
-            animate(count, 0, { duration: 0.5 });
+      let isMounted = true;
+
+      const startAnimation = () => {
+        if (!isMounted) return;
+
+        const controls = animate(count, target, {
+          duration,
+          onComplete: () => {
+            if (!isMounted) return;
             setTimeout(() => {
-              animate(count, target, { duration });
-            }, 500);
-          }, 5000);
-        },
-      });
-      return controls.stop;
+              if (!isMounted) return;
+              animate(count, 0, { duration: 0.5 });
+              setTimeout(() => {
+                if (!isMounted) return;
+                startAnimation();
+              }, 500);
+            }, 5000);
+          },
+        });
+
+        return controls;
+      };
+
+      startAnimation();
+
+      return () => {
+        isMounted = false;
+      };
     }, [target, duration, count]);
-    
+
     return useTransform(count, (latest) => Math.round(latest));
   };
 
