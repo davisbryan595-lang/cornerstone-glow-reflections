@@ -108,19 +108,6 @@ const Hero = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-center max-w-5xl mx-auto"
         >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="mb-8 inline-block"
-          >
-            <img
-              src={logo}
-              alt="Cornerstone Mobile Detailing"
-              className="w-24 h-24 drop-shadow-[0_0_35px_rgba(23,200,200,1)] drop-shadow-[0_0_20px_rgba(99,179,237,0.8)] animate-float"
-            />
-          </motion.div>
-
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
