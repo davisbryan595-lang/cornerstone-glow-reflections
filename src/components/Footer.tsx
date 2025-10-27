@@ -24,7 +24,7 @@ const Footer = () => {
               <img
                 src={logoUrl}
                 alt="Cornerstone Mobile Detailing"
-                className="w-12 h-12"
+                className="w-16 h-16"
               />
               <span className="font-montserrat font-bold text-lg">
                 Cornerstone
