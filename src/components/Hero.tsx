@@ -69,7 +69,7 @@ const Hero = () => {
           className="w-full h-full object-cover opacity-20"
         >
           <source
-            src="https://cdn.pixabay.com/video/2022/12/15/143467-782015997_large.mp4"
+            src="https://cdn.builder.io/o/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2F0bdf9002e52c44318c523ba8b4c7b7e7?alt=media&token=676abe46-b956-4e51-8409-fadfeae74408&apiKey=8c5319227ec44fd9bdef2d63efcb9acb"
             type="video/mp4"
           />
         </video>

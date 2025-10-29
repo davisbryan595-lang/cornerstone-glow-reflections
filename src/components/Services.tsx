@@ -21,7 +21,7 @@ const Services = () => {
         "Oxidation removal",
         "Clear coat restoration",
       ],
-      image: "https://images.unsplash.com/photo-1607860108855-64acf2078ed9?w=600&h=400&fit=crop",
+      image: "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2F217d4eb50bee42859e2dd4a8c8a93878?format=webp&width=800",
     },
     {
       icon: Shield,
@@ -34,7 +34,7 @@ const Services = () => {
         "UV ray protection",
         "5-year warranty",
       ],
-      image: "https://images.unsplash.com/photo-1625047509168-a7026f36de04?w=600&h=400&fit=crop",
+      image: "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2F51b4b63cf38f4b6f9c834acd63754fb6?format=webp&width=800",
     },
     {
       icon: Droplets,
@@ -60,7 +60,7 @@ const Services = () => {
         "Trim color restoration",
         "Improved night visibility",
       ],
-      image: "https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?w=600&h=400&fit=crop",
+      image: "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2Fa5e6242bc19b4da6b4315121b0677b2c?format=webp&width=800",
     },
   ];
 
