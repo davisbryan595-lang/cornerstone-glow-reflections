@@ -107,115 +107,125 @@ const Hero = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-center max-w-5xl mx-auto"
         >
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-montserrat font-bold mb-6 leading-tight px-4"
-            style={{ marginTop: "10px" }}
-          >
-            <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent animate-float">
-              The Foundation
-            </span>
-            <br />
-            <span className="text-foreground">Has Been Set</span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1 }}
-            className="text-lg md:text-xl text-muted-foreground mb-10 font-inter max-w-3xl mx-auto leading-relaxed"
-          >
-            Professional paint correction, ceramic coating & auto detailing
-            services that bring showroom shine directly to your location.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.2 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-          >
-            <Button
-              size="lg"
-              onClick={() => scrollToSection("contact")}
-              className="bg-gradient-primary hover:shadow-glow-primary text-lg px-8 py-6 transition-all duration-300"
+          <div className="inline-block bg-background/30 backdrop-blur-md rounded-2xl p-8">
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-montserrat font-bold mb-6 leading-tight px-4"
+              style={{ marginTop: "10px" }}
             >
-              Get a Free Quote
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              onClick={() => scrollToSection("services")}
-              className="border-2 border-primary hover:bg-primary/10 text-lg px-8 py-6 transition-all duration-300"
-            >
-              Explore Services
-            </Button>
-          </motion.div>
+              <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent animate-float">
+                The Foundation
+              </span>
+              <br />
+              <span className="text-foreground">Has Been Set</span>
+            </motion.h1>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 1.4 }}
-            className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto"
-          >
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 1 }}
+              className="text-lg md:text-xl text-muted-foreground mb-10 font-inter max-w-3xl mx-auto leading-relaxed"
+            >
+              Professional paint correction, ceramic coating & auto detailing
+              services that bring showroom shine directly to your location.
+            </motion.p>
+
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 1.6 }}
-              className="text-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.2 }}
+              className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             >
-              <div className="text-3xl md:text-4xl font-bold font-montserrat bg-gradient-primary bg-clip-text text-transparent">
-                <motion.span>{yearsCount}</motion.span>+
-              </div>
-              <div className="text-sm text-muted-foreground mt-2 font-inter">
-                Years Experience
-              </div>
+              <Button
+                size="lg"
+                onClick={() => scrollToSection("contact")}
+                className="bg-gradient-primary hover:shadow-glow-primary text-lg px-8 py-6 transition-all duration-300"
+              >
+                Get a Free Quote
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                onClick={() => scrollToSection("services")}
+                className="border-2 border-primary hover:bg-primary/10 text-lg px-8 py-6 transition-all duration-300"
+              >
+                Explore Services
+              </Button>
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 1.7 }}
-              className="text-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 1.4 }}
+              className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto"
             >
-              <div className="text-3xl md:text-4xl font-bold font-montserrat bg-gradient-primary bg-clip-text text-transparent">
-                <motion.span>{carsCount}</motion.span>+
-              </div>
-              <div className="text-sm text-muted-foreground mt-2 font-inter">
-                Vehicles Serviced
-              </div>
-            </motion.div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 1.6 }}
+                className="text-center"
+              >
+                <div className="inline-block bg-background/20 backdrop-blur-sm rounded-xl p-4">
+                  <div className="text-3xl md:text-4xl font-bold font-montserrat bg-gradient-primary bg-clip-text text-transparent">
+                    <motion.span>{yearsCount}</motion.span>+
+                  </div>
+                  <div className="text-sm text-muted-foreground mt-2 font-inter">
+                    Years Experience
+                  </div>
+                </div>
+              </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 1.8 }}
-              className="text-center"
-            >
-              <div className="text-3xl md:text-4xl font-bold font-montserrat bg-gradient-primary bg-clip-text text-transparent">
-                <motion.span>{clientsCount}</motion.span>+
-              </div>
-              <div className="text-sm text-muted-foreground mt-2 font-inter">
-                Happy Customers
-              </div>
-            </motion.div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 1.7 }}
+                className="text-center"
+              >
+                <div className="inline-block bg-background/20 backdrop-blur-sm rounded-xl p-4">
+                  <div className="text-3xl md:text-4xl font-bold font-montserrat bg-gradient-primary bg-clip-text text-transparent">
+                    <motion.span>{carsCount}</motion.span>+
+                  </div>
+                  <div className="text-sm text-muted-foreground mt-2 font-inter">
+                    Vehicles Serviced
+                  </div>
+                </div>
+              </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 1.9 }}
-              className="text-center"
-            >
-              <div className="text-3xl md:text-4xl font-bold font-montserrat bg-gradient-primary bg-clip-text text-transparent">
-                <motion.span>{areasCount}</motion.span>+
-              </div>
-              <div className="text-sm text-muted-foreground mt-2 font-inter">
-                Service Areas
-              </div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 1.8 }}
+                className="text-center"
+              >
+                <div className="inline-block bg-background/20 backdrop-blur-sm rounded-xl p-4">
+                  <div className="text-3xl md:text-4xl font-bold font-montserrat bg-gradient-primary bg-clip-text text-transparent">
+                    <motion.span>{clientsCount}</motion.span>+
+                  </div>
+                  <div className="text-sm text-muted-foreground mt-2 font-inter">
+                    Happy Customers
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 1.9 }}
+                className="text-center"
+              >
+                <div className="inline-block bg-background/20 backdrop-blur-sm rounded-xl p-4">
+                  <div className="text-3xl md:text-4xl font-bold font-montserrat bg-gradient-primary bg-clip-text text-transparent">
+                    <motion.span>{areasCount}</motion.span>+
+                  </div>
+                  <div className="text-sm text-muted-foreground mt-2 font-inter">
+                    Service Areas
+                  </div>
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
+          </div>
         </motion.div>
       </div>
 
