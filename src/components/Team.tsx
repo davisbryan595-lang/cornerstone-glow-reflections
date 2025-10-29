@@ -8,22 +8,10 @@ const Team = () => {
 
   const teamMembers = [
     {
-      name: "Marcus Johnson",
-      role: "Founder & Master Detailer",
-      bio: "15+ years of experience in professional auto detailing and ceramic coating applications.",
+      name: "Ella Abigail",
+      role: "Owner & Detailer",
+      bio: "2+ years of professional detailing experience serving the Charlotte area.",
       image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=faces",
-    },
-    {
-      name: "David Chen",
-      role: "Paint Correction Specialist",
-      bio: "Certified in advanced paint correction techniques with expertise in luxury and exotic vehicles.",
-      image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop&crop=faces",
-    },
-    {
-      name: "Sarah Williams",
-      role: "Interior Detailing Expert",
-      bio: "Specialist in leather restoration and interior fabric care with meticulous attention to detail.",
-      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop&crop=faces",
     },
   ];
 
@@ -40,17 +28,16 @@ const Team = () => {
           className="text-center mb-16"
         >
           <span className="text-primary font-semibold text-sm uppercase tracking-wider font-inter">
-            Our Team
+            Meet the Owner
           </span>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-montserrat font-bold mt-4 mb-6">
             Meet the{" "}
             <span className="bg-gradient-primary bg-clip-text text-transparent">
-              Experts
+              Owner
             </span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-3xl mx-auto font-inter">
-            Our certified professionals bring decades of combined experience to
-            every detail.
+            Proudly serving the Charlotte area with personal, high-quality mobile detailing.
           </p>
         </motion.div>
 
@@ -94,29 +81,6 @@ const Team = () => {
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="text-center mt-16"
-        >
-          <div className="inline-block bg-gradient-to-r from-card via-primary/5 to-card border border-primary/20 rounded-2xl p-8 max-w-2xl">
-            <h3 className="text-2xl font-montserrat font-bold mb-4">
-              Join Our Team
-            </h3>
-            <p className="text-muted-foreground mb-6 font-inter">
-              We're always looking for passionate detailing professionals. If
-              you're dedicated to excellence and want to work with the best,
-              we'd love to hear from you.
-            </p>
-            <a
-              href="mailto:cornerstonemobile55@gmail.com"
-              className="inline-block px-6 py-3 bg-gradient-primary rounded-lg font-semibold hover:shadow-glow-primary transition-all duration-300 font-inter"
-            >
-              Contact Us
-            </a>
-          </div>
-        </motion.div>
       </div>
     </section>
   );

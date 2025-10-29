@@ -10,16 +10,16 @@ const Gallery = () => {
 
   const galleryImages = [
     {
-      url: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800&h=600&fit=crop",
+      url: "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2Fa5e6242bc19b4da6b4315121b0677b2c?format=webp&width=800",
+      title: "Headlight Restoration",
+    },
+    {
+      url: "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2F217d4eb50bee42859e2dd4a8c8a93878?format=webp&width=800",
       title: "Paint Correction",
     },
     {
-      url: "https://images.unsplash.com/photo-1607860108855-64acf2078ed9?w=800&h=600&fit=crop",
+      url: "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2F51b4b63cf38f4b6f9c834acd63754fb6?format=webp&width=800",
       title: "Ceramic Coating",
-    },
-    {
-      url: "https://images.unsplash.com/photo-1625047509168-a7026f36de04?w=800&h=600&fit=crop",
-      title: "Interior Detailing",
     },
     {
       url: "https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?w=800&h=600&fit=crop",

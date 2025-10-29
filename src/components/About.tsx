@@ -26,7 +26,7 @@ const About = () => {
     {
       icon: Award,
       title: "Quality Guaranteed",
-      description: "100% satisfaction or money back",
+      description: "100% satisfaction or we will make it right.",
     },
   ];
 

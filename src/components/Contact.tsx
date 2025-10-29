@@ -261,6 +261,9 @@ const Contact = () => {
                     <SelectItem value="auto-detailing">
                       Auto Detailing
                     </SelectItem>
+                    <SelectItem value="headlight-trim-restoration">
+                      Headlight & Trim Restoration
+                    </SelectItem>
                     <SelectItem value="custom">Custom Package</SelectItem>
                   </SelectContent>
                 </Select>
