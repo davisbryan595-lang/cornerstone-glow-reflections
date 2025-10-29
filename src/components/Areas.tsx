@@ -59,7 +59,7 @@ const Areas = () => {
             className="relative aspect-square rounded-2xl overflow-hidden border border-primary/30 shadow-glow-primary"
           >
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d415740.1283783033!2d-81.13089384999999!3d35.2270869!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88541fc4fc381a81%3A0x884650e6bf43d164!2sCharlotte%2C%20NC!5e0!3m2!1sen!2sus!4v1234567890"
+              src={getMapSrc(selectedArea)}
               width="100%"
               height="100%"
               style={{ border: 0 }}
