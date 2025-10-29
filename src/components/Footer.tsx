@@ -80,6 +80,7 @@ const Footer = () => {
               <li>Paint Correction</li>
               <li>Ceramic Coating</li>
               <li>Auto Detailing</li>
+              <li>Headlight & Trim Restoration</li>
               <li>Interior Cleaning</li>
               <li>Exterior Wash</li>
               <li>Engine Bay Cleaning</li>

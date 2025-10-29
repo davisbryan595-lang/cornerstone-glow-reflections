@@ -49,9 +49,9 @@ const Hero = () => {
     return useTransform(count, (latest) => Math.round(latest));
   };
 
-  const yearsCount = useCounter(5);
-  const carsCount = useCounter(1000);
-  const clientsCount = useCounter(500);
+  const yearsCount = useCounter(2);
+  const carsCount = useCounter(50);
+  const clientsCount = useCounter(50);
   const areasCount = useCounter(7);
 
   return (
@@ -184,7 +184,7 @@ const Hero = () => {
                 <motion.span>{carsCount}</motion.span>+
               </div>
               <div className="text-sm text-muted-foreground mt-2 font-inter">
-                Cars Detailed
+                Vehicles Serviced
               </div>
             </motion.div>
 
@@ -198,7 +198,7 @@ const Hero = () => {
                 <motion.span>{clientsCount}</motion.span>+
               </div>
               <div className="text-sm text-muted-foreground mt-2 font-inter">
-                Happy Clients
+                Happy Customers
               </div>
             </motion.div>
 
