@@ -18,6 +18,14 @@ const Navbar = () => {
   }, []);
 
   const scrollToSection = (id: string) => {
+    // If pricing, navigate to pricing page
+    if (id === "pricing") {
+      // Use full navigation so it works from any page
+      window.location.href = "/pricing";
+      setIsMobileMenuOpen(false);
+      return;
+    }
+
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
