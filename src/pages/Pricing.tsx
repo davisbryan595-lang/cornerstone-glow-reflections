@@ -40,11 +40,38 @@ const Pricing = () => {
       <Navbar />
 
       <main className="container mx-auto px-4 py-24">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-6">
           <span className="text-primary font-semibold text-sm uppercase tracking-wider">Pricing</span>
           <h1 className="text-4xl md:text-5xl font-montserrat font-bold mt-4 mb-4">Choose Your Package</h1>
           <p className="text-muted-foreground max-w-2xl mx-auto">Clear, simple pricing for every vehicle. Select a package based on the protection and finish you want.</p>
         </motion.div>
+
+        {/* Header nav for quick links */}
+        <div className="flex justify-center gap-4 mb-8">
+          {[
+            { name: 'Home', id: 'hero' },
+            { name: 'About', id: 'about' },
+            { name: 'Services', id: 'services' },
+            { name: 'Pricing', id: 'pricing' },
+            { name: 'Gallery', id: 'gallery' },
+            { name: 'Team', id: 'team' },
+            { name: 'Contact', id: 'contact' },
+          ].map((link) => (
+            <button
+              key={link.id}
+              onClick={() => {
+                if (link.id === 'pricing') {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                  window.location.href = `/#${link.id}`;
+                }
+              }}
+              className="px-4 py-2 text-sm rounded-lg border border-border bg-card hover:border-primary/50 transition-colors"
+            >
+              {link.name}
+            </button>
+          ))}
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           {packages.map((pkg) => (
