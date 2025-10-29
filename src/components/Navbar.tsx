@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Facebook, Instagram, Mail, Phone, Menu, X } from "lucide-react";
 import { Button } from "./ui/button";
