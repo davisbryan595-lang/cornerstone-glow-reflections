@@ -1,11 +1,12 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { MapPin, Check } from "lucide-react";
 
 const Areas = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
+  const [selectedArea, setSelectedArea] = useState<string>("Charlotte");
 
   const serviceAreas = [
     "Charlotte",
@@ -16,6 +17,11 @@ const Areas = () => {
     "Matthews",
     "Mint Hill",
   ];
+
+  const getMapSrc = (area: string) => {
+    const q = encodeURIComponent(area + ", NC");
+    return `https://maps.google.com/maps?q=${q}&z=12&output=embed`;
+  };
 
   return (
     <section className="py-24 relative overflow-hidden">
