@@ -66,14 +66,14 @@ const Hero = () => {
           loop
           muted
           playsInline
-          className="w-full h-full object-cover opacity-20"
+          className="w-full h-full object-cover"
         >
           <source
             src="https://cdn.builder.io/o/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2F0bdf9002e52c44318c523ba8b4c7b7e7?alt=media&token=676abe46-b956-4e51-8409-fadfeae74408&apiKey=8c5319227ec44fd9bdef2d63efcb9acb"
             type="video/mp4"
           />
         </video>
-        <div className="absolute inset-0 bg-gradient-to-br from-background/90 via-background/80 to-card/90" />
+        <div className="absolute inset-0 bg-black/25" />
         
         {/* Animated Particles */}
         <div className="absolute inset-0 opacity-20">
