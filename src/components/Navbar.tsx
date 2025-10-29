@@ -31,7 +31,11 @@ const Navbar = () => {
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
       setIsMobileMenuOpen(false);
+      return;
     }
+
+    // If section not found on this page, navigate to homepage anchor
+    window.location.href = `/#${id}`;
   };
 
   const navLinks = [
