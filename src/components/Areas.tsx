@@ -93,18 +93,19 @@ const Areas = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {serviceAreas.map((area, index) => (
-                <motion.div
+                <motion.button
                   key={area}
+                  onClick={() => setSelectedArea(area)}
                   initial={{ opacity: 0, x: 20 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                  className="flex items-center gap-3 bg-card border border-border rounded-lg p-4 hover:border-primary/50 transition-all duration-300 group"
+                  className={`flex items-center gap-3 rounded-lg p-4 transition-all duration-300 text-left w-full border ${selectedArea === area ? 'border-primary/50 bg-primary/10' : 'border-border bg-card'} group`}
                 >
-                  <div className="w-6 h-6 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0 group-hover:bg-primary/30 transition-colors">
-                    <Check className="w-4 h-4 text-primary" />
+                  <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 transition-colors ${selectedArea === area ? 'bg-primary' : 'bg-primary/20 group-hover:bg-primary/30'}`}>
+                    <Check className={`w-4 h-4 ${selectedArea === area ? 'text-white' : 'text-primary'}`} />
                   </div>
                   <span className="font-inter font-medium">{area}</span>
-                </motion.div>
+                </motion.button>
               ))}
             </div>
 
