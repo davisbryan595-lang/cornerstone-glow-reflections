@@ -150,20 +150,36 @@ const Pricing = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
+          transition={{ duration: 0.6 }}
+          className="text-center mb-20"
         >
-          <span className="text-primary font-semibold text-sm uppercase tracking-wider">
-            Pricing
-          </span>
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-montserrat font-bold mt-4 mb-6">
+          <motion.span
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1, duration: 0.5 }}
+            className="inline-block text-primary font-semibold text-sm uppercase tracking-wider px-4 py-2 bg-primary/10 rounded-full"
+          >
+            Pricing Plans
+          </motion.span>
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="text-5xl md:text-6xl lg:text-7xl font-montserrat font-bold mt-6 mb-6"
+          >
             Premium Detailing{" "}
             <span className="bg-gradient-primary bg-clip-text text-transparent">
-              Pricing
+              Services
             </span>
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-inter">
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+            className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto font-inter"
+          >
             Clear, transparent pricing for every service. Choose the package that fits your vehicle and needs.
-          </p>
+          </motion.p>
         </motion.div>
 
         {/* Detailing Services Section */}
