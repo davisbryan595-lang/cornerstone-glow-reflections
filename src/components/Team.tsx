@@ -8,10 +8,10 @@ const Team = () => {
 
   const teamMembers = [
     {
-      name: "Ella Abigail",
-      role: "Owner & Detailer",
-      bio: "2+ years of professional detailing experience serving the Charlotte area.",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=faces",
+      name: "Blake Aslin",
+      role: "Owner & Founder",
+      bio: "Dedicated to delivering premium mobile detailing services with attention to detail and customer excellence.",
+      image: "https://cdn.builder.io/api/v1/image/assets%2Fbd2db2bf76dc466fa0ee7e5d644defec%2Fdc5c1a1001fc41c5a3adb673d2fe2294?format=webp&width=800",
     },
   ];
 
