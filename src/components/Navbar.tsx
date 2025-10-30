@@ -178,12 +178,22 @@ const Navbar = () => {
         className="fixed top-0 right-0 bottom-0 w-full sm:w-80 bg-card z-50 lg:hidden shadow-2xl border-l border-primary/20"
       >
         <div className="p-6 flex flex-col h-full">
-          <div className="flex justify-between items-center mb-8">
+          <div className="flex justify-between items-center mb-6">
             <img src={logoUrl} alt="Logo" className="w-16 h-16" />
             <button onClick={() => setIsMobileMenuOpen(false)}>
               <X className="w-6 h-6" />
             </button>
           </div>
+
+          <Button
+            onClick={() => {
+              navigate("/careers");
+              setIsMobileMenuOpen(false);
+            }}
+            className="w-full bg-secondary mb-6"
+          >
+            Apply for Job
+          </Button>
 
           <div className="flex flex-col gap-4 flex-1">
             {navLinks.map((link) => (
@@ -232,23 +242,12 @@ const Navbar = () => {
             </div>
           </div>
 
-          <div className="flex flex-col gap-3 mt-4">
-            <Button
-              onClick={() => {
-                navigate("/careers");
-                setIsMobileMenuOpen(false);
-              }}
-              className="w-full bg-secondary"
-            >
-              Apply for Job
-            </Button>
-            <Button
-              onClick={() => scrollToSection("contact")}
-              className="w-full bg-gradient-primary"
-            >
-              Get Free Quote
-            </Button>
-          </div>
+          <Button
+            onClick={() => scrollToSection("contact")}
+            className="w-full bg-gradient-primary mt-4"
+          >
+            Get Free Quote
+          </Button>
         </div>
       </motion.div>
     </>
