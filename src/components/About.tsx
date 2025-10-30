@@ -97,10 +97,7 @@ const About = () => {
               throughout the Charlotte area.
             </p>
             <p className="text-muted-foreground leading-relaxed font-inter">
-              From paint correction to ceramic coating, we use only the finest
-              products and techniques to restore and protect your vehicle's
-              finish. Every detail matters, and we're committed to delivering
-              results that exceed expectations.
+              From interior and exterior cleaning to ceramic coatings, and paint correction, we use only the finest products and techniques to restore and protect your vehicle's vehicle. Every detail matters, and we're committed to bringing convenience and easy of mind to you.
             </p>
             <div className="flex flex-wrap gap-4 pt-4">
               <div className="flex items-center gap-2">
