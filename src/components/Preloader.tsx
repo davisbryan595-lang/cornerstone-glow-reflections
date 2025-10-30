@@ -44,14 +44,6 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
               src={logoUrl}
               alt="Cornerstone Mobile Detailing"
               className="w-72 h-72 md:w-80 md:h-80"
-              animate={{
-                filter: [
-                  "drop-shadow(0 0 20px hsl(182 85% 40% / 0.6))",
-                  "drop-shadow(0 0 40px hsl(85 100% 55% / 0.6))",
-                  "drop-shadow(0 0 20px hsl(182 85% 40% / 0.6))",
-                ],
-              }}
-              transition={{ duration: 2, repeat: Infinity }}
             />
           </div>
         </motion.div>
