@@ -140,7 +140,7 @@ const Navbar = () => {
             {/* CTA Buttons */}
             <div className="hidden lg:flex items-center gap-3">
               <Button
-                onClick={() => setIsJobFormOpen(true)}
+                onClick={() => navigate("/careers")}
                 className="bg-secondary hover:shadow-glow-secondary transition-all duration-300"
               >
                 Apply for Job
