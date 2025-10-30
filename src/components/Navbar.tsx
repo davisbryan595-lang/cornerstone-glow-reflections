@@ -114,7 +114,7 @@ const Navbar = () => {
                 <img
                   src={logoUrl}
                   alt="Cornerstone Mobile Detailing"
-                  className="w-20 h-20 drop-shadow-[0_0_20px_rgba(23,200,200,0.6)] group-hover:drop-shadow-[0_0_30px_rgba(23,200,200,1)] transition-all duration-300 relative z-10"
+                  className="w-28 h-28 drop-shadow-[0_0_20px_rgba(23,200,200,0.6)] group-hover:drop-shadow-[0_0_30px_rgba(23,200,200,1)] transition-all duration-300 relative z-10"
                 />
               </div>
             </motion.button>
@@ -179,7 +179,7 @@ const Navbar = () => {
       >
         <div className="p-6 flex flex-col h-full">
           <div className="flex justify-between items-center mb-6">
-            <img src={logoUrl} alt="Logo" className="w-20 h-20" />
+            <img src={logoUrl} alt="Logo" className="w-24 h-24" />
             <button onClick={() => setIsMobileMenuOpen(false)}>
               <X className="w-6 h-6" />
             </button>
