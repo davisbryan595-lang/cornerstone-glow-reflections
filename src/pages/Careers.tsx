@@ -144,7 +144,7 @@ const Careers = () => {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-background">
+      <main className="min-h-screen bg-background" style={{ marginTop: 100 }}>
         {/* Hero Section */}
         <section className="py-20 relative overflow-hidden pt-32">
           <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-background" />
