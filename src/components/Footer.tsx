@@ -1,5 +1,5 @@
 import { Facebook, Instagram, Mail, Phone } from "lucide-react";
-const logoUrl = "https://cdn.builder.io/api/v1/image/assets%2Fbbaa1bd46cba4346a5396fea34722449%2Ff2b93411919b40fb838f6d56405cc19d?format=webp&width=800";
+const logoUrl = "https://cdn.builder.io/api/v1/image/assets%2F8b84be17aad14310b285d25f23a3235d%2Fdfe424851dfb4feca586f70a80b22a96?format=webp&width=800";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
