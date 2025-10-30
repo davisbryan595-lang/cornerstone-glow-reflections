@@ -10,28 +10,36 @@ const Gallery = () => {
 
   const galleryImages = [
     {
-      url: "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2Fa5e6242bc19b4da6b4315121b0677b2c?format=webp&width=800",
+      url: "https://cdn.builder.io/api/v1/image/assets%2Fbd2db2bf76dc466fa0ee7e5d644defec%2F8380565ef274415f924c71ba914f5c25?format=webp&width=800",
+      title: "Premium Interior Detail",
+    },
+    {
+      url: "https://cdn.builder.io/api/v1/image/assets%2Fbd2db2bf76dc466fa0ee7e5d644defec%2Fa5bd635340574b809e237378e2bcce7a?format=webp&width=800",
+      title: "Vehicle Detailing",
+    },
+    {
+      url: "https://cdn.builder.io/api/v1/image/assets%2Fbd2db2bf76dc466fa0ee7e5d644defec%2F7fa6070402b54e66b56ddea8a86d55ea?format=webp&width=800",
       title: "Headlight Restoration",
     },
     {
-      url: "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2F217d4eb50bee42859e2dd4a8c8a93878?format=webp&width=800",
+      url: "https://cdn.builder.io/api/v1/image/assets%2Fbd2db2bf76dc466fa0ee7e5d644defec%2F16115900517b485288d48a349b241b00?format=webp&width=800",
       title: "Paint Correction",
     },
     {
-      url: "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2F51b4b63cf38f4b6f9c834acd63754fb6?format=webp&width=800",
+      url: "https://cdn.builder.io/api/v1/image/assets%2Fbd2db2bf76dc466fa0ee7e5d644defec%2F8503158cc61b4e899637f7844bc94689?format=webp&width=800",
       title: "Ceramic Coating",
     },
     {
-      url: "https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?w=800&h=600&fit=crop",
+      url: "https://cdn.builder.io/api/v1/image/assets%2Fbd2db2bf76dc466fa0ee7e5d644defec%2F232528c406434df291e6ec8e247a8db3?format=webp&width=800",
       title: "Exterior Wash",
     },
     {
-      url: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&h=600&fit=crop",
+      url: "https://cdn.builder.io/api/v1/image/assets%2Fbd2db2bf76dc466fa0ee7e5d644defec%2F28fea0d4add341fe9a48ba04d0a81271?format=webp&width=800",
       title: "Luxury Detail",
     },
     {
-      url: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&h=600&fit=crop",
-      title: "Sports Car Detail",
+      url: "https://cdn.builder.io/api/v1/image/assets%2Fbd2db2bf76dc466fa0ee7e5d644defec%2F33aec163efa44e448a3f259622fc3ccb?format=webp&width=800",
+      title: "Professional Detailing",
     },
   ];
 
