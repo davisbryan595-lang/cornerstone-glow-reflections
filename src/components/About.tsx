@@ -65,7 +65,7 @@ const About = () => {
           >
             <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-primary/20">
               <img
-                src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800&h=600&fit=crop"
+                src="https://cdn.builder.io/api/v1/image/assets%2Fbd2db2bf76dc466fa0ee7e5d644defec%2Fddb5aa7325cc49f899e2f10f59c9af76?format=webp&width=800"
                 alt="Professional car detailing"
                 className="w-full h-full object-cover"
               />
