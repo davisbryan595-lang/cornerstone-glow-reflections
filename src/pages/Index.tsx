@@ -27,7 +27,7 @@ const Index = () => {
 
   return (
     <>
-      <AnimatePresence mode="wait">
+      <Animateesence mode="wait">
         {loading && <Preloader onComplete={() => setLoading(false)} />}
       </AnimatePresence>
 
