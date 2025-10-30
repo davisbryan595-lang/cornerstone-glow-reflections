@@ -125,7 +125,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-border pt-6 text-center text-sm text-muted-foreground font-inter">
           <p>
-            © {currentYear} Cornerstone Mobile Detailing. All Rights Reserved.
+            © {currentYear} Cornerstone Mobile Detailing LLC. All Rights Reserved.
           </p>
         </div>
       </div>
