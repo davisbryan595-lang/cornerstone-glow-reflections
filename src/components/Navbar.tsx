@@ -4,7 +4,7 @@ import { Facebook, Instagram, Mail, Phone, Menu, X } from "lucide-react";
 import { Button } from "./ui/button";
 import { useNavigate } from "react-router-dom";
 
-const logoUrl = "https://cdn.builder.io/api/v1/image/assets%2F8b84be17aad14310b285d25f23a3235d%2Fdfe424851dfb4feca586f70a80b22a96?format=webp&width=800";
+const logoUrl = "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2Fc689032066c740e3a83978925f1d1000?format=webp&width=800";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -114,7 +114,7 @@ const Navbar = () => {
                 <img
                   src={logoUrl}
                   alt="Cornerstone Mobile Detailing"
-                  className="w-16 h-16 drop-shadow-[0_0_20px_rgba(23,200,200,0.6)] group-hover:drop-shadow-[0_0_30px_rgba(23,200,200,1)] transition-all duration-300 relative z-10"
+                  className="w-20 h-20 drop-shadow-[0_0_20px_rgba(23,200,200,0.6)] group-hover:drop-shadow-[0_0_30px_rgba(23,200,200,1)] transition-all duration-300 relative z-10"
                 />
               </div>
             </motion.button>
@@ -179,7 +179,7 @@ const Navbar = () => {
       >
         <div className="p-6 flex flex-col h-full">
           <div className="flex justify-between items-center mb-6">
-            <img src={logoUrl} alt="Logo" className="w-16 h-16" />
+            <img src={logoUrl} alt="Logo" className="w-20 h-20" />
             <button onClick={() => setIsMobileMenuOpen(false)}>
               <X className="w-6 h-6" />
             </button>

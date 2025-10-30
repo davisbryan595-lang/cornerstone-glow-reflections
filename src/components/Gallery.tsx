@@ -10,36 +10,36 @@ const Gallery = () => {
 
   const galleryImages = [
     {
-      url: "https://cdn.builder.io/api/v1/image/assets%2Fbd2db2bf76dc466fa0ee7e5d644defec%2F8380565ef274415f924c71ba914f5c25?format=webp&width=800",
-      title: "Premium Interior Detail",
+      url: "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2Fba26d505a7014992a6c947b749c63deb?format=webp&width=800",
+      title: "Interior Floor Mat Detail",
     },
     {
-      url: "https://cdn.builder.io/api/v1/image/assets%2Fbd2db2bf76dc466fa0ee7e5d644defec%2Fa5bd635340574b809e237378e2bcce7a?format=webp&width=800",
-      title: "Vehicle Detailing",
+      url: "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2F28b5dca427f341fc94a2831f78d505c1?format=webp&width=800",
+      title: "Chevrolet Front Exterior",
     },
     {
-      url: "https://cdn.builder.io/api/v1/image/assets%2Fbd2db2bf76dc466fa0ee7e5d644defec%2F7fa6070402b54e66b56ddea8a86d55ea?format=webp&width=800",
-      title: "Headlight Restoration",
+      url: "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2F00b6ee4175694565b8b3ce099c5b7931?format=webp&width=800",
+      title: "Ford Transit Van Wash",
     },
     {
-      url: "https://cdn.builder.io/api/v1/image/assets%2Fbd2db2bf76dc466fa0ee7e5d644defec%2F16115900517b485288d48a349b241b00?format=webp&width=800",
-      title: "Paint Correction",
+      url: "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2F950777eb5a8f459499124e038e2924af?format=webp&width=800",
+      title: "Honda Civic Exterior Shine",
     },
     {
-      url: "https://cdn.builder.io/api/v1/image/assets%2Fbd2db2bf76dc466fa0ee7e5d644defec%2F8503158cc61b4e899637f7844bc94689?format=webp&width=800",
-      title: "Ceramic Coating",
+      url: "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2F4ad05332a6c74f3eafb7d24d5271941d?format=webp&width=800",
+      title: "Honda Civic Interior Clean",
     },
     {
-      url: "https://cdn.builder.io/api/v1/image/assets%2Fbd2db2bf76dc466fa0ee7e5d644defec%2F232528c406434df291e6ec8e247a8db3?format=webp&width=800",
-      title: "Exterior Wash",
+      url: "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2F2cfab23f5bf74d988f12d1708d774d42?format=webp&width=800",
+      title: "SUV Trunk Area Detail",
     },
     {
-      url: "https://cdn.builder.io/api/v1/image/assets%2Fbd2db2bf76dc466fa0ee7e5d644defec%2F28fea0d4add341fe9a48ba04d0a81271?format=webp&width=800",
-      title: "Luxury Detail",
+      url: "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2F6680517041584edc80e52197ddba3138?format=webp&width=800",
+      title: "Blue Vehicle Side Finish",
     },
     {
-      url: "https://cdn.builder.io/api/v1/image/assets%2Fbd2db2bf76dc466fa0ee7e5d644defec%2F33aec163efa44e448a3f259622fc3ccb?format=webp&width=800",
-      title: "Professional Detailing",
+      url: "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2F7985c10546a9405da9ac79b2a4f61f21?format=webp&width=800",
+      title: "Customer Vehicle Delivery",
     },
   ];
 
