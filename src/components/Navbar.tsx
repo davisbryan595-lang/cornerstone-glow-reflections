@@ -232,14 +232,31 @@ const Navbar = () => {
             </div>
           </div>
 
-          <Button
-            onClick={() => scrollToSection("contact")}
-            className="w-full mt-4 bg-gradient-primary"
-          >
-            Get Free Quote
-          </Button>
+          <div className="flex flex-col gap-3 mt-4">
+            <Button
+              onClick={() => {
+                setIsJobFormOpen(true);
+                setIsMobileMenuOpen(false);
+              }}
+              className="w-full bg-secondary"
+            >
+              Apply for Job
+            </Button>
+            <Button
+              onClick={() => scrollToSection("contact")}
+              className="w-full bg-gradient-primary"
+            >
+              Get Free Quote
+            </Button>
+          </div>
         </div>
       </motion.div>
+
+      {/* Job Application Form Modal */}
+      <JobApplicationForm
+        isOpen={isJobFormOpen}
+        onClose={() => setIsJobFormOpen(false)}
+      />
     </>
   );
 };
