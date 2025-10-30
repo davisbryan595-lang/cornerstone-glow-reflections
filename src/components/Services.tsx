@@ -108,7 +108,8 @@ const Services = () => {
             <AlertTitle className="font-montserrat font-semibold">Please Note</AlertTitle>
             <AlertDescription className="font-inter">
               <p className="font-semibold text-foreground">Need water source 50 ft to vehicle to wash exterior.</p>
-              <p className="font-semibold text-foreground">Exterior can be done anywhere.</p>
+              <p className="font-semibold text-foreground">Exterior can be taken care of anywhere.</p>
+              <p className="font-semibold text-foreground">Interior can be taken care of anywhere.</p>
             </AlertDescription>
           </Alert>
         </motion.div>
