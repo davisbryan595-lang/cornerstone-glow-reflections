@@ -107,39 +107,30 @@ const Pricing = () => {
             <motion.div key={pkg.name} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-card border border-border rounded-2xl p-6 flex flex-col">
               <div className="flex-1">
                 <h3 className="text-2xl font-montserrat font-bold mb-2">{pkg.name}</h3>
-                <p className="text-sm text-muted-foreground mb-4">{pkg.subtitle}</p>
+                <p className="text-sm text-muted-foreground mb-3">{pkg.subtitle}</p>
+                <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{pkg.description}</p>
 
-                <div className="mb-4">
+                <div className="mb-6">
                   <h4 className="text-sm font-semibold mb-2">Starting at</h4>
-                  <div className="flex items-end gap-4">
-                    <div>
-                      <div className="text-xl font-montserrat font-bold">Compact</div>
-                      <div className="text-2xl font-montserrat font-bold text-primary">${pkg.prices.compact}</div>
-                    </div>
-                    <div>
-                      <div className="text-xl font-montserrat font-bold">Sedan</div>
-                      <div className="text-2xl font-montserrat font-bold text-primary">${pkg.prices.sedan}</div>
-                    </div>
-                    <div>
-                      <div className="text-xl font-montserrat font-bold">SUV / Truck</div>
-                      <div className="text-2xl font-montserrat font-bold text-primary">${pkg.prices.suv}</div>
-                    </div>
-                  </div>
+                  <div className="text-3xl font-montserrat font-bold text-primary">${pkg.startingPrice}</div>
                 </div>
 
-                <ul className="mb-6 space-y-2">
-                  {pkg.features.map((f) => (
-                    <li key={f} className="text-sm flex items-start gap-2">
-                      <div className="w-2 h-2 bg-primary rounded-full mt-2" />
-                      <span className="text-muted-foreground">{f}</span>
-                    </li>
-                  ))}
-                </ul>
+                <div className="mb-6">
+                  <h4 className="text-sm font-semibold mb-3">Services Included:</h4>
+                  <ul className="space-y-2">
+                    {pkg.services.map((service, idx) => (
+                      <li key={idx} className="text-xs flex items-start gap-2">
+                        <div className="w-1.5 h-1.5 bg-primary rounded-full mt-1 flex-shrink-0" />
+                        <span className="text-muted-foreground">{service}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
 
               <div>
                 <a href="/#contact">
-                  <Button className="w-full bg-gradient-primary">Book {pkg.name.split(" ")[0]}</Button>
+                  <Button className="w-full bg-gradient-primary">Get Quote Now</Button>
                 </a>
               </div>
             </motion.div>
