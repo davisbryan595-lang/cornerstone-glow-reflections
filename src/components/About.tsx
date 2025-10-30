@@ -46,10 +46,10 @@ const About = () => {
             About Us
           </span>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-montserrat font-bold mt-4 mb-6">
-            We are Built on Trust & Honor
+            Excellence in Every Detail
           </h2>
           <p className="text-muted-foreground text-lg max-w-3xl mx-auto font-inter leading-relaxed">
-            The Foundation is Family
+            We are Built on Trust & Honor
           </p>
         </motion.div>
 
