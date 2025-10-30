@@ -8,10 +8,10 @@ const Team = () => {
 
   const teamMembers = [
     {
-      name: "Ella Abigail",
-      role: "Owner & Detailer",
-      bio: "2+ years of professional detailing experience serving the Charlotte area.",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=faces",
+      name: "Blake Aslin",
+      role: "Owner & Founder",
+      bio: "Dedicated to delivering premium mobile detailing services with attention to detail and customer excellence.",
+      image: "https://cdn.builder.io/api/v1/image/assets%2Fbd2db2bf76dc466fa0ee7e5d644defec%2Fdc5c1a1001fc41c5a3adb673d2fe2294?format=webp&width=800",
     },
   ];
 
@@ -41,14 +41,14 @@ const Team = () => {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="flex justify-center max-w-6xl mx-auto">
           {teamMembers.map((member, index) => (
             <motion.div
               key={member.name}
               initial={{ opacity: 0, y: 50 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: index * 0.2 }}
-              className="group relative"
+              className="group relative w-full max-w-sm"
             >
               <div className="relative bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-glow-primary">
                 {/* Image */}

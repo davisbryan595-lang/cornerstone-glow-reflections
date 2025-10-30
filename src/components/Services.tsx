@@ -24,19 +24,6 @@ const Services = () => {
       image: "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2F217d4eb50bee42859e2dd4a8c8a93878?format=webp&width=800",
     },
     {
-      icon: Shield,
-      title: "Ceramic Coating",
-      description:
-        "Long-lasting protection with a stunning gloss finish. Our ceramic coatings provide years of protection against the elements.",
-      features: [
-        "9H hardness protection",
-        "Hydrophobic properties",
-        "UV ray protection",
-        "5-year warranty",
-      ],
-      image: "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2F51b4b63cf38f4b6f9c834acd63754fb6?format=webp&width=800",
-    },
-    {
       icon: Droplets,
       title: "Auto Detailing",
       description:

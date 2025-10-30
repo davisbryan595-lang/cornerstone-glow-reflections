@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Facebook, Instagram, Mail, Phone, Menu, X } from "lucide-react";
 import { Button } from "./ui/button";
+import { useNavigate } from "react-router-dom";
 
 const logoUrl = "https://cdn.builder.io/api/v1/image/assets%2Fbbaa1bd46cba4346a5396fea34722449%2Fd1b3409afa294c3aa889966cd8e67d72?format=webp&width=800";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -135,13 +137,21 @@ const Navbar = () => {
               ))}
             </div>
 
-            {/* CTA Button */}
-            <Button
-              onClick={() => scrollToSection("contact")}
-              className="hidden lg:flex bg-gradient-primary hover:shadow-glow-primary transition-all duration-300"
-            >
-              Get Free Quote
-            </Button>
+            {/* CTA Buttons */}
+            <div className="hidden lg:flex items-center gap-3">
+              <Button
+                onClick={() => navigate("/careers")}
+                className="bg-secondary hover:shadow-glow-secondary transition-all duration-300"
+              >
+                Apply for Job
+              </Button>
+              <Button
+                onClick={() => scrollToSection("contact")}
+                className="bg-gradient-primary hover:shadow-glow-primary transition-all duration-300"
+              >
+                Get Free Quote
+              </Button>
+            </div>
 
             {/* Mobile Menu Button */}
             <button
@@ -222,12 +232,23 @@ const Navbar = () => {
             </div>
           </div>
 
-          <Button
-            onClick={() => scrollToSection("contact")}
-            className="w-full mt-4 bg-gradient-primary"
-          >
-            Get Free Quote
-          </Button>
+          <div className="flex flex-col gap-3 mt-4">
+            <Button
+              onClick={() => {
+                navigate("/careers");
+                setIsMobileMenuOpen(false);
+              }}
+              className="w-full bg-secondary"
+            >
+              Apply for Job
+            </Button>
+            <Button
+              onClick={() => scrollToSection("contact")}
+              className="w-full bg-gradient-primary"
+            >
+              Get Free Quote
+            </Button>
+          </div>
         </div>
       </motion.div>
     </>
