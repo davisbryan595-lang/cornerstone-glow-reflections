@@ -195,7 +195,7 @@ const Pricing = () => {
             <Tabs
               value={vehicleType}
               onValueChange={setVehicleType}
-              className="w-full max-w-md"
+              className="w-full"
             >
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="coupe">Coupe/Sedan</TabsTrigger>
