@@ -66,7 +66,7 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
             Cornerstone Mobile Detailing LLC
           </h2>
           <p className="text-sm text-muted-foreground mt-2 font-inter">
-            The Foundation Of What We Do Is Driven By Our Faith
+            The Foundation is Family
           </p>
         </motion.div>
 

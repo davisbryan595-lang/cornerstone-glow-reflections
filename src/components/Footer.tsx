@@ -31,7 +31,7 @@ const Footer = () => {
               </span>
             </div>
             <p className="text-sm text-muted-foreground font-inter leading-relaxed">
-              The foundation has been set for premium mobile auto detailing in
+              The Foundation is Family for premium mobile auto detailing in
               Charlotte, NC.
             </p>
             <div className="flex gap-3">
