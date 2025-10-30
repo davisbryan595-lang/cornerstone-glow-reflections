@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { Sparkles, Shield, Droplets } from "lucide-react";
+import { Sparkles, Shield, Droplets, Sun, AlertTriangle } from "lucide-react";
 import { Button } from "./ui/button";
+import { Alert, AlertTitle, AlertDescription } from "./ui/alert";
 
 const Services = () => {
   const ref = useRef(null);
@@ -20,20 +21,7 @@ const Services = () => {
         "Oxidation removal",
         "Clear coat restoration",
       ],
-      image: "https://images.unsplash.com/photo-1607860108855-64acf2078ed9?w=600&h=400&fit=crop",
-    },
-    {
-      icon: Shield,
-      title: "Ceramic Coating",
-      description:
-        "Long-lasting protection with a stunning gloss finish. Our ceramic coatings provide years of protection against the elements.",
-      features: [
-        "9H hardness protection",
-        "Hydrophobic properties",
-        "UV ray protection",
-        "5-year warranty",
-      ],
-      image: "https://images.unsplash.com/photo-1625047509168-a7026f36de04?w=600&h=400&fit=crop",
+      image: "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2F217d4eb50bee42859e2dd4a8c8a93878?format=webp&width=800",
     },
     {
       icon: Droplets,
@@ -47,6 +35,19 @@ const Services = () => {
         "Leather conditioning",
       ],
       image: "https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?w=600&h=400&fit=crop",
+    },
+    {
+      icon: Sun,
+      title: "Headlight & Trim Restoration",
+      description:
+        "Restore clarity to headlights and revive faded trim for improved safety and appearance.",
+      features: [
+        "UV-resistant protection",
+        "Oxidation removal",
+        "Trim color restoration",
+        "Improved night visibility",
+      ],
+      image: "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2Fa5e6242bc19b4da6b4315121b0677b2c?format=webp&width=800",
     },
   ];
 
@@ -81,6 +82,22 @@ const Services = () => {
           <p className="text-muted-foreground text-lg max-w-3xl mx-auto font-inter">
             Professional services tailored to your vehicle's needs
           </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mb-8"
+        >
+          <Alert className="border-primary bg-primary/10">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertTitle className="font-montserrat font-semibold">Please Note</AlertTitle>
+            <AlertDescription className="font-inter">
+              <p className="font-semibold text-foreground">Need water source 50 ft to vehicle to wash exterior.</p>
+              <p className="font-semibold text-foreground">Interior can be taken care of anywhere.</p>
+            </AlertDescription>
+          </Alert>
         </motion.div>
 
         <div className="grid lg:grid-cols-3 gap-8 mb-12">

@@ -1,5 +1,5 @@
 import { Facebook, Instagram, Mail, Phone } from "lucide-react";
-import logo from "@/assets/logo.png";
+const logoUrl = "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2Fc689032066c740e3a83978925f1d1000?format=webp&width=800";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -22,16 +22,16 @@ const Footer = () => {
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <img
-                src={logo}
+                src={logoUrl}
                 alt="Cornerstone Mobile Detailing"
-                className="w-12 h-12"
+                className="w-20 h-20"
               />
               <span className="font-montserrat font-bold text-lg">
                 Cornerstone
               </span>
             </div>
             <p className="text-sm text-muted-foreground font-inter leading-relaxed">
-              The foundation has been set for premium mobile auto detailing in
+              The Foundation is Family for premium mobile auto detailing in
               Charlotte, NC.
             </p>
             <div className="flex gap-3">
@@ -80,6 +80,7 @@ const Footer = () => {
               <li>Paint Correction</li>
               <li>Ceramic Coating</li>
               <li>Auto Detailing</li>
+              <li>Headlight & Trim Restoration</li>
               <li>Interior Cleaning</li>
               <li>Exterior Wash</li>
               <li>Engine Bay Cleaning</li>
@@ -124,7 +125,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-border pt-6 text-center text-sm text-muted-foreground font-inter">
           <p>
-            © {currentYear} Cornerstone Mobile Detailing. All Rights Reserved.
+            © {currentYear} Cornerstone Mobile Detailing LLC. All Rights Reserved.
           </p>
         </div>
       </div>

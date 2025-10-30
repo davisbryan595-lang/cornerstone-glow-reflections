@@ -43,6 +43,16 @@ const Contact = () => {
     });
   };
 
+  const openHours = [
+    "Monday: 3PM - 6PM",
+    "Tuesday: 3PM - 6PM",
+    "Wednesday: 3PM - 6PM",
+    "Thursday: 3PM - 5PM",
+    "Friday: 3PM - 6PM",
+    "Saturday: 10AM - 5PM",
+    "Sunday: Closed",
+  ];
+
   const contactInfo = [
     {
       icon: Phone,
@@ -59,8 +69,9 @@ const Contact = () => {
     {
       icon: Clock,
       label: "Hours",
-      value: "Mon-Sat: 8AM - 6PM",
+      value: openHours,
       link: null,
+      isHours: true,
     },
   ];
 
@@ -110,7 +121,7 @@ const Contact = () => {
                     initial={{ opacity: 0, x: -20 }}
                     animate={isInView ? { opacity: 1, x: 0 } : {}}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="flex items-center gap-4 p-4 bg-card border border-border rounded-lg hover:border-primary/50 transition-all duration-300 group"
+                    className="flex items-start gap-4 p-4 bg-card border border-border rounded-lg hover:border-primary/50 transition-all duration-300 group"
                   >
                     <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center flex-shrink-0 group-hover:shadow-glow-primary transition-all duration-300">
                       <info.icon className="w-6 h-6 text-primary-foreground" />
@@ -119,15 +130,21 @@ const Contact = () => {
                       <p className="text-sm text-muted-foreground font-inter">
                         {info.label}
                       </p>
-                      {info.link ? (
+                      {info.isHours ? (
+                        <div className="font-medium font-inter space-y-1">
+                          {(info.value as string[]).map((hour, idx) => (
+                            <p key={idx}>{hour}</p>
+                          ))}
+                        </div>
+                      ) : info.link ? (
                         <a
                           href={info.link}
                           className="font-medium hover:text-primary transition-colors font-inter"
                         >
-                          {info.value}
+                          {info.value as string}
                         </a>
                       ) : (
-                        <p className="font-medium font-inter">{info.value}</p>
+                        <p className="font-medium font-inter">{info.value as string}</p>
                       )}
                     </div>
                   </motion.div>
@@ -260,6 +277,9 @@ const Contact = () => {
                     </SelectItem>
                     <SelectItem value="auto-detailing">
                       Auto Detailing
+                    </SelectItem>
+                    <SelectItem value="headlight-trim-restoration">
+                      Headlight & Trim Restoration
                     </SelectItem>
                     <SelectItem value="custom">Custom Package</SelectItem>
                   </SelectContent>

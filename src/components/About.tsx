@@ -26,7 +26,7 @@ const About = () => {
     {
       icon: Award,
       title: "Quality Guaranteed",
-      description: "100% satisfaction or money back",
+      description: "100% satisfaction or we will make it right.",
     },
   ];
 
@@ -46,13 +46,10 @@ const About = () => {
             About Us
           </span>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-montserrat font-bold mt-4 mb-6">
-            Excellence in Every{" "}
-            <span className="bg-gradient-primary bg-clip-text text-transparent">
-              Detail
-            </span>
+            Excellence in Every <span className="text-primary">Detail</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-3xl mx-auto font-inter leading-relaxed">
-            The foundation has been set for premium mobile auto detailing.
+            We are Built on Trust & Honor
           </p>
         </motion.div>
 
@@ -65,7 +62,7 @@ const About = () => {
           >
             <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-primary/20">
               <img
-                src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800&h=600&fit=crop"
+                src="https://cdn.builder.io/api/v1/image/assets%2Fbd2db2bf76dc466fa0ee7e5d644defec%2Fddb5aa7325cc49f899e2f10f59c9af76?format=webp&width=800"
                 alt="Professional car detailing"
                 className="w-full h-full object-cover"
               />
@@ -88,19 +85,10 @@ const About = () => {
             className="space-y-6"
           >
             <h3 className="text-3xl font-montserrat font-bold">
-              Bringing Showroom Shine to Your Driveway
+              Bringing Peace Of Mind To You
             </h3>
             <p className="text-muted-foreground leading-relaxed font-inter">
-              At Cornerstone Mobile Detailing, we believe your vehicle deserves
-              the absolute best care. Our team of certified professionals brings
-              premium auto detailing services directly to your home or office
-              throughout the Charlotte area.
-            </p>
-            <p className="text-muted-foreground leading-relaxed font-inter">
-              From paint correction to ceramic coating, we use only the finest
-              products and techniques to restore and protect your vehicle's
-              finish. Every detail matters, and we're committed to delivering
-              results that exceed expectations.
+              At Cornerstone Mobile Detailing, peace of mind drives everything we do. From eco-safe products to careful craftsmanship, we ensure your vehicle — and your day — stays calm, clean, and worry-free.
             </p>
             <div className="flex flex-wrap gap-4 pt-4">
               <div className="flex items-center gap-2">

@@ -10,28 +10,36 @@ const Gallery = () => {
 
   const galleryImages = [
     {
-      url: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800&h=600&fit=crop",
-      title: "Paint Correction",
+      url: "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2Fba26d505a7014992a6c947b749c63deb?format=webp&width=800",
+      title: "Interior Floor Mat Detail",
     },
     {
-      url: "https://images.unsplash.com/photo-1607860108855-64acf2078ed9?w=800&h=600&fit=crop",
-      title: "Ceramic Coating",
+      url: "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2F28b5dca427f341fc94a2831f78d505c1?format=webp&width=800",
+      title: "Chevrolet Front Exterior",
     },
     {
-      url: "https://images.unsplash.com/photo-1625047509168-a7026f36de04?w=800&h=600&fit=crop",
-      title: "Interior Detailing",
+      url: "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2F00b6ee4175694565b8b3ce099c5b7931?format=webp&width=800",
+      title: "Ford Transit Van Wash",
     },
     {
-      url: "https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?w=800&h=600&fit=crop",
-      title: "Exterior Wash",
+      url: "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2F950777eb5a8f459499124e038e2924af?format=webp&width=800",
+      title: "Honda Civic Exterior Shine",
     },
     {
-      url: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&h=600&fit=crop",
-      title: "Luxury Detail",
+      url: "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2F4ad05332a6c74f3eafb7d24d5271941d?format=webp&width=800",
+      title: "Honda Civic Interior Clean",
     },
     {
-      url: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&h=600&fit=crop",
-      title: "Sports Car Detail",
+      url: "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2F2cfab23f5bf74d988f12d1708d774d42?format=webp&width=800",
+      title: "SUV Trunk Area Detail",
+    },
+    {
+      url: "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2F6680517041584edc80e52197ddba3138?format=webp&width=800",
+      title: "Blue Vehicle Side Finish",
+    },
+    {
+      url: "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2F7985c10546a9405da9ac79b2a4f61f21?format=webp&width=800",
+      title: "Customer Vehicle Delivery",
     },
   ];
 
@@ -86,7 +94,7 @@ const Gallery = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {galleryImages.map((image, index) => (
               <motion.div
                 key={index}
