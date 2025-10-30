@@ -149,7 +149,7 @@ const Pricing = () => {
   const [vehicleType, setVehicleType] = useState("coupe");
 
   return (
-    <div className="min-h-screen bg-background font-inter">
+    <div className="min-h-screen bg-background font-inter" style={{ marginTop: 100 }}>
       <Navbar />
 
       <main className="container mx-auto px-4 py-24 pt-32">
