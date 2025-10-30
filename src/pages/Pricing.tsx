@@ -146,6 +146,8 @@ const paintCorrectionServices = [
 ];
 
 const Pricing = () => {
+  const [vehicleType, setVehicleType] = useState("coupe");
+
   return (
     <div className="min-h-screen bg-background font-inter">
       <Navbar />
@@ -189,61 +191,129 @@ const Pricing = () => {
 
         {/* Detailing Services Section */}
         <section className="mb-20">
-          <h2 className="text-3xl font-montserrat font-bold mb-12 text-center">
-            Detailing Services
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {detailingServices.map((service, idx) => (
-              <motion.div
-                key={service.name}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.1 }}
-                className="bg-card border border-border rounded-2xl p-6 flex flex-col hover:border-primary/50 transition-all duration-300"
-              >
-                <div className="flex-1">
-                  <h3 className="text-2xl font-montserrat font-bold mb-2 text-primary">
-                    {service.name}
-                  </h3>
-                  <div className="mb-4">
-                    <p className="text-sm text-muted-foreground mb-3 font-inter">
-                      {service.description}
-                    </p>
-                    <div>
-                      <p className="text-xs font-semibold text-muted-foreground mb-1">
-                        Starting at
-                      </p>
-                      <p className="text-3xl font-montserrat font-bold text-primary">
-                        ${service.startingPrice}
-                      </p>
-                    </div>
-                  </div>
+          <div className="flex justify-center mb-12">
+            <Tabs
+              value={vehicleType}
+              onValueChange={setVehicleType}
+              className="w-full max-w-md"
+            >
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="coupe">Coupe/Sedan</TabsTrigger>
+                <TabsTrigger value="truck">Truck/SUV</TabsTrigger>
+              </TabsList>
 
-                  <div className="mb-6">
-                    <h4 className="text-sm font-semibold mb-3 font-inter">
-                      Services Included:
-                    </h4>
-                    <ul className="space-y-2">
-                      {service.services.map((svc, i) => (
-                        <li
-                          key={i}
-                          className="text-xs text-muted-foreground flex items-start gap-2 font-inter"
-                        >
-                          <span className="text-primary font-bold mt-1">✓</span>
-                          <span>{svc}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+              <TabsContent value="coupe" className="mt-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  {detailingServices.map((service, idx) => (
+                    <motion.div
+                      key={service.name}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: idx * 0.1 }}
+                      className="bg-card border border-border rounded-2xl p-6 flex flex-col hover:border-primary/50 transition-all duration-300"
+                    >
+                      <div className="flex-1">
+                        <h3 className="text-2xl font-montserrat font-bold mb-2 text-primary">
+                          {service.name}
+                        </h3>
+                        <div className="mb-4">
+                          <p className="text-sm text-muted-foreground mb-3 font-inter">
+                            {service.description}
+                          </p>
+                          <div>
+                            <p className="text-xs font-semibold text-muted-foreground mb-1">
+                              Coupe/Sedan Price
+                            </p>
+                            <p className="text-3xl font-montserrat font-bold text-primary">
+                              ${service.coupeSedan}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="mb-6">
+                          <h4 className="text-sm font-semibold mb-3 font-inter">
+                            Services Included:
+                          </h4>
+                          <ul className="space-y-2">
+                            {service.services.map((svc, i) => (
+                              <li
+                                key={i}
+                                className="text-xs text-muted-foreground flex items-start gap-2 font-inter"
+                              >
+                                <span className="text-primary font-bold mt-1">✓</span>
+                                <span>{svc}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+
+                      <a href="/#contact">
+                        <Button className="w-full bg-gradient-primary hover:shadow-glow-primary">
+                          Get Quote Now
+                        </Button>
+                      </a>
+                    </motion.div>
+                  ))}
                 </div>
+              </TabsContent>
 
-                <a href="/#contact">
-                  <Button className="w-full bg-gradient-primary hover:shadow-glow-primary">
-                    Get Quote Now
-                  </Button>
-                </a>
-              </motion.div>
-            ))}
+              <TabsContent value="truck" className="mt-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  {detailingServices.map((service, idx) => (
+                    <motion.div
+                      key={service.name}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: idx * 0.1 }}
+                      className="bg-card border border-border rounded-2xl p-6 flex flex-col hover:border-primary/50 transition-all duration-300"
+                    >
+                      <div className="flex-1">
+                        <h3 className="text-2xl font-montserrat font-bold mb-2 text-primary">
+                          {service.name}
+                        </h3>
+                        <div className="mb-4">
+                          <p className="text-sm text-muted-foreground mb-3 font-inter">
+                            {service.description}
+                          </p>
+                          <div>
+                            <p className="text-xs font-semibold text-muted-foreground mb-1">
+                              Truck/SUV Price
+                            </p>
+                            <p className="text-3xl font-montserrat font-bold text-primary">
+                              ${service.truckSuv}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="mb-6">
+                          <h4 className="text-sm font-semibold mb-3 font-inter">
+                            Services Included:
+                          </h4>
+                          <ul className="space-y-2">
+                            {service.services.map((svc, i) => (
+                              <li
+                                key={i}
+                                className="text-xs text-muted-foreground flex items-start gap-2 font-inter"
+                              >
+                                <span className="text-primary font-bold mt-1">✓</span>
+                                <span>{svc}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+
+                      <a href="/#contact">
+                        <Button className="w-full bg-gradient-primary hover:shadow-glow-primary">
+                          Get Quote Now
+                        </Button>
+                      </a>
+                    </motion.div>
+                  ))}
+                </div>
+              </TabsContent>
+            </Tabs>
           </div>
         </section>
 
