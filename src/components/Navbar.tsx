@@ -101,7 +101,7 @@ const Navbar = () => {
         </div>
 
         {/* Main Navbar */}
-        <div className="container mx-auto px-4 py-2">
+        <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <motion.button
@@ -110,11 +110,11 @@ const Navbar = () => {
               whileHover={{ scale: 1.05 }}
             >
               <div className="relative">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary/30 to-accent/30 transition-all duration-300" />
+                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary/30 to-accent/30 blur-lg group-hover:from-primary/50 group-hover:to-accent/50 transition-all duration-300" />
                 <img
                   src={logoUrl}
                   alt="Cornerstone Mobile Detailing"
-                  className="w-28 h-28 drop-shadow-[0_0_20px_rgba(23,200,200,0.6)] transition-all duration-300 relative z-10"
+                  className="w-28 h-28 drop-shadow-[0_0_20px_rgba(23,200,200,0.6)] group-hover:drop-shadow-[0_0_30px_rgba(23,200,200,1)] transition-all duration-300 relative z-10"
                 />
               </div>
             </motion.button>
