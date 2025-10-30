@@ -21,8 +21,8 @@ const Navbar = () => {
   }, []);
 
   const scrollToSection = (id: string) => {
-    // If pricing, navigate to pricing page
-    if (id === "pricing") {
+    // If pricing, navigate to pricing page (case-insensitive)
+    if (id && id.toLowerCase() === "pricing") {
       // Use full navigation so it works from any page
       window.location.href = "/pricing";
       setIsMobileMenuOpen(false);
@@ -44,7 +44,7 @@ const Navbar = () => {
     { name: "Home", id: "hero" },
     { name: "About", id: "about" },
     { name: "Services", id: "services" },
-    { name: "Pricing", id: "Pricing" },
+    { name: "Pricing", id: "pricing" },
     { name: "Gallery", id: "gallery" },
     { name: "Team", id: "team" },
     { name: "Contact", id: "contact" },
