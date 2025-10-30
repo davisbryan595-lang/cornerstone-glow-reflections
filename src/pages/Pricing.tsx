@@ -190,7 +190,7 @@ const Pricing = () => {
         </motion.div>
 
         {/* Detailing Services Section */}
-        <section className="mb-20 w-4/5 mx-auto">
+        <section className="mb-20 w-full">
           <div className="flex justify-center mb-12">
             <Tabs
               value={vehicleType}
