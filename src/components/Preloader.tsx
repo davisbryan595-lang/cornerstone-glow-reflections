@@ -43,7 +43,7 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
             <motion.img
               src={logoUrl}
               alt="Cornerstone Mobile Detailing"
-              className="w-48 h-48 md:w-64 md:h-64"
+              className="w-72 h-72 md:w-96 md:h-96"
             />
           </div>
         </motion.div>
@@ -58,7 +58,7 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
             Cornerstone Mobile Detailing LLC
           </h2>
           <p className="text-sm text-muted-foreground mt-2 font-inter">
-            The Foundation is Family
+            The Foundation is faith and family
           </p>
         </motion.div>
 
