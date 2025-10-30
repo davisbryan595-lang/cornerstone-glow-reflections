@@ -137,13 +137,21 @@ const Navbar = () => {
               ))}
             </div>
 
-            {/* CTA Button */}
-            <Button
-              onClick={() => scrollToSection("contact")}
-              className="hidden lg:flex bg-gradient-primary hover:shadow-glow-primary transition-all duration-300"
-            >
-              Get Free Quote
-            </Button>
+            {/* CTA Buttons */}
+            <div className="hidden lg:flex items-center gap-3">
+              <Button
+                onClick={() => setIsJobFormOpen(true)}
+                className="bg-secondary hover:shadow-glow-secondary transition-all duration-300"
+              >
+                Apply for Job
+              </Button>
+              <Button
+                onClick={() => scrollToSection("contact")}
+                className="bg-gradient-primary hover:shadow-glow-primary transition-all duration-300"
+              >
+                Get Free Quote
+              </Button>
+            </div>
 
             {/* Mobile Menu Button */}
             <button
