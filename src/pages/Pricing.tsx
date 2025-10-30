@@ -323,6 +323,38 @@ const Pricing = () => {
           </div>
         </section>
 
+        {/* Additional Services Section */}
+        <section className="mb-20">
+          <h2 className="text-3xl font-montserrat font-bold mb-12 text-center">
+            Additional Services
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { name: "Pet Hair Removal", price: 75 },
+              { name: "Headlight Restoration", price: 95 },
+              { name: "Ozone Treatment (Odor Elimination)", price: 50 },
+              { name: "Engine Bay Cleaning", price: 75 },
+              { name: "Trim Restoration", price: 75 },
+              { name: "Steam Cleaning", price: 50 },
+            ].map((service, idx) => (
+              <motion.div
+                key={service.name}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.05 }}
+                className="bg-card border border-border rounded-xl p-6 flex flex-col items-center justify-center text-center hover:border-primary/50 transition-all duration-300"
+              >
+                <h3 className="text-lg font-montserrat font-bold mb-3 text-primary">
+                  {service.name}
+                </h3>
+                <p className="text-3xl font-montserrat font-bold text-foreground">
+                  ${service.price}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
         {/* Custom Quote Section */}
         <section className="bg-card border border-border rounded-2xl p-8 text-center">
           <h3 className="text-2xl font-montserrat font-bold mb-4">
