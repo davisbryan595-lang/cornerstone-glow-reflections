@@ -126,16 +126,6 @@ const Hero = () => {
           className="text-center max-w-5xl mx-auto"
         >
           <div className="inline-block bg-background/30 backdrop-blur-md rounded-2xl p-8">
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-xl md:text-2xl font-montserrat font-bold mt-6 mb-2"
-            >
-              <span className="inline-block bg-gradient-primary text-white px-4 py-2 rounded-lg">
-                Cornerstone Mobile Detailing LLC
-              </span>
-            </motion.h2>
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
