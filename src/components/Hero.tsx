@@ -112,7 +112,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-xl md:text-2xl font-montserrat font-bold text-white mb-2"
+              className="text-xl md:text-2xl font-montserrat font-bold text-white mt-6 mb-2"
             >
               Cornerstone Mobile Detailing LLC
             </motion.h2>
