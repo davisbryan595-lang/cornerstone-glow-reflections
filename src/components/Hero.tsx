@@ -119,7 +119,7 @@ const Hero = () => {
                 The Foundation
               </span>
               <br />
-              <span className="text-foreground">Has Been Set</span>
+              <span className="text-foreground">Of What We Do Is Driven By Our Faith</span>
             </motion.h1>
 
             <motion.p
