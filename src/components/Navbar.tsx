@@ -28,7 +28,7 @@ const Navbar = () => {
     { name: "Home", id: "hero" },
     { name: "About", id: "about" },
     { name: "Services", id: "services" },
-    { name: "Pricing", id: "pricing" },
+    { name: "Pricing", id: "Pricing" },
     { name: "Gallery", id: "gallery" },
     { name: "Team", id: "team" },
     { name: "Contact", id: "contact" },
