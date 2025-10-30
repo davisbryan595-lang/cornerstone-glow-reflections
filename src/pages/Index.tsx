@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import Preloader from "@/components/Preloader";
 import Navbar from "@/components/Navbar";
@@ -27,7 +28,7 @@ const Index = () => {
 
   return (
     <>
-      <Animateesence mode="wait">
+      <AnimatePresence mode="wait">
         {loading && <Preloader onComplete={() => setLoading(false)} />}
       </AnimatePresence>
 
