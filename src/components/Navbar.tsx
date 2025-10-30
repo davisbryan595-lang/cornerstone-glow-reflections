@@ -235,7 +235,7 @@ const Navbar = () => {
           <div className="flex flex-col gap-3 mt-4">
             <Button
               onClick={() => {
-                setIsJobFormOpen(true);
+                navigate("/careers");
                 setIsMobileMenuOpen(false);
               }}
               className="w-full bg-secondary"
@@ -251,12 +251,6 @@ const Navbar = () => {
           </div>
         </div>
       </motion.div>
-
-      {/* Job Application Form Modal */}
-      <JobApplicationForm
-        isOpen={isJobFormOpen}
-        onClose={() => setIsJobFormOpen(false)}
-      />
     </>
   );
 };
