@@ -39,7 +39,7 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
           }}
           className="relative"
         >
-          <div className="w-56 h-56 md:w-64 md:h-64 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
+          <div className="w-80 h-80 md:w-96 md:h-96 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
             <motion.img
               src={logoUrl}
               alt="Cornerstone Mobile Detailing"
