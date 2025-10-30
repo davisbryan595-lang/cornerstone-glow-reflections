@@ -9,7 +9,8 @@ import BackToTopButton from "@/components/BackToTopButton";
 const detailingServices = [
   {
     name: "Interior Detail",
-    startingPrice: 217.99,
+    coupeSedan: 217.99,
+    truckSuv: 237.99,
     description: "This our thorough interior detailing service. Once done, your car's interior will invite you with a fresh look, smell, & feel for a peaceful driving experience!",
     services: [
       "Detailed Vacuum of Floors, Carpets, and Trunk",
@@ -26,7 +27,8 @@ const detailingServices = [
   },
   {
     name: "Full Detail",
-    startingPrice: 304.99,
+    coupeSedan: 304.99,
+    truckSuv: 324.99,
     description: "This is our full interior & exterior detail designed to clean every inch of your car!",
     services: [
       "INTERIOR (detailed cleaning)",
@@ -51,7 +53,8 @@ const detailingServices = [
   },
   {
     name: "Exterior Detail",
-    startingPrice: 144.99,
+    coupeSedan: 144.99,
+    truckSuv: 184.88,
     description: "This premium exterior detail is designed to remove micro contaminants from your cars paint, leave a silky smooth finish, and protect the paint for up to 8 months!",
     services: [
       "EXTERIOR (detailed wash, prep & protection)",
