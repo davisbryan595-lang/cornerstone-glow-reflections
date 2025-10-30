@@ -1,5 +1,7 @@
+import { useState } from "react";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import BackToTopButton from "@/components/BackToTopButton";
