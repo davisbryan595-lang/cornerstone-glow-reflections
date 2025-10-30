@@ -88,16 +88,10 @@ const About = () => {
             className="space-y-6"
           >
             <h3 className="text-3xl font-montserrat font-bold">
-              Bringing Showroom Shine to Your Driveway
+              Bringing Peace Of Mind To You
             </h3>
             <p className="text-muted-foreground leading-relaxed font-inter">
-              At Cornerstone Mobile Detailing, we believe your vehicle deserves
-              the absolute best care. Our team of certified professionals brings
-              premium auto detailing services directly to your home or office
-              throughout the Charlotte area.
-            </p>
-            <p className="text-muted-foreground leading-relaxed font-inter">
-              From interior and exterior cleaning to ceramic coatings, and paint correction, we use only the finest products and techniques to restore and protect your vehicle's vehicle. Every detail matters, and we're committed to bringing convenience and easy of mind to you.
+              At Cornerstone Mobile Detailing, peace of mind drives everything we do. From eco-safe products to careful craftsmanship, we ensure your vehicle — and your day — stays calm, clean, and worry-free.
             </p>
             <div className="flex flex-wrap gap-4 pt-4">
               <div className="flex items-center gap-2">
