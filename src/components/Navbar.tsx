@@ -60,48 +60,50 @@ const Navbar = () => {
             : "bg-background/30 backdrop-blur-md border-b border-primary/10"
         }`}
       >
-        {/* Top Bar */}
-        <div className="border-b border-border/50 py-2 hidden lg:block">
-          <div className="container mx-auto px-4 flex justify-between items-center text-sm">
-            <div className="flex items-center gap-6">
-              <a
-                href="mailto:cornerstonemobile55@gmail.com"
-                className="flex items-center gap-2 hover:text-primary transition-colors"
-              >
-                <Mail className="w-4 h-4" />
-                <span>cornerstonemobile55@gmail.com</span>
-              </a>
-              <a
-                href="tel:980-312-4236"
-                className="flex items-center gap-2 hover:text-primary transition-colors"
-              >
-                <Phone className="w-4 h-4" />
-                <span>980-312-4236</span>
-              </a>
-            </div>
-            <div className="flex items-center gap-4">
-              <a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-primary transition-colors hover:scale-110 transform"
-              >
-                <Facebook className="w-5 h-5" />
-              </a>
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-accent transition-colors hover:scale-110 transform"
-              >
-                <Instagram className="w-5 h-5" />
-              </a>
+        {/* Top Bar (hidden when sticky) */}
+        {!isScrolled && (
+          <div className="border-b border-border/50 py-2 hidden lg:block">
+            <div className="container mx-auto px-4 flex justify-between items-center text-sm">
+              <div className="flex items-center gap-6">
+                <a
+                  href="mailto:cornerstonemobile55@gmail.com"
+                  className="flex items-center gap-2 hover:text-primary transition-colors"
+                >
+                  <Mail className="w-4 h-4" />
+                  <span>cornerstonemobile55@gmail.com</span>
+                </a>
+                <a
+                  href="tel:980-312-4236"
+                  className="flex items-center gap-2 hover:text-primary transition-colors"
+                >
+                  <Phone className="w-4 h-4" />
+                  <span>980-312-4236</span>
+                </a>
+              </div>
+              <div className="flex items-center gap-4">
+                <a
+                  href="https://facebook.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary transition-colors hover:scale-110 transform"
+                >
+                  <Facebook className="w-5 h-5" />
+                </a>
+                <a
+                  href="https://instagram.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-accent transition-colors hover:scale-110 transform"
+                >
+                  <Instagram className="w-5 h-5" />
+                </a>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Main Navbar */}
-        <div className="container mx-auto px-4 py-4">
+        <div className={'container mx-auto px-4 ' + (isScrolled ? 'py-2' : 'py-4')}>
           <div className="flex items-center justify-between">
             {/* Logo */}
             <motion.button
