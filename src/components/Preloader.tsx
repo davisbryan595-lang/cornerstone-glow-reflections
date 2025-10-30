@@ -39,19 +39,21 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
           }}
           className="relative"
         >
-          <motion.img
-            src={logoUrl}
-            alt="Cornerstone Mobile Detailing"
-            className="w-32 h-32 md:w-40 md:h-40"
-            animate={{
-              filter: [
-                "drop-shadow(0 0 20px hsl(182 85% 40% / 0.6))",
-                "drop-shadow(0 0 40px hsl(85 100% 55% / 0.6))",
-                "drop-shadow(0 0 20px hsl(182 85% 40% / 0.6))",
-              ],
-            }}
-            transition={{ duration: 2, repeat: Infinity }}
-          />
+          <div className="w-56 h-56 md:w-64 md:h-64 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center border-2 border-primary/30">
+            <motion.img
+              src={logoUrl}
+              alt="Cornerstone Mobile Detailing"
+              className="w-48 h-48 md:w-56 md:h-56"
+              animate={{
+                filter: [
+                  "drop-shadow(0 0 20px hsl(182 85% 40% / 0.6))",
+                  "drop-shadow(0 0 40px hsl(85 100% 55% / 0.6))",
+                  "drop-shadow(0 0 20px hsl(182 85% 40% / 0.6))",
+                ],
+              }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
+          </div>
         </motion.div>
 
         <motion.div
