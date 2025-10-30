@@ -43,6 +43,16 @@ const Contact = () => {
     });
   };
 
+  const openHours = [
+    "Monday: 3PM - 6PM",
+    "Tuesday: 3PM - 6PM",
+    "Wednesday: 3PM - 6PM",
+    "Thursday: 3PM - 5PM",
+    "Friday: 3PM - 6PM",
+    "Saturday: 10AM - 5PM",
+    "Sunday: Closed",
+  ];
+
   const contactInfo = [
     {
       icon: Phone,
@@ -59,8 +69,9 @@ const Contact = () => {
     {
       icon: Clock,
       label: "Hours",
-      value: "Mon-Wed: 3PM - 6PM, Thu: 3PM - 5PM, Fri: 3PM - 6PM, Sat: 10AM - 5PM, Sun: Closed",
+      value: openHours,
       link: null,
+      isHours: true,
     },
   ];
 
