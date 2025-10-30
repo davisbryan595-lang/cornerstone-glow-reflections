@@ -119,17 +119,18 @@ const Hero = () => {
                 The Foundation
               </span>
               <br />
-              <span className="text-foreground">Has Been Set</span>
+              <span className="text-foreground">Of What We Do Is Driven By Our Faith</span>
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 1 }}
-              className="text-lg md:text-xl text-muted-foreground mb-10 font-inter max-w-3xl mx-auto leading-relaxed"
+              className="text-lg md:text-xl text-white font-bold mb-10 font-inter max-w-3xl mx-auto leading-relaxed"
             >
-              Professional paint correction, ceramic coating & auto detailing
-              services that bring showroom shine directly to your location.
+              "We Treat Every Car Like It's Our Own." - <span className="italic">Blake Aslin</span>
+              <br />
+              From deep interior cleans to flawless finishes, we bring care, craftsmanship, and consistency to every detail.
             </motion.p>
 
             <motion.div

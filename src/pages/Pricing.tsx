@@ -1,5 +1,7 @@
+import { useState } from "react";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import BackToTopButton from "@/components/BackToTopButton";
@@ -7,7 +9,8 @@ import BackToTopButton from "@/components/BackToTopButton";
 const detailingServices = [
   {
     name: "Interior Detail",
-    startingPrice: 217.99,
+    coupeSedan: 217.99,
+    truckSuv: 237.99,
     description: "This our thorough interior detailing service. Once done, your car's interior will invite you with a fresh look, smell, & feel for a peaceful driving experience!",
     services: [
       "Detailed Vacuum of Floors, Carpets, and Trunk",
@@ -24,7 +27,8 @@ const detailingServices = [
   },
   {
     name: "Full Detail",
-    startingPrice: 304.99,
+    coupeSedan: 304.99,
+    truckSuv: 324.99,
     description: "This is our full interior & exterior detail designed to clean every inch of your car!",
     services: [
       "INTERIOR (detailed cleaning)",
@@ -49,7 +53,8 @@ const detailingServices = [
   },
   {
     name: "Exterior Detail",
-    startingPrice: 144.99,
+    coupeSedan: 144.99,
+    truckSuv: 184.88,
     description: "This premium exterior detail is designed to remove micro contaminants from your cars paint, leave a silky smooth finish, and protect the paint for up to 8 months!",
     services: [
       "EXTERIOR (detailed wash, prep & protection)",
@@ -141,6 +146,8 @@ const paintCorrectionServices = [
 ];
 
 const Pricing = () => {
+  const [vehicleType, setVehicleType] = useState("coupe");
+
   return (
     <div className="min-h-screen bg-background font-inter">
       <Navbar />
@@ -150,79 +157,163 @@ const Pricing = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
+          transition={{ duration: 0.6 }}
+          className="text-center mb-20"
         >
-          <span className="text-primary font-semibold text-sm uppercase tracking-wider">
-            Pricing
-          </span>
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-montserrat font-bold mt-4 mb-6">
+          <motion.span
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1, duration: 0.5 }}
+            className="inline-block text-primary font-semibold text-sm uppercase tracking-wider px-4 py-2 bg-primary/10 rounded-full"
+          >
+            Pricing Plans
+          </motion.span>
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="text-5xl md:text-6xl lg:text-7xl font-montserrat font-bold mt-6 mb-6"
+          >
             Premium Detailing{" "}
             <span className="bg-gradient-primary bg-clip-text text-transparent">
-              Pricing
+              Services
             </span>
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-inter">
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+            className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto font-inter"
+          >
             Clear, transparent pricing for every service. Choose the package that fits your vehicle and needs.
-          </p>
+          </motion.p>
         </motion.div>
 
         {/* Detailing Services Section */}
-        <section className="mb-20">
-          <h2 className="text-3xl font-montserrat font-bold mb-12 text-center">
-            Detailing Services
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {detailingServices.map((service, idx) => (
-              <motion.div
-                key={service.name}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.1 }}
-                className="bg-card border border-border rounded-2xl p-6 flex flex-col hover:border-primary/50 transition-all duration-300"
-              >
-                <div className="flex-1">
-                  <h3 className="text-2xl font-montserrat font-bold mb-2 text-primary">
-                    {service.name}
-                  </h3>
-                  <div className="mb-4">
-                    <p className="text-sm text-muted-foreground mb-3 font-inter">
-                      {service.description}
-                    </p>
-                    <div>
-                      <p className="text-xs font-semibold text-muted-foreground mb-1">
-                        Starting at
-                      </p>
-                      <p className="text-3xl font-montserrat font-bold text-primary">
-                        ${service.startingPrice}
-                      </p>
-                    </div>
-                  </div>
+        <section className="mb-20 w-full -mx-4 px-4">
+          <div className="mb-12">
+            <Tabs
+              value={vehicleType}
+              onValueChange={setVehicleType}
+              className="w-full"
+            >
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="coupe">Coupe/Sedan</TabsTrigger>
+                <TabsTrigger value="truck">Truck/SUV</TabsTrigger>
+              </TabsList>
 
-                  <div className="mb-6">
-                    <h4 className="text-sm font-semibold mb-3 font-inter">
-                      Services Included:
-                    </h4>
-                    <ul className="space-y-2">
-                      {service.services.map((svc, i) => (
-                        <li
-                          key={i}
-                          className="text-xs text-muted-foreground flex items-start gap-2 font-inter"
-                        >
-                          <span className="text-primary font-bold mt-1">✓</span>
-                          <span>{svc}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+              <TabsContent value="coupe" className="mt-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  {detailingServices.map((service, idx) => (
+                    <motion.div
+                      key={service.name}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: idx * 0.1 }}
+                      className="bg-card border border-border rounded-2xl p-6 flex flex-col hover:border-primary/50 transition-all duration-300"
+                    >
+                      <div className="flex-1">
+                        <h3 className="text-2xl font-montserrat font-bold mb-2 text-primary">
+                          {service.name}
+                        </h3>
+                        <div className="mb-4">
+                          <p className="text-sm text-muted-foreground mb-3 font-inter">
+                            {service.description}
+                          </p>
+                          <div>
+                            <p className="text-xs font-semibold text-muted-foreground mb-1">
+                              Coupe/Sedan Price
+                            </p>
+                            <p className="text-3xl font-montserrat font-bold text-primary">
+                              ${service.coupeSedan}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="mb-6">
+                          <h4 className="text-sm font-semibold mb-3 font-inter">
+                            Services Included:
+                          </h4>
+                          <ul className="space-y-2">
+                            {service.services.map((svc, i) => (
+                              <li
+                                key={i}
+                                className="text-xs text-muted-foreground flex items-start gap-2 font-inter"
+                              >
+                                <span className="text-primary font-bold mt-1">✓</span>
+                                <span>{svc}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+
+                      <a href="/#contact">
+                        <Button className="w-full bg-gradient-primary hover:shadow-glow-primary">
+                          Get Quote Now
+                        </Button>
+                      </a>
+                    </motion.div>
+                  ))}
                 </div>
+              </TabsContent>
 
-                <a href="/#contact">
-                  <Button className="w-full bg-gradient-primary hover:shadow-glow-primary">
-                    Get Quote Now
-                  </Button>
-                </a>
-              </motion.div>
-            ))}
+              <TabsContent value="truck" className="mt-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  {detailingServices.map((service, idx) => (
+                    <motion.div
+                      key={service.name}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: idx * 0.1 }}
+                      className="bg-card border border-border rounded-2xl p-6 flex flex-col hover:border-primary/50 transition-all duration-300"
+                    >
+                      <div className="flex-1">
+                        <h3 className="text-2xl font-montserrat font-bold mb-2 text-primary">
+                          {service.name}
+                        </h3>
+                        <div className="mb-4">
+                          <p className="text-sm text-muted-foreground mb-3 font-inter">
+                            {service.description}
+                          </p>
+                          <div>
+                            <p className="text-xs font-semibold text-muted-foreground mb-1">
+                              Truck/SUV Price
+                            </p>
+                            <p className="text-3xl font-montserrat font-bold text-primary">
+                              ${service.truckSuv}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="mb-6">
+                          <h4 className="text-sm font-semibold mb-3 font-inter">
+                            Services Included:
+                          </h4>
+                          <ul className="space-y-2">
+                            {service.services.map((svc, i) => (
+                              <li
+                                key={i}
+                                className="text-xs text-muted-foreground flex items-start gap-2 font-inter"
+                              >
+                                <span className="text-primary font-bold mt-1">✓</span>
+                                <span>{svc}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+
+                      <a href="/#contact">
+                        <Button className="w-full bg-gradient-primary hover:shadow-glow-primary">
+                          Get Quote Now
+                        </Button>
+                      </a>
+                    </motion.div>
+                  ))}
+                </div>
+              </TabsContent>
+            </Tabs>
           </div>
         </section>
 
@@ -318,6 +409,38 @@ const Pricing = () => {
                     </a>
                   </div>
                 </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* Additional Services Section */}
+        <section className="mb-20">
+          <h2 className="text-3xl font-montserrat font-bold mb-12 text-center">
+            Additional Services
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { name: "Pet Hair Removal", price: 75 },
+              { name: "Headlight Restoration", price: 95 },
+              { name: "Ozone Treatment (Odor Elimination)", price: 50 },
+              { name: "Engine Bay Cleaning", price: 75 },
+              { name: "Trim Restoration", price: 75 },
+              { name: "Steam Cleaning", price: 50 },
+            ].map((service, idx) => (
+              <motion.div
+                key={service.name}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.05 }}
+                className="bg-card border border-border rounded-xl p-6 flex flex-col items-center justify-center text-center hover:border-primary/50 transition-all duration-300"
+              >
+                <h3 className="text-lg font-montserrat font-bold mb-3 text-primary">
+                  {service.name}
+                </h3>
+                <p className="text-3xl font-montserrat font-bold text-foreground">
+                  ${service.price}
+                </p>
               </motion.div>
             ))}
           </div>

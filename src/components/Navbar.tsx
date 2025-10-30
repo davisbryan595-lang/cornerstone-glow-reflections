@@ -4,7 +4,7 @@ import { Facebook, Instagram, Mail, Phone, Menu, X } from "lucide-react";
 import { Button } from "./ui/button";
 import { useNavigate } from "react-router-dom";
 
-const logoUrl = "https://cdn.builder.io/api/v1/image/assets%2Fbbaa1bd46cba4346a5396fea34722449%2Fd1b3409afa294c3aa889966cd8e67d72?format=webp&width=800";
+const logoUrl = "https://cdn.builder.io/api/v1/image/assets%2F8b84be17aad14310b285d25f23a3235d%2Fdfe424851dfb4feca586f70a80b22a96?format=webp&width=800";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -178,12 +178,22 @@ const Navbar = () => {
         className="fixed top-0 right-0 bottom-0 w-full sm:w-80 bg-card z-50 lg:hidden shadow-2xl border-l border-primary/20"
       >
         <div className="p-6 flex flex-col h-full">
-          <div className="flex justify-between items-center mb-8">
+          <div className="flex justify-between items-center mb-6">
             <img src={logoUrl} alt="Logo" className="w-16 h-16" />
             <button onClick={() => setIsMobileMenuOpen(false)}>
               <X className="w-6 h-6" />
             </button>
           </div>
+
+          <Button
+            onClick={() => {
+              navigate("/careers");
+              setIsMobileMenuOpen(false);
+            }}
+            className="w-full bg-secondary mb-6"
+          >
+            Apply for Job
+          </Button>
 
           <div className="flex flex-col gap-4 flex-1">
             {navLinks.map((link) => (
@@ -232,23 +242,12 @@ const Navbar = () => {
             </div>
           </div>
 
-          <div className="flex flex-col gap-3 mt-4">
-            <Button
-              onClick={() => {
-                navigate("/careers");
-                setIsMobileMenuOpen(false);
-              }}
-              className="w-full bg-secondary"
-            >
-              Apply for Job
-            </Button>
-            <Button
-              onClick={() => scrollToSection("contact")}
-              className="w-full bg-gradient-primary"
-            >
-              Get Free Quote
-            </Button>
-          </div>
+          <Button
+            onClick={() => scrollToSection("contact")}
+            className="w-full bg-gradient-primary mt-4"
+          >
+            Get Free Quote
+          </Button>
         </div>
       </motion.div>
     </>
