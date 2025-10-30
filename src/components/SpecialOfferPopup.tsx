@@ -1,10 +1,11 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { X } from "lucide-react";
+import { X, Gift } from "lucide-react";
 import { Button } from "./ui/button";
 
 const SpecialOfferPopup = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [showViewButton, setShowViewButton] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -13,6 +14,16 @@ const SpecialOfferPopup = () => {
 
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    // Show the view offer button after popup is closed
+    if (!isVisible && showViewButton === false) {
+      const timer = setTimeout(() => {
+        setShowViewButton(true);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isVisible, showViewButton]);
 
   const handleContactClick = () => {
     const element = document.getElementById("contact");
