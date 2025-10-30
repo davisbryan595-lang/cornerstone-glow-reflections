@@ -203,17 +203,17 @@ const Pricing = () => {
               </TabsList>
 
               <TabsContent value="coupe" className="mt-8">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   {detailingServices.map((service, idx) => (
                     <motion.div
                       key={service.name}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: idx * 0.1 }}
-                      className="bg-card border border-border rounded-2xl p-4 flex flex-col hover:border-primary/50 transition-all duration-300"
+                      className="bg-card border border-border rounded-2xl p-6 flex flex-col hover:border-primary/50 transition-all duration-300"
                     >
                       <div className="flex-1">
-                        <h3 className="text-xl font-montserrat font-bold mb-2 text-primary">
+                        <h3 className="text-2xl font-montserrat font-bold mb-2 text-primary">
                           {service.name}
                         </h3>
                         <div className="mb-4">
@@ -224,7 +224,7 @@ const Pricing = () => {
                             <p className="text-xs font-semibold text-muted-foreground mb-1">
                               Coupe/Sedan Price
                             </p>
-                            <p className="text-2xl font-montserrat font-bold text-primary">
+                            <p className="text-3xl font-montserrat font-bold text-primary">
                               ${service.coupeSedan}
                             </p>
                           </div>
@@ -259,17 +259,17 @@ const Pricing = () => {
               </TabsContent>
 
               <TabsContent value="truck" className="mt-8">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   {detailingServices.map((service, idx) => (
                     <motion.div
                       key={service.name}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: idx * 0.1 }}
-                      className="bg-card border border-border rounded-2xl p-4 flex flex-col hover:border-primary/50 transition-all duration-300"
+                      className="bg-card border border-border rounded-2xl p-6 flex flex-col hover:border-primary/50 transition-all duration-300"
                     >
                       <div className="flex-1">
-                        <h3 className="text-xl font-montserrat font-bold mb-2 text-primary">
+                        <h3 className="text-2xl font-montserrat font-bold mb-2 text-primary">
                           {service.name}
                         </h3>
                         <div className="mb-4">
@@ -280,7 +280,7 @@ const Pricing = () => {
                             <p className="text-xs font-semibold text-muted-foreground mb-1">
                               Truck/SUV Price
                             </p>
-                            <p className="text-2xl font-montserrat font-bold text-primary">
+                            <p className="text-3xl font-montserrat font-bold text-primary">
                               ${service.truckSuv}
                             </p>
                           </div>
