@@ -4,7 +4,7 @@ import { Facebook, Instagram, Mail, Phone, Menu, X } from "lucide-react";
 import { Button } from "./ui/button";
 import { useNavigate } from "react-router-dom";
 
-const logoUrl = "https://cdn.builder.io/api/v1/image/assets%2F8b84be17aad14310b285d25f23a3235d%2Fdfe424851dfb4feca586f70a80b22a96?format=webp&width=800";
+const logoUrl = "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2Fc689032066c740e3a83978925f1d1000?format=webp&width=800";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -60,48 +60,50 @@ const Navbar = () => {
             : "bg-background/30 backdrop-blur-md border-b border-primary/10"
         }`}
       >
-        {/* Top Bar */}
-        <div className="border-b border-border/50 py-2 hidden lg:block">
-          <div className="container mx-auto px-4 flex justify-between items-center text-sm">
-            <div className="flex items-center gap-6">
-              <a
-                href="mailto:cornerstonemobile55@gmail.com"
-                className="flex items-center gap-2 hover:text-primary transition-colors"
-              >
-                <Mail className="w-4 h-4" />
-                <span>cornerstonemobile55@gmail.com</span>
-              </a>
-              <a
-                href="tel:980-312-4236"
-                className="flex items-center gap-2 hover:text-primary transition-colors"
-              >
-                <Phone className="w-4 h-4" />
-                <span>980-312-4236</span>
-              </a>
-            </div>
-            <div className="flex items-center gap-4">
-              <a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-primary transition-colors hover:scale-110 transform"
-              >
-                <Facebook className="w-5 h-5" />
-              </a>
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-accent transition-colors hover:scale-110 transform"
-              >
-                <Instagram className="w-5 h-5" />
-              </a>
+        {/* Top Bar (hidden when sticky) */}
+        {!isScrolled && (
+          <div className="border-b border-border/50 py-2 hidden lg:block">
+            <div className="container mx-auto px-4 flex justify-between items-center text-sm">
+              <div className="flex items-center gap-6">
+                <a
+                  href="mailto:cornerstonemobile55@gmail.com"
+                  className="flex items-center gap-2 hover:text-primary transition-colors"
+                >
+                  <Mail className="w-4 h-4" />
+                  <span>cornerstonemobile55@gmail.com</span>
+                </a>
+                <a
+                  href="tel:980-312-4236"
+                  className="flex items-center gap-2 hover:text-primary transition-colors"
+                >
+                  <Phone className="w-4 h-4" />
+                  <span>980-312-4236</span>
+                </a>
+              </div>
+              <div className="flex items-center gap-4">
+                <a
+                  href="https://facebook.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary transition-colors hover:scale-110 transform"
+                >
+                  <Facebook className="w-5 h-5" />
+                </a>
+                <a
+                  href="https://instagram.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-accent transition-colors hover:scale-110 transform"
+                >
+                  <Instagram className="w-5 h-5" />
+                </a>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Main Navbar */}
-        <div className="container mx-auto px-4 py-4">
+        <div className={'container mx-auto px-4 ' + (isScrolled ? 'py-2' : 'py-4')}>
           <div className="flex items-center justify-between">
             {/* Logo */}
             <motion.button
@@ -114,7 +116,7 @@ const Navbar = () => {
                 <img
                   src={logoUrl}
                   alt="Cornerstone Mobile Detailing"
-                  className="w-16 h-16 drop-shadow-[0_0_20px_rgba(23,200,200,0.6)] group-hover:drop-shadow-[0_0_30px_rgba(23,200,200,1)] transition-all duration-300 relative z-10"
+                  className="w-28 h-28 drop-shadow-[0_0_20px_rgba(23,200,200,0.6)] group-hover:drop-shadow-[0_0_30px_rgba(23,200,200,1)] transition-all duration-300 relative z-10"
                 />
               </div>
             </motion.button>
@@ -179,7 +181,7 @@ const Navbar = () => {
       >
         <div className="p-6 flex flex-col h-full">
           <div className="flex justify-between items-center mb-6">
-            <img src={logoUrl} alt="Logo" className="w-16 h-16" />
+            <img src={logoUrl} alt="Logo" className="w-24 h-24" />
             <button onClick={() => setIsMobileMenuOpen(false)}>
               <X className="w-6 h-6" />
             </button>

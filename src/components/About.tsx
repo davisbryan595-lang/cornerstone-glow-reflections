@@ -46,13 +46,10 @@ const About = () => {
             About Us
           </span>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-montserrat font-bold mt-4 mb-6">
-            Excellence in Every{" "}
-            <span className="bg-gradient-primary bg-clip-text text-transparent">
-              Detail
-            </span>
+            Excellence in Every <span className="text-primary">Detail</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-3xl mx-auto font-inter leading-relaxed">
-            The foundation has been set for premium mobile auto detailing.
+            We are Built on Trust & Honor
           </p>
         </motion.div>
 

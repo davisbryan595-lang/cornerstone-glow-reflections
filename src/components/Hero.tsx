@@ -1,7 +1,7 @@
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { Button } from "./ui/button";
 import { ChevronDown } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Hero = () => {
   const scrollToSection = (id: string) => {
@@ -54,10 +54,28 @@ const Hero = () => {
   const clientsCount = useCounter(50);
   const areasCount = useCounter(7);
 
+  const [navHeight, setNavHeight] = useState(0);
+
+  useEffect(() => {
+    const update = () => {
+      const nav = document.querySelector('nav');
+      setNavHeight(nav ? nav.clientHeight : 0);
+    };
+
+    update();
+    window.addEventListener('resize', update);
+    window.addEventListener('scroll', update);
+    return () => {
+      window.removeEventListener('resize', update);
+      window.removeEventListener('scroll', update);
+    };
+  }, []);
+
   return (
     <section
       id="hero"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      style={{ paddingTop: navHeight }}
     >
       {/* Video Background */}
       <div className="absolute inset-0">
@@ -100,7 +118,7 @@ const Hero = () => {
       </div>
 
       {/* Content */}
-      <div className="container mx-auto px-4 z-10 pt-24">
+      <div className="container mx-auto px-4 z-10">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -108,6 +126,16 @@ const Hero = () => {
           className="text-center max-w-5xl mx-auto"
         >
           <div className="inline-block bg-background/30 backdrop-blur-md rounded-2xl p-8">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="text-xl md:text-2xl font-montserrat font-bold mt-6 mb-2"
+            >
+              <span className="inline-block bg-gradient-primary text-white px-4 py-2 rounded-lg">
+                Cornerstone Mobile Detailing LLC
+              </span>
+            </motion.h2>
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
