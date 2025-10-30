@@ -43,7 +43,8 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
             <motion.img
               src={logoUrl}
               alt="Cornerstone Mobile Detailing"
-              className="w-72 h-72 md:w-80 md:h-80"
+              className="w-[36rem] h-[36rem] md:w-[40rem] md:h-[40rem]"
+              style={{ boxShadow: '0 0 64px rgba(59,130,246,0.6)' }}
             />
           </div>
         </motion.div>
