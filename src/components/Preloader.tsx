@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-const logoUrl = "https://cdn.builder.io/api/v1/image/assets%2Fbbaa1bd46cba4346a5396fea34722449%2Ff2b93411919b40fb838f6d56405cc19d?format=webp&width=800";
+const logoUrl = "https://cdn.builder.io/api/v1/image/assets%2F8b84be17aad14310b285d25f23a3235d%2Fdfe424851dfb4feca586f70a80b22a96?format=webp&width=800";
 
 const Preloader = ({ onComplete }: { onComplete: () => void }) => {
   const [progress, setProgress] = useState(0);
@@ -63,10 +63,10 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
           className="text-center"
         >
           <h2 className="text-2xl md:text-3xl font-montserrat font-bold bg-gradient-primary bg-clip-text text-transparent">
-            Cornerstone Mobile Detailing
+            Cornerstone Mobile Detailing LLC
           </h2>
           <p className="text-sm text-muted-foreground mt-2 font-inter">
-            The Foundation Has Been Set
+            The Foundation Of What We Do Is Driven By Our Faith
           </p>
         </motion.div>
 
