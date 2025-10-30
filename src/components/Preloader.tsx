@@ -43,7 +43,7 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
             <motion.img
               src={logoUrl}
               alt="Cornerstone Mobile Detailing"
-              className="w-64 h-64 md:w-72 md:h-72"
+              className="w-72 h-72 md:w-80 md:h-80"
               animate={{
                 filter: [
                   "drop-shadow(0 0 20px hsl(182 85% 40% / 0.6))",
