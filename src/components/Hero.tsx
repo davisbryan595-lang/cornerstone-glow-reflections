@@ -54,10 +54,28 @@ const Hero = () => {
   const clientsCount = useCounter(50);
   const areasCount = useCounter(7);
 
+  const [navHeight, setNavHeight] = useState(0);
+
+  useEffect(() => {
+    const update = () => {
+      const nav = document.querySelector('nav');
+      setNavHeight(nav ? nav.clientHeight : 0);
+    };
+
+    update();
+    window.addEventListener('resize', update);
+    window.addEventListener('scroll', update);
+    return () => {
+      window.removeEventListener('resize', update);
+      window.removeEventListener('scroll', update);
+    };
+  }, []);
+
   return (
     <section
       id="hero"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      style={{ paddingTop: navHeight }}
     >
       {/* Video Background */}
       <div className="absolute inset-0">
@@ -100,7 +118,7 @@ const Hero = () => {
       </div>
 
       {/* Content */}
-      <div className="container mx-auto px-4 z-10 pt-24">
+      <div className="container mx-auto px-4 z-10">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
