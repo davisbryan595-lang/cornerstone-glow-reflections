@@ -26,7 +26,7 @@ const SpecialOfferPopup = () => {
   }, [isVisible, showViewButton]);
 
   const handleContactClick = () => {
-    const element = document.getElementById("contact");
+    const element = document.getElementById("contact-form");
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
       setIsVisible(false);
