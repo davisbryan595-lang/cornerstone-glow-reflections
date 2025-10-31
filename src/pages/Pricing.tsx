@@ -233,15 +233,24 @@ const Pricing = () => {
               </TabsList>
 
               <TabsContent value="coupe" className="mt-8">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                   {detailingServices.map((service, idx) => (
                     <motion.div
                       key={service.name}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: idx * 0.1 }}
-                      className="bg-card border border-border rounded-2xl p-6 flex flex-col hover:border-primary/50 transition-all duration-300"
+                      className={`bg-card border rounded-2xl p-6 flex flex-col hover:border-primary/50 transition-all duration-300 ${
+                        service.featured
+                          ? "border-2 border-primary shadow-glow-primary"
+                          : "border-border"
+                      }`}
                     >
+                      {service.featured && (
+                        <div className="bg-primary/10 text-primary text-xs font-semibold px-3 py-2 rounded-lg mb-4 text-center">
+                          {service.offerText}
+                        </div>
+                      )}
                       <div className="flex-1">
                         <h3 className="text-2xl font-montserrat font-bold mb-2 text-primary">
                           {service.name}
@@ -252,7 +261,7 @@ const Pricing = () => {
                           </p>
                           <div>
                             <p className="text-xs font-semibold text-muted-foreground mb-1">
-                              Coupe/Sedan Price
+                              Starting At
                             </p>
                             <p className="text-3xl font-montserrat font-bold text-primary">
                               ${service.coupeSedan}
