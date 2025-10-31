@@ -58,7 +58,7 @@ const Pricing = () => {
   ];
 
   const scrollToContact = () => {
-    const element = document.getElementById("contact");
+    const element = document.getElementById("contact-form");
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
