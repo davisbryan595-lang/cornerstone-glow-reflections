@@ -447,11 +447,12 @@ const Pricing = () => {
                             </ul>
                           </div>
 
-                          <a href="/#contact">
-                            <Button className="w-full bg-gradient-primary hover:shadow-glow-primary">
-                              Get Quote Now
-                            </Button>
-                          </a>
+                          <Button
+                            onClick={handleGetQuote}
+                            className="w-full bg-gradient-primary hover:shadow-glow-primary"
+                          >
+                            Get Quote Now
+                          </Button>
                         </div>
 
                         {/* Truck/SUV */}
@@ -489,11 +490,12 @@ const Pricing = () => {
                             </ul>
                           </div>
 
-                          <a href="/#contact">
-                            <Button className="w-full bg-gradient-primary hover:shadow-glow-primary">
-                              Get Quote Now
-                            </Button>
-                          </a>
+                          <Button
+                            onClick={handleGetQuote}
+                            className="w-full bg-gradient-primary hover:shadow-glow-primary"
+                          >
+                            Get Quote Now
+                          </Button>
                         </div>
                       </div>
                     </motion.div>
