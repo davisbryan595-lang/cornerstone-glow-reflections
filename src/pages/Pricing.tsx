@@ -177,6 +177,7 @@ const paintCorrectionServices = [
 
 const Pricing = () => {
   const [vehicleType, setVehicleType] = useState("coupe");
+  const [paintCorrectionStep, setPaintCorrectionStep] = useState("1-step");
 
   return (
     <div className="min-h-screen bg-background font-inter" style={{ marginTop: 100 }}>
