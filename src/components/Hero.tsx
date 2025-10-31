@@ -159,7 +159,7 @@ const Hero = () => {
             >
               <Button
                 size="lg"
-                onClick={() => scrollToSection("contact")}
+                onClick={() => scrollToSection("contact-form")}
                 className="bg-gradient-primary hover:shadow-glow-primary text-lg px-8 py-6 transition-all duration-300"
               >
                 Get a Free Quote
