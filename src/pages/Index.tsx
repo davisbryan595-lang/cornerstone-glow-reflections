@@ -14,16 +14,26 @@ import SpecialOfferPopup from "@/components/SpecialOfferPopup";
 import BackToTopButton from "@/components/BackToTopButton";
 
 const Index = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => {
+    // Check if preloader has already been shown in this session
+    if (typeof window !== "undefined") {
+      const hasShown = sessionStorage.getItem("preloader-shown");
+      return !hasShown;
+    }
+    return true;
+  });
 
   useEffect(() => {
-    // Minimum loading time of 3 seconds
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 3000);
+    if (loading) {
+      // Minimum loading time of 3 seconds
+      const timer = setTimeout(() => {
+        setLoading(false);
+        sessionStorage.setItem("preloader-shown", "true");
+      }, 3000);
 
-    return () => clearTimeout(timer);
-  }, []);
+      return () => clearTimeout(timer);
+    }
+  }, [loading]);
 
   return (
     <>
