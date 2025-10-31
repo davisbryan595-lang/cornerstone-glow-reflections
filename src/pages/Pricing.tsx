@@ -367,99 +367,126 @@ const Pricing = () => {
         </section>
 
         {/* Paint Correction Section */}
-        <section className="mb-20">
+        <section className="mb-20 w-full -mx-4 px-4">
           <h2 className="text-3xl font-montserrat font-bold mb-12 text-center">
             Paint Correction & Polish
           </h2>
-          <div className="space-y-8">
-            {paintCorrectionServices.map((service, idx) => (
-              <motion.div
-                key={service.name}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.1 }}
-              >
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* Coupe/Sedan */}
-                  <div className="bg-card border border-border rounded-2xl p-6 hover:border-primary/50 transition-all duration-300">
-                    <h3 className="text-xl font-montserrat font-bold mb-2 text-primary">
-                      {service.name}
-                    </h3>
-                    <div className="mb-4">
-                      <p className="text-sm font-semibold text-foreground mb-2">
-                        Coupe Sedan: ${service.coupePrice}
-                      </p>
-                    </div>
+          <div className="mb-12">
+            <Tabs
+              value={paintCorrectionStep}
+              onValueChange={setPaintCorrectionStep}
+              className="w-full"
+            >
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="1-step">1 Step</TabsTrigger>
+                <TabsTrigger value="2-step">2 Step</TabsTrigger>
+                <TabsTrigger value="3-step">3 Step</TabsTrigger>
+              </TabsList>
 
-                    <p className="text-sm text-muted-foreground mb-4 leading-relaxed font-inter">
-                      {service.description}
-                    </p>
+              {paintCorrectionServices.map((service) => {
+                const tabValue = service.name.toLowerCase().includes("1 step")
+                  ? "1-step"
+                  : service.name.toLowerCase().includes("2 step")
+                    ? "2-step"
+                    : "3-step";
 
-                    <div className="mb-6">
-                      <h4 className="text-sm font-semibold mb-3 font-inter">
-                        Service Includes:
-                      </h4>
-                      <ul className="space-y-2">
-                        {service.services.map((svc, i) => (
-                          <li
-                            key={i}
-                            className="text-xs text-muted-foreground flex items-start gap-2 font-inter"
-                          >
-                            <span className="text-primary font-bold mt-1">✓</span>
-                            <span>{svc}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                return (
+                  <TabsContent key={service.name} value={tabValue} className="mt-8">
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* Coupe/Sedan */}
+                        <div className="bg-card border border-border rounded-2xl p-6 hover:border-primary/50 transition-all duration-300">
+                          <h3 className="text-xl font-montserrat font-bold mb-2 text-primary">
+                            {service.name}
+                          </h3>
+                          <div className="mb-4">
+                            <p className="text-xs font-semibold text-muted-foreground mb-1">
+                              Starting At
+                            </p>
+                            <p className="text-3xl font-montserrat font-bold text-primary">
+                              ${service.coupePrice}
+                            </p>
+                          </div>
 
-                    <a href="/#contact">
-                      <Button className="w-full bg-gradient-primary hover:shadow-glow-primary">
-                        Get Quote Now
-                      </Button>
-                    </a>
-                  </div>
+                          <p className="text-sm text-muted-foreground mb-4 leading-relaxed font-inter">
+                            {service.description}
+                          </p>
 
-                  {/* Truck/Sedan */}
-                  <div className="bg-card border-2 border-primary rounded-2xl p-6 shadow-glow-primary">
-                    <h3 className="text-xl font-montserrat font-bold mb-2 text-primary">
-                      {service.name}
-                    </h3>
-                    <div className="mb-4">
-                      <p className="text-sm font-semibold text-foreground mb-2">
-                        Truck/Sedan: ${service.truckSedan}
-                      </p>
-                    </div>
+                          <div className="mb-6">
+                            <h4 className="text-sm font-semibold mb-3 font-inter">
+                              Service Includes:
+                            </h4>
+                            <ul className="space-y-2">
+                              {service.services.map((svc, i) => (
+                                <li
+                                  key={i}
+                                  className="text-xs text-muted-foreground flex items-start gap-2 font-inter"
+                                >
+                                  <span className="text-primary font-bold mt-1">✓</span>
+                                  <span>{svc}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
 
-                    <p className="text-sm text-muted-foreground mb-4 leading-relaxed font-inter">
-                      {service.description}
-                    </p>
+                          <a href="/#contact">
+                            <Button className="w-full bg-gradient-primary hover:shadow-glow-primary">
+                              Get Quote Now
+                            </Button>
+                          </a>
+                        </div>
 
-                    <div className="mb-6">
-                      <h4 className="text-sm font-semibold mb-3 font-inter">
-                        Service Includes:
-                      </h4>
-                      <ul className="space-y-2">
-                        {service.services.map((svc, i) => (
-                          <li
-                            key={i}
-                            className="text-xs text-muted-foreground flex items-start gap-2 font-inter"
-                          >
-                            <span className="text-primary font-bold mt-1">✓</span>
-                            <span>{svc}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                        {/* Truck/SUV */}
+                        <div className="bg-card border-2 border-primary rounded-2xl p-6 shadow-glow-primary">
+                          <h3 className="text-xl font-montserrat font-bold mb-2 text-primary">
+                            {service.name}
+                          </h3>
+                          <div className="mb-4">
+                            <p className="text-xs font-semibold text-muted-foreground mb-1">
+                              Starting At
+                            </p>
+                            <p className="text-3xl font-montserrat font-bold text-primary">
+                              ${service.truckSedan}
+                            </p>
+                          </div>
 
-                    <a href="/#contact">
-                      <Button className="w-full bg-gradient-primary hover:shadow-glow-primary">
-                        Get Quote Now
-                      </Button>
-                    </a>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+                          <p className="text-sm text-muted-foreground mb-4 leading-relaxed font-inter">
+                            {service.description}
+                          </p>
+
+                          <div className="mb-6">
+                            <h4 className="text-sm font-semibold mb-3 font-inter">
+                              Service Includes:
+                            </h4>
+                            <ul className="space-y-2">
+                              {service.services.map((svc, i) => (
+                                <li
+                                  key={i}
+                                  className="text-xs text-muted-foreground flex items-start gap-2 font-inter"
+                                >
+                                  <span className="text-primary font-bold mt-1">✓</span>
+                                  <span>{svc}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+
+                          <a href="/#contact">
+                            <Button className="w-full bg-gradient-primary hover:shadow-glow-primary">
+                              Get Quote Now
+                            </Button>
+                          </a>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </TabsContent>
+                );
+              })}
+            </Tabs>
           </div>
         </section>
 
