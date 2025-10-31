@@ -26,13 +26,17 @@ const Footer = () => {
                 alt="Cornerstone Mobile Detailing"
                 className="w-20 h-20"
               />
-              <span className="font-montserrat font-bold text-lg">
-                Cornerstone
-              </span>
+              <div className="flex flex-col">
+                <span className="font-montserrat font-bold text-lg leading-tight">
+                  Cornerstone
+                </span>
+                <span className="font-montserrat font-bold text-sm text-muted-foreground leading-tight">
+                  Mobile Detailing
+                </span>
+              </div>
             </div>
-            <p className="text-sm text-muted-foreground font-inter leading-relaxed">
-              The Foundation is Family for premium mobile auto detailing in
-              Charlotte, NC.
+            <p className="text-xs text-muted-foreground font-inter leading-relaxed">
+              The Foundation is Faith and Family, Built on Integrity, Driven by Detail.
             </p>
             <div className="flex gap-3">
               <a
