@@ -300,11 +300,12 @@ const Pricing = () => {
                         </div>
                       </div>
 
-                      <a href="/#contact">
-                        <Button className="w-full bg-gradient-primary hover:shadow-glow-primary">
-                          Get Quote Now
-                        </Button>
-                      </a>
+                      <Button
+                        onClick={handleGetQuote}
+                        className="w-full bg-gradient-primary hover:shadow-glow-primary"
+                      >
+                        Get Quote Now
+                      </Button>
                     </motion.div>
                   ))}
                 </div>
@@ -365,11 +366,12 @@ const Pricing = () => {
                         </div>
                       </div>
 
-                      <a href="/#contact">
-                        <Button className="w-full bg-gradient-primary hover:shadow-glow-primary">
-                          Get Quote Now
-                        </Button>
-                      </a>
+                      <Button
+                        onClick={handleGetQuote}
+                        className="w-full bg-gradient-primary hover:shadow-glow-primary"
+                      >
+                        Get Quote Now
+                      </Button>
                     </motion.div>
                   ))}
                 </div>
