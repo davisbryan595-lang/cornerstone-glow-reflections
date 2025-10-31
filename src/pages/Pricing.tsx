@@ -177,8 +177,19 @@ const paintCorrectionServices = [
 ];
 
 const Pricing = () => {
+  const navigate = useNavigate();
   const [vehicleType, setVehicleType] = useState("coupe");
   const [paintCorrectionStep, setPaintCorrectionStep] = useState("1-step");
+
+  const handleGetQuote = () => {
+    navigate("/");
+    setTimeout(() => {
+      const contactElement = document.getElementById("contact-form");
+      if (contactElement) {
+        contactElement.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 100);
+  };
 
   return (
     <div className="min-h-screen bg-background font-inter" style={{ marginTop: 100 }}>
