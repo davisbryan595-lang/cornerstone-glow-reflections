@@ -60,7 +60,7 @@ const SpecialOfferPopup = () => {
                   🎉 Special Offer!
                 </h3>
                 <p className="text-xs sm:text-xs md:text-sm text-white/90 mb-4 font-inter">
-                  Get 20% off your first ceramic coating service. Limited time offer!
+                  Get 20% off your first paint correction service. Limited time offer!
                 </p>
                 <Button
                   onClick={handleContactClick}
