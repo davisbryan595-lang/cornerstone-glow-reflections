@@ -13,11 +13,13 @@ import {
   SelectValue,
 } from "./ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 const Contact = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -41,6 +43,15 @@ const Contact = () => {
       subject: "",
       message: "",
     });
+
+    // Redirect to home page and scroll to contact form
+    navigate("/");
+    setTimeout(() => {
+      const contactElement = document.getElementById("contact-form");
+      if (contactElement) {
+        contactElement.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 100);
   };
 
   const openHours = [
