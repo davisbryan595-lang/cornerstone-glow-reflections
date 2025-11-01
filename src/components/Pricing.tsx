@@ -151,11 +151,19 @@ const Pricing = () => {
                 {/* Price */}
                 <div className="mb-8">
                   <div className="flex items-baseline gap-2">
-                    <span className="text-5xl font-montserrat font-bold bg-gradient-primary bg-clip-text text-transparent">
-                      {plan.price}
+                    <span className="text-4xl font-montserrat font-bold text-primary">
+                      ${plan.coupePrice}
                     </span>
-                    <span className="text-muted-foreground font-inter">
-                      / service
+                    <span className="text-xs text-muted-foreground font-inter">
+                      (Coupe/Sedan)
+                    </span>
+                  </div>
+                  <div className="flex items-baseline gap-2 mt-2">
+                    <span className="text-4xl font-montserrat font-bold text-primary">
+                      ${plan.truckPrice}
+                    </span>
+                    <span className="text-xs text-muted-foreground font-inter">
+                      (Truck/SUV)
                     </span>
                   </div>
                 </div>
@@ -175,14 +183,10 @@ const Pricing = () => {
                 {/* CTA Button */}
                 <Button
                   onClick={scrollToContact}
-                  className={`w-full ${
-                    plan.popular
-                      ? "bg-gradient-primary hover:shadow-glow-primary"
-                      : "bg-primary/10 hover:bg-primary/20 text-foreground border border-primary/30"
-                  }`}
+                  className="w-full bg-gradient-primary hover:shadow-glow-primary"
                   size="lg"
                 >
-                  Get Started
+                  Get Quote Now
                 </Button>
               </div>
             </motion.div>
