@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { Check, Star } from "lucide-react";
+import { Check } from "lucide-react";
 import { Button } from "./ui/button";
 
 const Pricing = () => {
@@ -10,50 +10,80 @@ const Pricing = () => {
 
   const plans = [
     {
-      name: "Basic",
-      price: "$149",
-      description: "Perfect for regular maintenance",
+      name: "Interior Detail",
+      price: "$217.99",
+      coupePrice: 217.99,
+      truckPrice: 237.99,
+      description: "Thorough interior detailing service",
       features: [
-        "Exterior hand wash",
-        "Wheel & tire cleaning",
-        "Interior vacuum",
-        "Window cleaning",
-        "Dashboard wipe down",
-        "Basic tire shine",
+        "Detailed Vacuum of Floors, Carpets, and Trunk",
+        "Detailed Wipe Down of All Interior Plastics",
+        "Plastics Cleaned (dash, door panels, etc)",
+        "Floor Mats Cleaned",
+        "Leather Conditioned",
+        "Windows Cleaned to Streak-Free Finish",
+        "Door Jambs Cleaned",
+        "Trunk Cleaned",
       ],
       popular: false,
+      offerText: null,
     },
     {
-      name: "Premium",
-      price: "$299",
-      description: "Most popular choice",
+      name: "Exterior Detail",
+      price: "$144.99",
+      coupePrice: 144.99,
+      truckPrice: 184.88,
+      description: "Premium exterior detail with protection",
       features: [
-        "Everything in Basic",
-        "Clay bar treatment",
-        "Paint sealant application",
-        "Interior deep clean",
-        "Leather conditioning",
-        "Engine bay cleaning",
-        "Headlight restoration",
-        "6-month protection",
+        "Professional Hand Wash + Foam Bath",
+        "Bug Splatters Cleaned Off",
+        "Clay Bar Treatment",
+        "Micro Contaminants Removed from Paint",
+        "Exterior Windows Cleaned",
+        "Wheels + Rims Deep Cleaned",
+        "Ceramic Paint Sealant Applied",
+        "Protection: 6 Month Paint Sealant",
+      ],
+      popular: false,
+      offerText: null,
+    },
+    {
+      name: "Full Detail",
+      price: "$304.99",
+      coupePrice: 304.99,
+      truckPrice: 324.99,
+      description: "Complete interior & exterior detail",
+      features: [
+        "Detailed Vacuum",
+        "Detailed Wipe Down",
+        "Clean & Protect Plastic",
+        "Floor Mats Cleaned",
+        "Leather Conditioned",
+        "Windows & Mirrors Cleaned",
+        "Door Jambs Cleaned",
+        "Protection: 3 Month Paint Sealant",
+      ],
+      popular: false,
+      offerText: null,
+    },
+    {
+      name: "The Best In Class",
+      price: "$419.99",
+      coupePrice: 419.99,
+      truckPrice: 449.99,
+      description: "Premium package with enhanced treatments",
+      features: [
+        "Every crack & Crevice Detailed",
+        "Engine Bay Cleaning",
+        "O-zone Treatment",
+        "6 Month Paint Sealant",
+        "Stain Removal",
+        "Professional Hand Wash + Foam Bath",
+        "Wheels + Rims Deep Cleaned",
+        "Tires Shined + Dressed",
       ],
       popular: true,
-    },
-    {
-      name: "Royal Finish",
-      price: "$599",
-      description: "Ultimate protection & shine",
-      features: [
-        "Everything in Premium",
-        "Multi-stage paint correction",
-        "Ceramic coating application",
-        "Interior ceramic treatment",
-        "Paint depth measurement",
-        "Wheel coating",
-        "Glass coating",
-        "5-year warranty",
-      ],
-      popular: false,
+      offerText: "Get 10% off your next maintenance wash",
     },
   ];
 
@@ -91,7 +121,7 @@ const Pricing = () => {
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {plans.map((plan, index) => (
             <motion.div
               key={plan.name}
@@ -100,23 +130,20 @@ const Pricing = () => {
               transition={{ duration: 0.6, delay: index * 0.2 }}
               className={`relative bg-card border rounded-2xl overflow-hidden transition-all duration-300 ${
                 plan.popular
-                  ? "border-primary shadow-glow-primary lg:scale-105"
+                  ? "border-2 border-primary shadow-glow-primary"
                   : "border-border hover:border-primary/50"
               }`}
             >
-              {/* Popular Badge */}
-              {plan.popular && (
-                <div className="absolute top-0 right-0 bg-gradient-accent text-accent-foreground px-4 py-1 rounded-bl-xl font-semibold text-sm flex items-center gap-1">
-                  <Star className="w-4 h-4 fill-current" />
-                  Most Popular
-                </div>
-              )}
-
               <div className="p-8">
                 {/* Header */}
                 <h3 className="text-2xl font-montserrat font-bold mb-2">
                   {plan.name}
                 </h3>
+                {plan.offerText && (
+                  <p className="text-primary text-sm font-semibold mb-3 font-inter">
+                    {plan.offerText}
+                  </p>
+                )}
                 <p className="text-muted-foreground text-sm mb-6 font-inter">
                   {plan.description}
                 </p>
@@ -124,11 +151,19 @@ const Pricing = () => {
                 {/* Price */}
                 <div className="mb-8">
                   <div className="flex items-baseline gap-2">
-                    <span className="text-5xl font-montserrat font-bold bg-gradient-primary bg-clip-text text-transparent">
-                      {plan.price}
+                    <span className="text-4xl font-montserrat font-bold text-primary">
+                      ${plan.coupePrice}
                     </span>
-                    <span className="text-muted-foreground font-inter">
-                      / service
+                    <span className="text-xs text-muted-foreground font-inter">
+                      (Coupe/Sedan)
+                    </span>
+                  </div>
+                  <div className="flex items-baseline gap-2 mt-2">
+                    <span className="text-4xl font-montserrat font-bold text-primary">
+                      ${plan.truckPrice}
+                    </span>
+                    <span className="text-xs text-muted-foreground font-inter">
+                      (Truck/SUV)
                     </span>
                   </div>
                 </div>
@@ -148,14 +183,10 @@ const Pricing = () => {
                 {/* CTA Button */}
                 <Button
                   onClick={scrollToContact}
-                  className={`w-full ${
-                    plan.popular
-                      ? "bg-gradient-primary hover:shadow-glow-primary"
-                      : "bg-primary/10 hover:bg-primary/20 text-foreground border border-primary/30"
-                  }`}
+                  className="w-full bg-gradient-primary hover:shadow-glow-primary"
                   size="lg"
                 >
-                  Get Started
+                  Get Quote Now
                 </Button>
               </div>
             </motion.div>
