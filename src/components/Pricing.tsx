@@ -121,7 +121,7 @@ const Pricing = () => {
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {plans.map((plan, index) => (
             <motion.div
               key={plan.name}
@@ -130,23 +130,20 @@ const Pricing = () => {
               transition={{ duration: 0.6, delay: index * 0.2 }}
               className={`relative bg-card border rounded-2xl overflow-hidden transition-all duration-300 ${
                 plan.popular
-                  ? "border-primary shadow-glow-primary lg:scale-105"
+                  ? "border-2 border-primary shadow-glow-primary"
                   : "border-border hover:border-primary/50"
               }`}
             >
-              {/* Popular Badge */}
-              {plan.popular && (
-                <div className="absolute top-0 right-0 bg-gradient-accent text-accent-foreground px-4 py-1 rounded-bl-xl font-semibold text-sm flex items-center gap-1">
-                  <Star className="w-4 h-4 fill-current" />
-                  Most Popular
-                </div>
-              )}
-
               <div className="p-8">
                 {/* Header */}
                 <h3 className="text-2xl font-montserrat font-bold mb-2">
                   {plan.name}
                 </h3>
+                {plan.offerText && (
+                  <p className="text-primary text-sm font-semibold mb-3 font-inter">
+                    {plan.offerText}
+                  </p>
+                )}
                 <p className="text-muted-foreground text-sm mb-6 font-inter">
                   {plan.description}
                 </p>
