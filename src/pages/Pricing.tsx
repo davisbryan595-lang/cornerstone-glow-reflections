@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -176,8 +177,19 @@ const paintCorrectionServices = [
 ];
 
 const Pricing = () => {
+  const navigate = useNavigate();
   const [vehicleType, setVehicleType] = useState("coupe");
   const [paintCorrectionStep, setPaintCorrectionStep] = useState("1-step");
+
+  const handleGetQuote = () => {
+    navigate("/");
+    setTimeout(() => {
+      const contactElement = document.getElementById("contact-form");
+      if (contactElement) {
+        contactElement.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 100);
+  };
 
   return (
     <div className="min-h-screen bg-background font-inter" style={{ marginTop: 100 }}>
@@ -288,11 +300,12 @@ const Pricing = () => {
                         </div>
                       </div>
 
-                      <a href="/#contact">
-                        <Button className="w-full bg-gradient-primary hover:shadow-glow-primary">
-                          Get Quote Now
-                        </Button>
-                      </a>
+                      <Button
+                        onClick={handleGetQuote}
+                        className="w-full bg-gradient-primary hover:shadow-glow-primary"
+                      >
+                        Get Quote Now
+                      </Button>
                     </motion.div>
                   ))}
                 </div>
@@ -353,11 +366,12 @@ const Pricing = () => {
                         </div>
                       </div>
 
-                      <a href="/#contact">
-                        <Button className="w-full bg-gradient-primary hover:shadow-glow-primary">
-                          Get Quote Now
-                        </Button>
-                      </a>
+                      <Button
+                        onClick={handleGetQuote}
+                        className="w-full bg-gradient-primary hover:shadow-glow-primary"
+                      >
+                        Get Quote Now
+                      </Button>
                     </motion.div>
                   ))}
                 </div>
@@ -433,11 +447,12 @@ const Pricing = () => {
                             </ul>
                           </div>
 
-                          <a href="/#contact">
-                            <Button className="w-full bg-gradient-primary hover:shadow-glow-primary">
-                              Get Quote Now
-                            </Button>
-                          </a>
+                          <Button
+                            onClick={handleGetQuote}
+                            className="w-full bg-gradient-primary hover:shadow-glow-primary"
+                          >
+                            Get Quote Now
+                          </Button>
                         </div>
 
                         {/* Truck/SUV */}
@@ -475,11 +490,12 @@ const Pricing = () => {
                             </ul>
                           </div>
 
-                          <a href="/#contact">
-                            <Button className="w-full bg-gradient-primary hover:shadow-glow-primary">
-                              Get Quote Now
-                            </Button>
-                          </a>
+                          <Button
+                            onClick={handleGetQuote}
+                            className="w-full bg-gradient-primary hover:shadow-glow-primary"
+                          >
+                            Get Quote Now
+                          </Button>
                         </div>
                       </div>
                     </motion.div>
