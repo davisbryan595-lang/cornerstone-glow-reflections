@@ -233,7 +233,7 @@ const Navbar = () => {
             </a>
             <div className="flex gap-4 pt-2">
               <a
-                href="https://facebook.com"
+                href={socialMediaLinks.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-primary transition-colors"
@@ -241,7 +241,7 @@ const Navbar = () => {
                 <Facebook className="w-5 h-5" />
               </a>
               <a
-                href="https://instagram.com"
+                href={socialMediaLinks.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-accent transition-colors"
