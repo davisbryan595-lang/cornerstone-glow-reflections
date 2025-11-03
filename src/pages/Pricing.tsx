@@ -12,7 +12,7 @@ const detailingServices = [
     name: "Interior Detail",
     coupeSedan: 217.99,
     truckSuv: 237.99,
-    description: "This our thorough interior detailing service. Once done, your car's interior will invite you with a fresh look, smell, & feel for a peaceful driving experience!",
+    description: <>This our thorough interior detailing service. Once done, your car's interior will invite you with a <strong>Fresh Look</strong>, <strong>Nice Smell</strong>, & <strong>Feel</strong> for a peaceful driving experience!</>,
     services: [
       "Detailed Vacuum of Floors, Carpets, and Trunk",
       "Detailed Wipe Down of All Interior Plastics",
@@ -29,7 +29,7 @@ const detailingServices = [
     name: "Exterior Detail",
     coupeSedan: 144.99,
     truckSuv: 184.88,
-    description: "This premium exterior detail is designed to remove micro contaminants from your cars paint, leave a silky smooth finish, and protect the paint for up to 8 months!",
+    description: <>This premium exterior detail is designed to <strong>Remove Micro Contaminants</strong> from your cars paint, leave a <strong>Silky Smooth Finish</strong>, and <strong>Protect</strong> the paint for up to 8 months!</>,
     services: [
       "EXTERIOR (detailed wash, prep & protection)",
       "Professional Hand Wash + Foam Bath",
@@ -48,7 +48,7 @@ const detailingServices = [
     name: "Full Detail",
     coupeSedan: 304.99,
     truckSuv: 324.99,
-    description: "This is our full interior & exterior detail designed to clean every inch of your car!",
+    description: <>This is our full interior & exterior detail designed to <strong>clean every inch</strong> of your car!</>,
     services: [
       "INTERIOR (detailed cleaning)",
       "Detailed Vacuum",
@@ -73,7 +73,7 @@ const detailingServices = [
     name: "The Best In Class",
     coupeSedan: 419.99,
     truckSuv: 449.99,
-    description: "Our premium package with everything from Full Detail plus enhanced treatments and extended protection!",
+    description: <>Our one of a kind service that speaks volumes about what you represent <strong>"Luxury"</strong></>,
     featured: true,
     offerText: "Get 10% off your next maintenance wash",
     services: [
