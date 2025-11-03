@@ -6,7 +6,6 @@ import { Check, Award, Zap, Heart, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import BackToTopButton from "@/components/BackToTopButton";
 import { useToast } from "@/hooks/use-toast";
 
 const SubscriptionMember = () => {
@@ -356,7 +355,6 @@ const SubscriptionMember = () => {
         </section>
       </main>
       <Footer />
-      <BackToTopButton />
     </>
   );
 };

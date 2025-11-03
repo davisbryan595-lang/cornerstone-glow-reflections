@@ -11,7 +11,6 @@ import Areas from "@/components/Areas";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import SpecialOfferPopup from "@/components/SpecialOfferPopup";
-import BackToTopButton from "@/components/BackToTopButton";
 
 const Index = () => {
   const [loading, setLoading] = useState(() => {
@@ -57,7 +56,6 @@ const Index = () => {
           <Contact />
           <Footer />
           <SpecialOfferPopup />
-          <BackToTopButton />
         </main>
       )}
     </>

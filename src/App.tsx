@@ -14,6 +14,8 @@ import MaintenancePlans from "./pages/MaintenancePlans";
 
 const queryClient = new QueryClient();
 
+import ChatBot from "@/components/ChatBot";
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -32,6 +34,7 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
+      <ChatBot />
     </TooltipProvider>
   </QueryClientProvider>
 );
