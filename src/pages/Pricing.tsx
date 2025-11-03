@@ -466,11 +466,16 @@ const Pricing = () => {
                           </Button>
                         </div>
 
-                        {/* Truck/SUV */}
+                        {/* Truck/Sedan */}
                         <div className="bg-card border-2 border-primary rounded-2xl p-6 shadow-glow-primary">
-                          <h3 className="text-xl font-montserrat font-bold mb-2 text-primary">
-                            {service.name}
-                          </h3>
+                          <div className="flex items-center justify-between mb-2">
+                            <h3 className="text-xl font-montserrat font-bold text-primary">
+                              {service.name}
+                            </h3>
+                            <span className="text-xs font-semibold bg-primary/20 text-primary px-3 py-1 rounded-full">
+                              {service.vehicleTypeTruck}
+                            </span>
+                          </div>
                           <div className="mb-4">
                             <p className="text-xs font-semibold text-muted-foreground mb-1">
                               Starting At
