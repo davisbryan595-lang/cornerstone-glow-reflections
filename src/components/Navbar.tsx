@@ -257,6 +257,14 @@ const Navbar = () => {
               >
                 <Instagram className="w-5 h-5" />
               </a>
+              <a
+                href={socialMediaLinks.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-primary transition-colors"
+              >
+                <Linkedin className="w-5 h-5" />
+              </a>
             </div>
           </div>
 
