@@ -420,9 +420,14 @@ const Pricing = () => {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {/* Coupe/Sedan */}
                         <div className="bg-card border border-border rounded-2xl p-6 hover:border-primary/50 transition-all duration-300">
-                          <h3 className="text-xl font-montserrat font-bold mb-2 text-primary">
-                            {service.name}
-                          </h3>
+                          <div className="flex items-center justify-between mb-2">
+                            <h3 className="text-xl font-montserrat font-bold text-primary">
+                              {service.name}
+                            </h3>
+                            <span className="text-xs font-semibold bg-primary/10 text-primary px-3 py-1 rounded-full">
+                              {service.vehicleTypeCoupe}
+                            </span>
+                          </div>
                           <div className="mb-4">
                             <p className="text-xs font-semibold text-muted-foreground mb-1">
                               Starting At
