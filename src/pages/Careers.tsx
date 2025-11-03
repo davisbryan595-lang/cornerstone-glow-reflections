@@ -239,7 +239,7 @@ const Careers = () => {
                   <p className="text-muted-foreground font-inter mb-4">
                     {job.description}
                   </p>
-                  <ul className="space-y-2">
+                  <ul className="space-y-2 mb-4">
                     {job.requirements.map((req, idx) => (
                       <li key={idx} className="text-sm text-muted-foreground font-inter flex items-start gap-2">
                         <span className="text-primary mt-1">•</span>
@@ -247,6 +247,12 @@ const Careers = () => {
                       </li>
                     ))}
                   </ul>
+                  <a href={linkedinJobUrls[job.id]} target="_blank" rel="noopener noreferrer">
+                    <Button className="w-full bg-primary hover:shadow-glow-primary transition-all duration-300 flex items-center justify-center gap-2">
+                      <Linkedin className="w-4 h-4" />
+                      Apply Now on LinkedIn
+                    </Button>
+                  </a>
                 </motion.div>
               ))}
             </div>
