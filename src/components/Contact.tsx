@@ -108,8 +108,7 @@ const Contact = () => {
             </span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-3xl mx-auto font-inter">
-            Contact us today for a free quote and experience the Cornerstone
-            difference
+            Tell us about your vehicle and what solution you need
           </p>
         </motion.div>
 
