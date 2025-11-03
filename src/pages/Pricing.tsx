@@ -73,7 +73,7 @@ const detailingServices = [
     name: "The Best In Class",
     coupeSedan: 419.99,
     truckSuv: 449.99,
-    description: <>Our one of a kind service that speaks volumes about what you represent <strong>"Luxury"</strong></>,
+    description: <>Our one of a kind service that speaks volumes about what you represent <strong>Luxury</strong></>,
     featured: true,
     offerText: "Get 10% off your next maintenance wash",
     services: [

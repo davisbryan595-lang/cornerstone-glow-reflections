@@ -82,7 +82,6 @@ const Footer = () => {
             <h3 className="font-montserrat font-bold mb-4">Services</h3>
             <ul className="space-y-2 text-sm text-muted-foreground font-inter">
               <li>Paint Correction</li>
-              <li>Ceramic Coating</li>
               <li>Auto Detailing</li>
               <li>Headlight & Trim Restoration</li>
               <li>Interior Cleaning</li>
