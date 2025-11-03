@@ -79,6 +79,34 @@ const Careers = () => {
         "Organizational abilities",
       ],
     },
+    {
+      id: 5,
+      title: "Social Media Marketer",
+      department: "Marketing",
+      description:
+        "Create engaging content and manage our social media presence across multiple platforms. You'll help grow our brand awareness and engage with our customer community.",
+      requirements: [
+        "2+ years of social media marketing experience",
+        "Content creation skills",
+        "Knowledge of social media analytics",
+        "Creative and strategic thinking",
+        "Experience with scheduling tools and analytics platforms",
+      ],
+    },
+    {
+      id: 6,
+      title: "Video Producer & Photographer",
+      department: "Marketing",
+      description:
+        "Produce high-quality video content and photography for our marketing campaigns. You'll showcase our services and create compelling visual stories that connect with our audience.",
+      requirements: [
+        "Professional video production and photography experience",
+        "Proficiency with editing software (Adobe Creative Suite or similar)",
+        "Portfolio of previous work",
+        "Creative vision and storytelling ability",
+        "Ability to work independently and meet deadlines",
+      ],
+    },
   ];
 
   const handleCVChange = (e: React.ChangeEvent<HTMLInputElement>) => {
