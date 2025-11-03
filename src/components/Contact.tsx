@@ -55,12 +55,12 @@ const Contact = () => {
   };
 
   const openHours = [
-    "Monday: 3PM - 6PM",
-    "Tuesday: 3PM - 6PM",
-    "Wednesday: 3PM - 6PM",
-    "Thursday: 3PM - 5PM",
-    "Friday: 3PM - 6PM",
-    "Saturday: 10AM - 5PM",
+    "Monday: 24 Hours",
+    "Tuesday: 24 Hours",
+    "Wednesday: 24 Hours",
+    "Thursday: 24 Hours",
+    "Friday: 24 Hours",
+    "Saturday: 24 Hours",
     "Sunday: Closed",
   ];
 
