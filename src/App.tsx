@@ -10,6 +10,7 @@ import Careers from "./pages/Careers";
 import FAQ from "./pages/FAQ";
 import Subscription from "./pages/Subscription";
 import SubscriptionMember from "./pages/SubscriptionMember";
+import MaintenancePlans from "./pages/MaintenancePlans";
 
 const queryClient = new QueryClient();
 
