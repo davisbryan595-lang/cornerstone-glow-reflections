@@ -40,7 +40,7 @@ const Footer = () => {
             </p>
             <div className="flex gap-3">
               <a
-                href="https://facebook.com"
+                href="https://www.facebook.com/cornerstonemobiledetailing"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-background border border-border rounded-lg flex items-center justify-center hover:border-primary hover:shadow-glow-primary transition-all duration-300"
@@ -48,7 +48,7 @@ const Footer = () => {
                 <Facebook className="w-5 h-5" />
               </a>
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/cornerstonemobiledetailing"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-background border border-border rounded-lg flex items-center justify-center hover:border-accent hover:shadow-glow-accent transition-all duration-300"
@@ -82,7 +82,6 @@ const Footer = () => {
             <h3 className="font-montserrat font-bold mb-4">Services</h3>
             <ul className="space-y-2 text-sm text-muted-foreground font-inter">
               <li>Paint Correction</li>
-              <li>Ceramic Coating</li>
               <li>Auto Detailing</li>
               <li>Headlight & Trim Restoration</li>
               <li>Interior Cleaning</li>

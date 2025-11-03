@@ -73,7 +73,7 @@ const detailingServices = [
     name: "The Best In Class",
     coupeSedan: 419.99,
     truckSuv: 449.99,
-    description: <>Our one of a kind service that speaks volumes about what you represent <strong>"Luxury"</strong></>,
+    description: <>Our one of a kind service that speaks volumes about what you represent <strong>Luxury</strong></>,
     featured: true,
     offerText: "Get 10% off your next maintenance wash",
     services: [
@@ -111,7 +111,7 @@ const paintCorrectionServices = [
     vehicleTypeTruck: "Truck/Sedan",
     coupePrice: 399,
     truckSedan: 549.99,
-    description: <>Reveal an elevated look by removing light swirls and surface imperfections with a precision single-stage polish. Aiming to correct between <strong>60-70%</strong> of fine scratches and swirl marks for an enhanced finish.</>,
+    description: <>Reveal an elevated look by removing light swirls and surface imperfections with a precision single-stage polish. Aiming to correct between <strong>60–70%</strong> of fine scratches and swirl marks for an enhanced finish.</>,
     services: [
       "EXTERIOR WASH PROCESS:",
       "Professional Hand Wash + Foam Bath",
@@ -135,7 +135,7 @@ const paintCorrectionServices = [
     vehicleTypeTruck: "Truck/Sedan",
     coupePrice: 694.99,
     truckSedan: 749.99,
-    description: <>Reveal an elevated look by removing light swirls and surface imperfections with a precision single-stage polish. Aiming to correct between <strong>70-80%</strong> of fine scratches and swirl marks for a nearly perfect finish.</>,
+    description: <>Reveal an elevated look by removing light swirls and surface imperfections with a precision two-stage polish. Aiming to correct between <strong>70–80%</strong> of fine scratches and swirl marks for a nearly perfect finish.</>,
     services: [
       "EXTERIOR WASH PROCESS:",
       "Professional Hand Wash + Foam Bath",
@@ -160,7 +160,7 @@ const paintCorrectionServices = [
     vehicleTypeTruck: "Truck/Sedan",
     coupePrice: 894.99,
     truckSedan: 949.99,
-    description: <>Completely transform your car's paintwork, restoring a near perfect, show-room quality finish with our 3 stage paint correction- aiming to correct <strong>95%</strong> of impurities.</>,
+    description: <>Completely transform your car's paintwork, restoring a near perfect, show-room quality finish with our 3 stage paint correction—aiming to correct <strong>95%</strong> of impurities.</>,
     services: [
       "EXTERIOR WASH PROCESS:",
       "Professional Hand Wash + Foam Bath",
@@ -240,6 +240,12 @@ const Pricing = () => {
 
         {/* Detailing Services Section */}
         <section className="mb-20 w-full -mx-4 px-4">
+          <h2 className="text-3xl font-montserrat font-bold mb-4 text-center">
+            Premium Detailing Services
+          </h2>
+          <p className="text-muted-foreground text-center mb-12 font-inter">
+            Clear, transparent, pricing for every service. Choose the package that best solves your needs.
+          </p>
           <div className="mb-12">
             <Tabs
               value={vehicleType}

@@ -7,10 +7,10 @@ import { useNavigate } from "react-router-dom";
 
 const logoUrl = "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2Fc689032066c740e3a83978925f1d1000?format=webp&width=800";
 
-// Social Media Links - Update these with your actual social media URLs
+// Social Media Links
 const socialMediaLinks = {
-  facebook: "https://facebook.com/cornerstonemobiledetailing", // Update with actual Facebook URL
-  instagram: "https://instagram.com/cornerstonemobiledetailing", // Update with actual Instagram URL
+  facebook: "https://www.facebook.com/cornerstonemobiledetailing",
+  instagram: "https://www.instagram.com/cornerstonemobiledetailing",
 };
 
 const Navbar = () => {
@@ -27,10 +27,9 @@ const Navbar = () => {
   }, []);
 
   const scrollToSection = (id: string) => {
-    // If pricing, navigate to pricing page (case-insensitive)
-    if (id && id.toLowerCase() === "pricing") {
-      // Use full navigation so it works from any page
-      window.location.href = "/pricing";
+    // If pricing or faq, navigate to their dedicated pages
+    if (id && (id.toLowerCase() === "pricing" || id.toLowerCase() === "faq")) {
+      window.location.href = `/${id.toLowerCase()}`;
       setIsMobileMenuOpen(false);
       return;
     }
