@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Facebook, Instagram, Mail, Phone, Menu, X } from "lucide-react";
+import { Facebook, Instagram, Mail, Phone, Menu, X, Linkedin } from "lucide-react";
 import { Button } from "./ui/button";
 import { useNavigate } from "react-router-dom";
 
@@ -9,8 +9,9 @@ const logoUrl = "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bd
 
 // Social Media Links
 const socialMediaLinks = {
-  facebook: "https://www.facebook.com/cornerstonemobiledetailing",
-  instagram: "https://www.instagram.com/cornerstonemobiledetailing",
+  facebook: "https://www.facebook.com/profile.php?id=61583396480289",
+  instagram: "https://www.instagram.com/cornerstonemobile/",
+  linkedin: "https://www.linkedin.com/company/cornerstone-mobile-detailing",
 };
 
 const Navbar = () => {
