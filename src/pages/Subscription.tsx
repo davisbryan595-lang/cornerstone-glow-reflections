@@ -10,6 +10,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BackToTopButton from "@/components/BackToTopButton";
 import { useToast } from "@/hooks/use-toast";
+import { calculateTotalPrice, processPayment, generateAccessCode } from "@/lib/payment";
 
 interface SubscriptionState {
   hasAccessCode: boolean;
@@ -114,7 +115,7 @@ const Subscription = () => {
     setState({ ...state, paymentFrequency: frequency });
   };
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
     if (!state.selectedPlan) {
       toast({
         title: "Select a Plan",
@@ -136,12 +137,38 @@ const Subscription = () => {
     );
 
     toast({
-      title: "Proceeding to Payment",
-      description: `You've selected ${selectedPlanData?.name}. Redirecting to payment...`,
+      title: "Processing Payment",
+      description: "Preparing your checkout...",
     });
 
-    // In a real implementation, this would redirect to Stripe or your payment processor
-    // window.location.href = `/payment?plan=${state.selectedPlan}&frequency=${state.paymentFrequency}`;
+    // Process payment
+    const paymentResult = await processPayment({
+      planId: state.selectedPlan,
+      customerId: "customer-123", // In a real app, this would be the logged-in user's ID
+      email: "customer@example.com", // In a real app, this would be the user's email
+      paymentFrequency: state.paymentFrequency,
+      agreedToTerms: state.agreedToTerms,
+    });
+
+    if (paymentResult.success) {
+      // Generate unique access code for member
+      const accessCode = generateAccessCode();
+
+      toast({
+        title: "Payment Processed",
+        description: `Subscription confirmed! Your access code: ${accessCode}`,
+      });
+
+      // In a real implementation, redirect to Stripe checkout
+      // or success page
+      // window.location.href = `/payment-success?code=${accessCode}`;
+    } else {
+      toast({
+        title: "Payment Failed",
+        description:
+          paymentResult.error || "Unable to process payment. Please try again.",
+      });
+    }
   };
 
   const getSelectedPlanPrice = () => {
