@@ -1,5 +1,11 @@
-import { Facebook, Instagram, Mail, Phone } from "lucide-react";
+import { Facebook, Instagram, Mail, Phone, Linkedin } from "lucide-react";
 const logoUrl = "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2Fc689032066c740e3a83978925f1d1000?format=webp&width=800";
+
+const socialMediaLinks = {
+  facebook: "https://www.facebook.com/profile.php?id=61583396480289",
+  instagram: "https://www.instagram.com/cornerstonemobile/",
+  linkedin: "https://www.linkedin.com/company/cornerstone-mobile-detailing",
+};
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
