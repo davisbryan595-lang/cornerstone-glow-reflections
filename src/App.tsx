@@ -10,6 +10,7 @@ import Careers from "./pages/Careers";
 import FAQ from "./pages/FAQ";
 import Subscription from "./pages/Subscription";
 import SubscriptionMember from "./pages/SubscriptionMember";
+import MaintenancePlans from "./pages/MaintenancePlans";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/faq" element={<FAQ />} />
           <Route path="/subscription" element={<Subscription />} />
           <Route path="/subscription-member" element={<SubscriptionMember />} />
+          <Route path="/maintenance-plans" element={<MaintenancePlans />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

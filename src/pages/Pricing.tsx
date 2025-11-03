@@ -188,9 +188,11 @@ const Pricing = () => {
   const [paintCorrectionStep, setPaintCorrectionStep] = useState("1-step");
 
   const handleGetQuote = () => {
+    // Set flag to skip preloader when navigating from pricing page
+    sessionStorage.setItem("skip-preloader-from-pricing", "true");
     navigate("/");
     setTimeout(() => {
-      const contactElement = document.getElementById("contact-form");
+      const contactElement = document.getElementById("contact");
       if (contactElement) {
         contactElement.scrollIntoView({ behavior: "smooth" });
       }

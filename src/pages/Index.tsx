@@ -18,7 +18,8 @@ const Index = () => {
     // Check if preloader has already been shown in this session
     if (typeof window !== "undefined") {
       const hasShown = sessionStorage.getItem("preloader-shown");
-      return !hasShown;
+      const skipFromPricing = sessionStorage.getItem("skip-preloader-from-pricing");
+      return !hasShown && !skipFromPricing;
     }
     return true;
   });
@@ -32,6 +33,9 @@ const Index = () => {
       }, 3000);
 
       return () => clearTimeout(timer);
+    } else {
+      // Clear the pricing flag since we've handled the navigation
+      sessionStorage.removeItem("skip-preloader-from-pricing");
     }
   }, [loading]);
 

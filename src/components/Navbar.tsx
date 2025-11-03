@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Facebook, Instagram, Mail, Phone, Menu, X } from "lucide-react";
+import { Facebook, Instagram, Mail, Phone, Menu, X, Linkedin } from "lucide-react";
 import { Button } from "./ui/button";
 import { useNavigate } from "react-router-dom";
 
@@ -9,8 +9,9 @@ const logoUrl = "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bd
 
 // Social Media Links
 const socialMediaLinks = {
-  facebook: "https://www.facebook.com/cornerstonemobiledetailing",
-  instagram: "https://www.instagram.com/cornerstonemobiledetailing",
+  facebook: "https://www.facebook.com/profile.php?id=61583396480289",
+  instagram: "https://www.instagram.com/cornerstonemobile/",
+  linkedin: "https://www.linkedin.com/company/cornerstone-mobile-detailing",
 };
 
 const Navbar = () => {
@@ -50,6 +51,7 @@ const Navbar = () => {
     { name: "About", id: "about" },
     { name: "Services", id: "services" },
     { name: "Pricing", id: "pricing" },
+    { name: "Maintenance Plans", id: "maintenance-plans", path: "/maintenance-plans" },
     { name: "Gallery", id: "gallery" },
     { name: "Team", id: "team" },
     { name: "Contact", id: "contact" },
@@ -103,6 +105,14 @@ const Navbar = () => {
                   className="hover:text-accent transition-colors hover:scale-110 transform"
                 >
                   <Instagram className="w-5 h-5" />
+                </a>
+                <a
+                  href={socialMediaLinks.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary transition-colors hover:scale-110 transform"
+                >
+                  <Linkedin className="w-5 h-5" />
                 </a>
               </div>
             </div>
@@ -247,6 +257,14 @@ const Navbar = () => {
                 className="hover:text-accent transition-colors"
               >
                 <Instagram className="w-5 h-5" />
+              </a>
+              <a
+                href={socialMediaLinks.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-primary transition-colors"
+              >
+                <Linkedin className="w-5 h-5" />
               </a>
             </div>
           </div>
