@@ -7,6 +7,12 @@ import { useNavigate } from "react-router-dom";
 
 const logoUrl = "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2Fc689032066c740e3a83978925f1d1000?format=webp&width=800";
 
+// Social Media Links - Update these with your actual social media URLs
+const socialMediaLinks = {
+  facebook: "https://facebook.com/cornerstonemobiledetailing", // Update with actual Facebook URL
+  instagram: "https://instagram.com/cornerstonemobiledetailing", // Update with actual Instagram URL
+};
+
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
