@@ -28,9 +28,17 @@ const Navbar = () => {
   }, []);
 
   const scrollToSection = (id: string) => {
-    // If pricing or faq, navigate to their dedicated pages
+    // If link has an explicit route path, navigate to it
+    const link = navLinks.find((l) => l.id === id && l.path);
+    if (link && link.path) {
+      navigate(link.path);
+      setIsMobileMenuOpen(false);
+      return;
+    }
+
+    // Fallback: dedicated pages by id
     if (id && (id.toLowerCase() === "pricing" || id.toLowerCase() === "faq")) {
-      window.location.href = `/${id.toLowerCase()}`;
+      navigate(`/${id.toLowerCase()}`);
       setIsMobileMenuOpen(false);
       return;
     }
