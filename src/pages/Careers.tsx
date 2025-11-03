@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { Mail, Phone, Briefcase, Upload, X } from "lucide-react";
+import { Mail, Phone, Briefcase, Upload, X, Linkedin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -9,6 +9,16 @@ import { useToast } from "@/hooks/use-toast";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BackToTopButton from "@/components/BackToTopButton";
+
+// LinkedIn Job URLs - Update these with your actual LinkedIn job posting URLs
+const linkedinJobUrls: Record<number, string> = {
+  1: "https://linkedin.com/jobs/", // Auto Detailing Technician - Update with actual URL
+  2: "https://linkedin.com/jobs/", // Ceramic Coating Specialist - Update with actual URL
+  3: "https://linkedin.com/jobs/", // Customer Service Representative - Update with actual URL
+  4: "https://linkedin.com/jobs/", // Fleet Manager - Update with actual URL
+  5: "https://linkedin.com/jobs/", // Social Media Marketer - Update with actual URL
+  6: "https://linkedin.com/jobs/", // Video Producer & Photographer - Update with actual URL
+};
 
 const Careers = () => {
   const ref = useRef(null);
@@ -77,6 +87,34 @@ const Careers = () => {
         "Leadership skills",
         "Maintenance knowledge",
         "Organizational abilities",
+      ],
+    },
+    {
+      id: 5,
+      title: "Social Media Marketer",
+      department: "Marketing",
+      description:
+        "Create engaging content and manage our social media presence across multiple platforms. You'll help grow our brand awareness and engage with our customer community.",
+      requirements: [
+        "2+ years of social media marketing experience",
+        "Content creation skills",
+        "Knowledge of social media analytics",
+        "Creative and strategic thinking",
+        "Experience with scheduling tools and analytics platforms",
+      ],
+    },
+    {
+      id: 6,
+      title: "Video Producer & Photographer",
+      department: "Marketing",
+      description:
+        "Produce high-quality video content and photography for our marketing campaigns. You'll showcase our services and create compelling visual stories that connect with our audience.",
+      requirements: [
+        "Professional video production and photography experience",
+        "Proficiency with editing software (Adobe Creative Suite or similar)",
+        "Portfolio of previous work",
+        "Creative vision and storytelling ability",
+        "Ability to work independently and meet deadlines",
       ],
     },
   ];
@@ -201,7 +239,7 @@ const Careers = () => {
                   <p className="text-muted-foreground font-inter mb-4">
                     {job.description}
                   </p>
-                  <ul className="space-y-2">
+                  <ul className="space-y-2 mb-4">
                     {job.requirements.map((req, idx) => (
                       <li key={idx} className="text-sm text-muted-foreground font-inter flex items-start gap-2">
                         <span className="text-primary mt-1">•</span>
@@ -209,6 +247,12 @@ const Careers = () => {
                       </li>
                     ))}
                   </ul>
+                  <a href={linkedinJobUrls[job.id]} target="_blank" rel="noopener noreferrer">
+                    <Button className="w-full bg-primary hover:shadow-glow-primary transition-all duration-300 flex items-center justify-center gap-2">
+                      <Linkedin className="w-4 h-4" />
+                      Apply Now on LinkedIn
+                    </Button>
+                  </a>
                 </motion.div>
               ))}
             </div>

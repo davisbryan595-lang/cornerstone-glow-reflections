@@ -55,12 +55,12 @@ const Contact = () => {
   };
 
   const openHours = [
-    "Monday: 3PM - 6PM",
-    "Tuesday: 3PM - 6PM",
-    "Wednesday: 3PM - 6PM",
-    "Thursday: 3PM - 5PM",
-    "Friday: 3PM - 6PM",
-    "Saturday: 10AM - 5PM",
+    "Monday: 24 Hours",
+    "Tuesday: 24 Hours",
+    "Wednesday: 24 Hours",
+    "Thursday: 24 Hours",
+    "Friday: 24 Hours",
+    "Saturday: 24 Hours",
     "Sunday: Closed",
   ];
 
@@ -108,8 +108,7 @@ const Contact = () => {
             </span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-3xl mx-auto font-inter">
-            Contact us today for a free quote and experience the Cornerstone
-            difference
+            Tell us about your vehicle and what solution you need
           </p>
         </motion.div>
 
@@ -284,9 +283,6 @@ const Contact = () => {
                     <SelectItem value="paint-correction">
                       Paint Correction
                     </SelectItem>
-                    <SelectItem value="ceramic-coating">
-                      Ceramic Coating
-                    </SelectItem>
                     <SelectItem value="auto-detailing">
                       Auto Detailing
                     </SelectItem>
@@ -324,7 +320,7 @@ const Contact = () => {
                     setFormData({ ...formData, message: e.target.value })
                   }
                   className="bg-background border-border focus:border-primary min-h-32"
-                  placeholder="Tell us about your vehicle and what you need..."
+                  placeholder="Tell us about your vehicle and what solution you need..."
                 />
               </div>
 

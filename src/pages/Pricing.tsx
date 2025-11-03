@@ -12,7 +12,7 @@ const detailingServices = [
     name: "Interior Detail",
     coupeSedan: 217.99,
     truckSuv: 237.99,
-    description: "This our thorough interior detailing service. Once done, your car's interior will invite you with a fresh look, smell, & feel for a peaceful driving experience!",
+    description: <>This our thorough interior detailing service. Once done, your car's interior will invite you with a <strong>Fresh Look</strong>, <strong>Nice Smell</strong>, & <strong>Feel</strong> for a peaceful driving experience!</>,
     services: [
       "Detailed Vacuum of Floors, Carpets, and Trunk",
       "Detailed Wipe Down of All Interior Plastics",
@@ -29,7 +29,7 @@ const detailingServices = [
     name: "Exterior Detail",
     coupeSedan: 144.99,
     truckSuv: 184.88,
-    description: "This premium exterior detail is designed to remove micro contaminants from your cars paint, leave a silky smooth finish, and protect the paint for up to 8 months!",
+    description: <>This premium exterior detail is designed to <strong>Remove Micro Contaminants</strong> from your cars paint, leave a <strong>Silky Smooth Finish</strong>, and <strong>Protect</strong> the paint for up to 8 months!</>,
     services: [
       "EXTERIOR (detailed wash, prep & protection)",
       "Professional Hand Wash + Foam Bath",
@@ -48,7 +48,7 @@ const detailingServices = [
     name: "Full Detail",
     coupeSedan: 304.99,
     truckSuv: 324.99,
-    description: "This is our full interior & exterior detail designed to clean every inch of your car!",
+    description: <>This is our full interior & exterior detail designed to <strong>clean every inch</strong> of your car!</>,
     services: [
       "INTERIOR (detailed cleaning)",
       "Detailed Vacuum",
@@ -73,7 +73,7 @@ const detailingServices = [
     name: "The Best In Class",
     coupeSedan: 419.99,
     truckSuv: 449.99,
-    description: "Our premium package with everything from Full Detail plus enhanced treatments and extended protection!",
+    description: <>Our one of a kind service that speaks volumes about what you represent <strong>"Luxury"</strong></>,
     featured: true,
     offerText: "Get 10% off your next maintenance wash",
     services: [
@@ -107,9 +107,11 @@ const detailingServices = [
 const paintCorrectionServices = [
   {
     name: "1 Step Paint Correction & Polish",
+    vehicleTypeCoupe: "Coupe/Sedan",
+    vehicleTypeTruck: "Truck/Sedan",
     coupePrice: 399,
     truckSedan: 549.99,
-    description: "Reveal a flawless, mirror-like shine by removing light swirls and surface imperfections with a precision single-stage polish. Aiming to correct between 60-70% of fine scratches and swirl marks for an enhanced finish.",
+    description: <>Reveal an elevated look by removing light swirls and surface imperfections with a precision single-stage polish. Aiming to correct between <strong>60-70%</strong> of fine scratches and swirl marks for an enhanced finish.</>,
     services: [
       "EXTERIOR WASH PROCESS:",
       "Professional Hand Wash + Foam Bath",
@@ -129,9 +131,11 @@ const paintCorrectionServices = [
   },
   {
     name: "2 Step Paint Correction & Polish",
+    vehicleTypeCoupe: "Coupe/Sedan",
+    vehicleTypeTruck: "Truck/Sedan",
     coupePrice: 694.99,
     truckSedan: 749.99,
-    description: "Reveal a flawless, mirror-like shine by removing light swirls and surface imperfections with a precision single-stage polish. Aiming to correct between 70-80% of fine scratches and swirl marks for a nearly perfect finish.",
+    description: <>Reveal an elevated look by removing light swirls and surface imperfections with a precision single-stage polish. Aiming to correct between <strong>70-80%</strong> of fine scratches and swirl marks for a nearly perfect finish.</>,
     services: [
       "EXTERIOR WASH PROCESS:",
       "Professional Hand Wash + Foam Bath",
@@ -152,9 +156,11 @@ const paintCorrectionServices = [
   },
   {
     name: "3 Step Paint Correction & Polish",
+    vehicleTypeCoupe: "Coupe/Sedan",
+    vehicleTypeTruck: "Truck/Sedan",
     coupePrice: 894.99,
     truckSedan: 949.99,
-    description: "Completely transform your car's paintwork, restoring a near perfect, show-room quality finish with our 3 stage paint correction- aiming to correct 95% of impurities.",
+    description: <>Completely transform your car's paintwork, restoring a near perfect, show-room quality finish with our 3 stage paint correction- aiming to correct <strong>95%</strong> of impurities.</>,
     services: [
       "EXTERIOR WASH PROCESS:",
       "Professional Hand Wash + Foam Bath",
@@ -228,7 +234,7 @@ const Pricing = () => {
             transition={{ delay: 0.3, duration: 0.6 }}
             className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto font-inter"
           >
-            Clear, transparent pricing for every service. Choose the package that fits your vehicle and needs.
+            Clear, transparent, pricing for every service. Choose the package that best solves your needs.
           </motion.p>
         </motion.div>
 
@@ -414,9 +420,14 @@ const Pricing = () => {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {/* Coupe/Sedan */}
                         <div className="bg-card border border-border rounded-2xl p-6 hover:border-primary/50 transition-all duration-300">
-                          <h3 className="text-xl font-montserrat font-bold mb-2 text-primary">
-                            {service.name}
-                          </h3>
+                          <div className="flex items-center justify-between mb-2">
+                            <h3 className="text-xl font-montserrat font-bold text-primary">
+                              {service.name}
+                            </h3>
+                            <span className="text-xs font-semibold bg-primary/10 text-primary px-3 py-1 rounded-full">
+                              {service.vehicleTypeCoupe}
+                            </span>
+                          </div>
                           <div className="mb-4">
                             <p className="text-xs font-semibold text-muted-foreground mb-1">
                               Starting At
@@ -455,11 +466,16 @@ const Pricing = () => {
                           </Button>
                         </div>
 
-                        {/* Truck/SUV */}
+                        {/* Truck/Sedan */}
                         <div className="bg-card border-2 border-primary rounded-2xl p-6 shadow-glow-primary">
-                          <h3 className="text-xl font-montserrat font-bold mb-2 text-primary">
-                            {service.name}
-                          </h3>
+                          <div className="flex items-center justify-between mb-2">
+                            <h3 className="text-xl font-montserrat font-bold text-primary">
+                              {service.name}
+                            </h3>
+                            <span className="text-xs font-semibold bg-primary/20 text-primary px-3 py-1 rounded-full">
+                              {service.vehicleTypeTruck}
+                            </span>
+                          </div>
                           <div className="mb-4">
                             <p className="text-xs font-semibold text-muted-foreground mb-1">
                               Starting At

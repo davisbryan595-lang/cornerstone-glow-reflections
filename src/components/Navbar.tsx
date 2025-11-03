@@ -7,6 +7,12 @@ import { useNavigate } from "react-router-dom";
 
 const logoUrl = "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2Fc689032066c740e3a83978925f1d1000?format=webp&width=800";
 
+// Social Media Links - Update these with your actual social media URLs
+const socialMediaLinks = {
+  facebook: "https://facebook.com/cornerstonemobiledetailing", // Update with actual Facebook URL
+  instagram: "https://instagram.com/cornerstonemobiledetailing", // Update with actual Instagram URL
+};
+
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -48,6 +54,7 @@ const Navbar = () => {
     { name: "Gallery", id: "gallery" },
     { name: "Team", id: "team" },
     { name: "Contact", id: "contact" },
+    { name: "FAQ", id: "faq" },
   ];
 
   return (
@@ -83,7 +90,7 @@ const Navbar = () => {
               </div>
               <div className="flex items-center gap-4">
                 <a
-                  href="https://facebook.com"
+                  href={socialMediaLinks.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-primary transition-colors hover:scale-110 transform"
@@ -91,7 +98,7 @@ const Navbar = () => {
                   <Facebook className="w-5 h-5" />
                 </a>
                 <a
-                  href="https://instagram.com"
+                  href={socialMediaLinks.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-accent transition-colors hover:scale-110 transform"
@@ -227,7 +234,7 @@ const Navbar = () => {
             </a>
             <div className="flex gap-4 pt-2">
               <a
-                href="https://facebook.com"
+                href={socialMediaLinks.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-primary transition-colors"
@@ -235,7 +242,7 @@ const Navbar = () => {
                 <Facebook className="w-5 h-5" />
               </a>
               <a
-                href="https://instagram.com"
+                href={socialMediaLinks.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-accent transition-colors"
