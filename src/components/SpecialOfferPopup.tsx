@@ -42,7 +42,7 @@ const SpecialOfferPopup = () => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             transition={{ duration: 0.3 }}
-            className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-40 w-80 sm:w-96 md:max-w-sm"
+            className="fixed bottom-4 left-4 sm:bottom-8 sm:left-8 z-40 w-80 sm:w-96 md:max-w-sm"
           >
             <div className="bg-gradient-to-br from-primary/95 via-secondary/95 to-accent/95 backdrop-blur-md rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-2xl border border-primary/30">
               <button
@@ -86,7 +86,7 @@ const SpecialOfferPopup = () => {
               setIsVisible(true);
               setShowViewButton(false);
             }}
-            className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-40 w-14 h-14 sm:w-16 sm:h-16 bg-gradient-primary rounded-full shadow-lg border border-primary/30 flex items-center justify-center hover:shadow-glow-primary transition-all duration-300 group"
+            className="fixed bottom-4 left-4 sm:bottom-8 sm:left-8 z-40 w-14 h-14 sm:w-16 sm:h-16 bg-gradient-primary rounded-full shadow-lg border border-primary/30 flex items-center justify-center hover:shadow-glow-primary transition-all duration-300 group"
           >
             <Gift className="w-6 h-6 sm:w-8 sm:h-8 text-white group-hover:scale-110 transition-transform" />
           </motion.button>

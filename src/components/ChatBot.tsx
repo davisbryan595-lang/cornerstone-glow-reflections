@@ -10,7 +10,6 @@ import {
   Send,
   HelpCircle,
   Loader2,
-  Sparkles,
 } from "lucide-react";
 
 type Message = {
@@ -20,6 +19,7 @@ type Message = {
 };
 
 const WELCOME = "Hi! I’m your Cornerstone assistant. Ask me about services, pricing, membership, areas we cover, appointment times, and more.";
+const logoUrl = "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2Fc689032066c740e3a83978925f1d1000?format=webp&width=800";
 
 const knowledgeBase: {
   q: string;
@@ -122,7 +122,7 @@ function fuzzyAnswer(input: string) {
 const quickQuestions = knowledgeBase.map((k) => k.q);
 
 const ChatBot = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>(() => [
     { id: crypto.randomUUID(), role: "bot", content: WELCOME },
@@ -184,10 +184,8 @@ const ChatBot = () => {
             <Card className="w-[90vw] max-w-[360px] md:max-w-[420px] h-[68vh] max-h-[560px] overflow-hidden border-border shadow-xl">
               {/* Header */}
               <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-card">
-                <div className="flex items-center gap-2">
-                  <div className="p-2 rounded-md bg-gradient-primary text-primary-foreground">
-                    <Sparkles className="w-4 h-4" />
-                  </div>
+                <div className="flex items-center gap-3">
+                  <img src={logoUrl} alt="Cornerstone Mobile Detailing" className="w-8 h-8 rounded-md" />
                   <div>
                     <p className="text-sm font-semibold">Cornerstone Assistant</p>
                     <p className="text-xs text-muted-foreground">Ask a question or choose a quick one</p>

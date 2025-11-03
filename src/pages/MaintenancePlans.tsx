@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/select";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import BackToTopButton from "@/components/BackToTopButton";
 import { useToast } from "@/hooks/use-toast";
 import { sendSubscriptionEmail } from "@/lib/email";
 
@@ -75,7 +74,7 @@ const MaintenancePlans = () => {
       name: "Interior Detail",
       description:
         "Deep vacuum, wipe down, leather conditioning, window cleaning, and air freshening",
-      icon: "🪑",
+      icon: "��",
     },
     {
       id: "full",
@@ -514,7 +513,6 @@ const MaintenancePlans = () => {
         </section>
       </main>
       <Footer />
-      <BackToTopButton />
     </>
   );
 };

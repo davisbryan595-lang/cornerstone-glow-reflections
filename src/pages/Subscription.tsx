@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import BackToTopButton from "@/components/BackToTopButton";
 import { useToast } from "@/hooks/use-toast";
 import { calculateTotalPrice, processPayment, generateAccessCode } from "@/lib/payment";
 
@@ -481,7 +480,6 @@ const Subscription = () => {
         )}
       </main>
       <Footer />
-      <BackToTopButton />
     </>
   );
 };

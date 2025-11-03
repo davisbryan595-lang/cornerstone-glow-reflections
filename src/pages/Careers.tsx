@@ -8,7 +8,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import BackToTopButton from "@/components/BackToTopButton";
 
 // LinkedIn Job URLs - Update these with your actual LinkedIn job posting URLs
 const linkedinJobUrls: Record<number, string> = {
@@ -487,7 +486,6 @@ const Careers = () => {
         </section>
       </main>
       <Footer />
-      <BackToTopButton />
     </>
   );
 };

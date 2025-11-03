@@ -5,7 +5,6 @@ import { useRef } from "react";
 import { ChevronDown } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import BackToTopButton from "@/components/BackToTopButton";
 
 const FAQ = () => {
   const ref = useRef(null);
@@ -183,7 +182,6 @@ const FAQ = () => {
         </section>
       </main>
       <Footer />
-      <BackToTopButton />
     </>
   );
 };
