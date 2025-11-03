@@ -46,7 +46,7 @@ const Footer = () => {
             </p>
             <div className="flex gap-3">
               <a
-                href="https://www.facebook.com/cornerstonemobiledetailing"
+                href={socialMediaLinks.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-background border border-border rounded-lg flex items-center justify-center hover:border-primary hover:shadow-glow-primary transition-all duration-300"
@@ -54,12 +54,20 @@ const Footer = () => {
                 <Facebook className="w-5 h-5" />
               </a>
               <a
-                href="https://www.instagram.com/cornerstonemobiledetailing"
+                href={socialMediaLinks.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-background border border-border rounded-lg flex items-center justify-center hover:border-accent hover:shadow-glow-accent transition-all duration-300"
               >
                 <Instagram className="w-5 h-5" />
+              </a>
+              <a
+                href={socialMediaLinks.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-background border border-border rounded-lg flex items-center justify-center hover:border-primary hover:shadow-glow-primary transition-all duration-300"
+              >
+                <Linkedin className="w-5 h-5" />
               </a>
             </div>
           </div>
