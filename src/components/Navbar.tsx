@@ -54,6 +54,7 @@ const Navbar = () => {
     { name: "Gallery", id: "gallery" },
     { name: "Team", id: "team" },
     { name: "Contact", id: "contact" },
+    { name: "FAQ", id: "faq" },
   ];
 
   return (
