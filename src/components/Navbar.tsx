@@ -27,10 +27,9 @@ const Navbar = () => {
   }, []);
 
   const scrollToSection = (id: string) => {
-    // If pricing, navigate to pricing page (case-insensitive)
-    if (id && id.toLowerCase() === "pricing") {
-      // Use full navigation so it works from any page
-      window.location.href = "/pricing";
+    // If pricing or faq, navigate to their dedicated pages
+    if (id && (id.toLowerCase() === "pricing" || id.toLowerCase() === "faq")) {
+      window.location.href = `/${id.toLowerCase()}`;
       setIsMobileMenuOpen(false);
       return;
     }
