@@ -89,7 +89,7 @@ const Navbar = () => {
               </div>
               <div className="flex items-center gap-4">
                 <a
-                  href="https://facebook.com"
+                  href={socialMediaLinks.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-primary transition-colors hover:scale-110 transform"
@@ -97,7 +97,7 @@ const Navbar = () => {
                   <Facebook className="w-5 h-5" />
                 </a>
                 <a
-                  href="https://instagram.com"
+                  href={socialMediaLinks.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-accent transition-colors hover:scale-110 transform"
