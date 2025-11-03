@@ -284,9 +284,6 @@ const Contact = () => {
                     <SelectItem value="paint-correction">
                       Paint Correction
                     </SelectItem>
-                    <SelectItem value="ceramic-coating">
-                      Ceramic Coating
-                    </SelectItem>
                     <SelectItem value="auto-detailing">
                       Auto Detailing
                     </SelectItem>
@@ -324,7 +321,7 @@ const Contact = () => {
                     setFormData({ ...formData, message: e.target.value })
                   }
                   className="bg-background border-border focus:border-primary min-h-32"
-                  placeholder="Tell us about your vehicle and what you need..."
+                  placeholder="Tell us about your vehicle and what solution you need..."
                 />
               </div>
 
