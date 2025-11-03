@@ -17,6 +17,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BackToTopButton from "@/components/BackToTopButton";
 import { useToast } from "@/hooks/use-toast";
+import { sendSubscriptionEmail } from "@/lib/email";
 
 interface MaintenancePlan {
   id: string;
@@ -99,12 +100,11 @@ const MaintenancePlans = () => {
   ];
 
   const frequencies: FrequencyOption[] = [
-    { id: "weekly-1", label: "Weekly (Every 1 week)", weeks: 1 },
-    { id: "weekly-2", label: "Every 2 weeks", weeks: 2 },
+    { id: "weekly-1", label: "Every 1 week", weeks: 1 },
+    { id: "biweekly", label: "Bi-weekly (Every 2 weeks)", weeks: 2 },
     { id: "weekly-3", label: "Every 3 weeks", weeks: 3 },
     { id: "weekly-4", label: "Every 4 weeks", weeks: 4 },
-    { id: "biweekly", label: "Bi-weekly (Every 2 weeks)", weeks: 2 },
-    { id: "monthly", label: "Monthly (Every month)", months: 1 },
+    { id: "monthly", label: "Monthly", months: 1 },
     { id: "quarterly", label: "Every 3 months", months: 3 },
     { id: "semi-annual", label: "Every 6 months", months: 6 },
     { id: "annual", label: "Once a year", months: 12 },
@@ -151,16 +151,9 @@ const MaintenancePlans = () => {
         submittedAt: new Date().toISOString(),
       };
 
-      // Send email notification to business owner
-      const response = await fetch("/api/send-subscription-email", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(subscriptionDetails),
-      });
-
-      if (!response.ok && response.status !== 404) {
+      // Send email notification to business owner via webhook or API
+      const emailResult = await sendSubscriptionEmail(subscriptionDetails);
+      if (!emailResult.ok && emailResult.status !== 404) {
         throw new Error("Failed to send confirmation");
       }
 
