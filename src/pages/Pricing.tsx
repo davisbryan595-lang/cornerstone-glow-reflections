@@ -228,7 +228,7 @@ const Pricing = () => {
             transition={{ delay: 0.3, duration: 0.6 }}
             className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto font-inter"
           >
-            Clear, transparent pricing for every service. Choose the package that fits your vehicle and needs.
+            Clear, transparent, pricing for every service. Choose the package that best solves your needs.
           </motion.p>
         </motion.div>
 
