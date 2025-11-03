@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { Mail, Phone, Briefcase, Upload, X } from "lucide-react";
+import { Mail, Phone, Briefcase, Upload, X, Linkedin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -9,6 +9,16 @@ import { useToast } from "@/hooks/use-toast";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BackToTopButton from "@/components/BackToTopButton";
+
+// LinkedIn Job URLs - Update these with your actual LinkedIn job posting URLs
+const linkedinJobUrls: Record<number, string> = {
+  1: "https://linkedin.com/jobs/", // Auto Detailing Technician - Update with actual URL
+  2: "https://linkedin.com/jobs/", // Ceramic Coating Specialist - Update with actual URL
+  3: "https://linkedin.com/jobs/", // Customer Service Representative - Update with actual URL
+  4: "https://linkedin.com/jobs/", // Fleet Manager - Update with actual URL
+  5: "https://linkedin.com/jobs/", // Social Media Marketer - Update with actual URL
+  6: "https://linkedin.com/jobs/", // Video Producer & Photographer - Update with actual URL
+};
 
 const Careers = () => {
   const ref = useRef(null);
