@@ -240,6 +240,12 @@ const Pricing = () => {
 
         {/* Detailing Services Section */}
         <section className="mb-20 w-full -mx-4 px-4">
+          <h2 className="text-3xl font-montserrat font-bold mb-4 text-center">
+            Premium Detailing Services
+          </h2>
+          <p className="text-muted-foreground text-center mb-12 font-inter">
+            Clear, transparent, pricing for every service. Choose the package that best solves your needs.
+          </p>
           <div className="mb-12">
             <Tabs
               value={vehicleType}
