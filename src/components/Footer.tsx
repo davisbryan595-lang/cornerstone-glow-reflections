@@ -141,9 +141,10 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="border-t border-border pt-6 text-center text-sm text-muted-foreground font-inter">
-          <p>
-            © {currentYear} Cornerstone Mobile Detailing LLC. All Rights Reserved.
-          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <p>© {currentYear} Cornerstone Mobile Detailing LLC. All Rights Reserved.</p>
+            <a href="/terms" className="hover:text-primary">Terms & Conditions</a>
+          </div>
         </div>
       </div>
     </footer>
