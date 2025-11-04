@@ -5,6 +5,7 @@ import { Mail, Phone, Clock, Facebook, Instagram } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
+import { Checkbox } from "./ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -28,9 +29,19 @@ const Contact = () => {
     subject: "",
     message: "",
   });
+  const [agreed, setAgreed] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!agreed) {
+      toast({
+        title: "Terms Required",
+        description: "Please agree to the Terms & Conditions to proceed.",
+      });
+      return;
+    }
+
     toast({
       title: "Message Sent!",
       description: "We'll get back to you within 24 hours.",
@@ -43,6 +54,7 @@ const Contact = () => {
       subject: "",
       message: "",
     });
+    setAgreed(false);
 
     // Redirect to home page and scroll to contact form
     navigate("/");
@@ -324,9 +336,22 @@ const Contact = () => {
                 />
               </div>
 
+              <div className="flex items-start gap-3">
+                <Checkbox
+                  id="agree"
+                  checked={agreed}
+                  onCheckedChange={(checked) => setAgreed(!!checked)}
+                  className="mt-1"
+                />
+                <label htmlFor="agree" className="text-sm text-muted-foreground font-inter">
+                  I agree to the <a href="/terms" className="text-primary hover:underline">Terms & Conditions</a> and Policy.
+                </label>
+              </div>
+
               <Button
                 type="submit"
                 size="lg"
+                disabled={!agreed}
                 className="w-full bg-gradient-primary hover:shadow-glow-primary"
               >
                 Send Message
