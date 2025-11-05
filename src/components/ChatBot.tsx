@@ -122,7 +122,7 @@ function fuzzyAnswer(input: string) {
 const quickQuestions = knowledgeBase.map((k) => k.q);
 
 const ChatBot = () => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>(() => [
     { id: crypto.randomUUID(), role: "bot", content: WELCOME },
