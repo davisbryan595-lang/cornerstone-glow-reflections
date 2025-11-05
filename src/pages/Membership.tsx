@@ -172,7 +172,7 @@ const Membership = () => {
 
                 <div className="border-t border-border pt-4">
                   <h5 className="font-semibold mb-2">Send us a suggestion</h5>
-                  <form id="member-suggestion-form" className="space-y-3" onSubmit={(e) => { e.preventDefault(); const fd = new FormData(e.currentTarget as HTMLFormElement); const name = fd.get('name') as string; const email = fd.get('email') as string; const message = fd.get('message') as string; if(!message || message.trim().length < 5){ alert('Please enter a longer message'); return; } /* show toast */ (window as any).toast?.({ title: 'Thanks!', description: 'Your suggestion was sent.' }); (e.currentTarget as HTMLFormElement).reset(); }}>
+                  <form id="member-suggestion-form" className="space-y-3" onSubmit={(e) => { e.preventDefault(); const fd = new FormData(e.currentTarget as HTMLFormElement); const name = (fd.get('name') as string) || 'Anonymous'; const email = (fd.get('email') as string) || ''; const message = (fd.get('message') as string) || ''; if(!message || message.trim().length < 5){ toast({ title: 'Message too short', description: 'Please enter a longer message.' }); return; } /* send suggestion - placeholder */ toast({ title: 'Thanks!', description: 'Your suggestion was sent. We appreciate your feedback.' }); (e.currentTarget as HTMLFormElement).reset(); }}>
                     <div className="grid md:grid-cols-2 gap-3">
                       <input name="name" placeholder="Your name" className="input bg-background border-border rounded-md p-2 w-full" />
                       <input name="email" placeholder="Email (optional)" type="email" className="input bg-background border-border rounded-md p-2 w-full" />
