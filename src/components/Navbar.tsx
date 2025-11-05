@@ -283,6 +283,13 @@ const Navbar = () => {
             </button>
           </div>
 
+          {sessionUser && (
+            <div className="mb-6 p-3 bg-primary/10 rounded-lg border border-primary/20">
+              <p className="text-sm font-semibold truncate">{sessionUser.email}</p>
+              <p className="text-xs text-muted-foreground">Logged in</p>
+            </div>
+          )}
+
           <Button
             onClick={() => {
               navigate("/careers");
