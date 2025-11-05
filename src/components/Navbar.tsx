@@ -355,12 +355,52 @@ const Navbar = () => {
             </div>
           </div>
 
-          <Button
-            onClick={() => scrollToSection("contact")}
-            className="w-full bg-gradient-primary mt-4"
-          >
-            Get Free Quote
-          </Button>
+          {sessionUser ? (
+            <>
+              <Button
+                onClick={() => {
+                  navigate("/subscription-member");
+                  setIsMobileMenuOpen(false);
+                }}
+                className="w-full bg-primary/10 text-primary border border-primary/30 mb-2"
+              >
+                My Dashboard
+              </Button>
+              <Button
+                onClick={async () => {
+                  await signOut();
+                  setIsMobileMenuOpen(false);
+                }}
+                variant="outline"
+                className="w-full border-red-500/30 text-red-600 hover:bg-red-500/10"
+              >
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                onClick={() => {
+                  navigate("/auth");
+                  setIsMobileMenuOpen(false);
+                }}
+                variant="outline"
+                className="w-full border-primary/30 hover:bg-primary/10 mb-2"
+              >
+                Login
+              </Button>
+              <Button
+                onClick={() => {
+                  scrollToSection("contact");
+                  setIsMobileMenuOpen(false);
+                }}
+                className="w-full bg-gradient-primary"
+              >
+                Get Free Quote
+              </Button>
+            </>
+          )}
         </div>
       </motion.div>
     </>
