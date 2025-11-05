@@ -60,7 +60,10 @@ const Auth: React.FC = () => {
           const userId = `user-${Date.now()}`;
           await upsertProfile(userId, email, marketingOptIn);
           localStorage.setItem("currentUserId", userId);
-          navigate(next, { replace: true });
+          toast({ title: "Success!", description: "Account created. Redirecting..." });
+          setTimeout(() => {
+            window.location.href = next;
+          }, 500);
         } else {
           const { data, error } = await supabase.auth.signUp({ email, password });
           if (error) throw error;
@@ -77,10 +80,10 @@ const Auth: React.FC = () => {
             toast({ title: "Authentication error", description: "Email not found", variant: "destructive" as any });
           } else {
             localStorage.setItem("currentUserId", userProfile.user_id);
-            toast({ title: "Enable notifications?", description: "Get emails about offers and updates.", action: (
-              <Button onClick={async () => { await upsertProfile(userProfile.user_id, email, true); toast({ title: "Notifications enabled" }); }}>Enable</Button>
-            ) });
-            navigate(next, { replace: true });
+            toast({ title: "Success!", description: "Logged in. Redirecting..." });
+            setTimeout(() => {
+              window.location.href = next;
+            }, 500);
           }
         } else {
           const { data, error } = await supabase.auth.signInWithPassword({ email, password });
