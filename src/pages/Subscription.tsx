@@ -135,50 +135,12 @@ const Subscription = () => {
       return;
     }
 
-    const selectedPlanData = membershipPlans.find(
-      (p) => p.id === state.selectedPlan
-    );
-
-    toast({
-      title: "Processing Payment",
-      description: "Preparing your checkout...",
-    });
-
-    // Process payment
-    const paymentResult = await processPayment({
-      planId: state.selectedPlan,
-      customerId: sessionUser?.id || "anonymous",
-      email: sessionUser?.email || "unknown@example.com",
-      paymentFrequency: state.paymentFrequency,
-      agreedToTerms: state.agreedToTerms,
-    });
-
-    if (paymentResult.success) {
-      // Generate unique access code for member
-      const accessCode = generateAccessCode();
-
-      toast({
-        title: "Payment Processed",
-        description: `Subscription confirmed! Your access code: ${accessCode}`,
-      });
-
-      try {
-        if (sessionUser && state.selectedPlan) {
-          await createMembershipRecord({ userId: sessionUser.id, planId: state.selectedPlan, accessCode });
-          navigate("/subscription-member", { replace: true });
-        } else {
-          toast({ title: "Login required", description: "Please log in to finalize your membership.", variant: "destructive" as any });
-        }
-      } catch (e: any) {
-        toast({ title: "Error saving membership", description: e.message, variant: "destructive" as any });
-      }
-    } else {
-      toast({
-        title: "Payment Failed",
-        description:
-          paymentResult.error || "Unable to process payment. Please try again.",
-      });
+    if (!sessionUser) {
+      navigate(`/auth?next=${encodeURIComponent(`/checkout?plan=${state.selectedPlan}`)}`);
+      return;
     }
+
+    navigate(`/checkout?plan=${state.selectedPlan}`);
   };
 
   const getSelectedPlanPrice = () => {
