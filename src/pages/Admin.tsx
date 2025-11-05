@@ -6,9 +6,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { useAuth } from "@/context/AuthProvider";
 
 function downloadCsv(filename: string, rows: any[]) {
-  if (!rows.length) return;
-  const headers = Object.keys(rows[0]);
-  const csv = [headers.join(",")].concat(rows.map(r => headers.map(h => JSON.stringify(r[h] ?? "")).join(","))).join("\n");
+  if (!rows || !rows.length) return;
+  const headers = Array.from(new Set(rows.flatMap(r => Object.keys(r))));
+  const csv = [headers.join(",")]
+    .concat(rows.map(r => headers.map(h => JSON.stringify((r as any)[h] ?? "")).join(",")))
+    .join("\n");
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
@@ -24,15 +26,13 @@ const Admin: React.FC = () => {
 
   useEffect(() => {
     async function load() {
-      const [{ count: userCount }, { count: memberCount }, { data: recentUsers }] = await Promise.all([
-        supabase.from("profiles").select("*", { count: "exact", head: true }),
-        supabase.from("memberships").select("*", { count: "exact", head: true }).eq("status", "active"),
-        supabase.from("profiles").select("email,created_at").order("created_at", { ascending: false }).limit(10),
-      ] as any;
-      setStats({ users: userCount ?? 0, members: memberCount ?? 0 });
-      setRecent(recentUsers ?? []);
+      const usersHead = await supabase.from("profiles").select("*", { count: "exact", head: true });
+      const membersHead = await supabase.from("memberships").select("*", { count: "exact", head: true }).eq("status", "active");
+      const recentUsers = await supabase.from("profiles").select("email,created_at").order("created_at", { ascending: false }).limit(10);
+      setStats({ users: usersHead.count ?? 0, members: membersHead.count ?? 0 });
+      setRecent(recentUsers.data ?? []);
     }
-    if (isAdmin) load();
+    if (isAdmin) void load();
   }, [isAdmin, supabase]);
 
   const exportUsers = async () => {
