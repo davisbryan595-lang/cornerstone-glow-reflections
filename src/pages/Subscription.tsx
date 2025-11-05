@@ -163,9 +163,16 @@ const Subscription = () => {
         description: `Subscription confirmed! Your access code: ${accessCode}`,
       });
 
-      // In a real implementation, redirect to Stripe checkout
-      // or success page
-      // window.location.href = `/payment-success?code=${accessCode}`;
+      try {
+        if (sessionUser && state.selectedPlan) {
+          await createMembershipRecord({ userId: sessionUser.id, planId: state.selectedPlan, accessCode });
+          navigate("/subscription-member", { replace: true });
+        } else {
+          toast({ title: "Login required", description: "Please log in to finalize your membership.", variant: "destructive" as any });
+        }
+      } catch (e: any) {
+        toast({ title: "Error saving membership", description: e.message, variant: "destructive" as any });
+      }
     } else {
       toast({
         title: "Payment Failed",
