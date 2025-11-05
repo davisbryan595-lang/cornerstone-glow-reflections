@@ -26,6 +26,8 @@ const Subscription = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
   const { toast } = useToast();
+  const { sessionUser } = useAuth();
+  const navigate = useNavigate();
   const [state, setState] = useState<SubscriptionState>({
     hasAccessCode: false,
     accessCode: "",
