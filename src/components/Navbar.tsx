@@ -19,6 +19,7 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isMobilePricingDropdownOpen, setIsMobilePricingDropdownOpen] = useState(false);
   const navigate = useNavigate();
   const { sessionUser, signOut, loading } = useAuth();
 
