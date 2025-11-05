@@ -30,6 +30,16 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setIsUserMenuOpen(false);
+    };
+    if (isUserMenuOpen) {
+      document.addEventListener("click", handleClickOutside);
+      return () => document.removeEventListener("click", handleClickOutside);
+    }
+  }, [isUserMenuOpen]);
+
   const scrollToSection = (id: string) => {
     // If link has an explicit route path, navigate to it
     const link = navLinks.find((l) => l.id === id && l.path);
