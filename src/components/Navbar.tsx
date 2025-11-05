@@ -168,7 +168,7 @@ const Navbar = () => {
               ))}
             </div>
 
-            {/* CTA Buttons */}
+            {/* CTA Buttons & User Menu */}
             <div className="hidden lg:flex items-center gap-3">
               <Button
                 onClick={() => navigate("/careers")}
@@ -176,12 +176,79 @@ const Navbar = () => {
               >
                 Apply for Job
               </Button>
-              <Button
-                onClick={() => scrollToSection("contact")}
-                className="bg-gradient-primary hover:shadow-glow-primary transition-all duration-300"
-              >
-                Get Free Quote
-              </Button>
+
+              {loading ? null : sessionUser ? (
+                <div className="relative">
+                  <motion.button
+                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                    whileHover={{ scale: 1.05 }}
+                    className="p-2 rounded-full bg-primary/10 hover:bg-primary/20 transition-all duration-300 flex items-center justify-center"
+                    title={sessionUser.email}
+                  >
+                    <User className="w-5 h-5 text-primary" />
+                  </motion.button>
+
+                  {isUserMenuOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="absolute right-0 mt-2 w-48 bg-card border border-border rounded-lg shadow-xl overflow-hidden z-50"
+                    >
+                      <div className="px-4 py-3 border-b border-border">
+                        <p className="text-sm font-semibold truncate">{sessionUser.email}</p>
+                        <p className="text-xs text-muted-foreground">Logged in</p>
+                      </div>
+                      <button
+                        onClick={() => {
+                          navigate("/subscription-member");
+                          setIsUserMenuOpen(false);
+                        }}
+                        className="w-full text-left px-4 py-2 hover:bg-primary/10 transition-colors flex items-center gap-2 text-sm"
+                      >
+                        <User className="w-4 h-4" />
+                        My Dashboard
+                      </button>
+                      <button
+                        onClick={() => {
+                          navigate("/admin");
+                          setIsUserMenuOpen(false);
+                        }}
+                        className="w-full text-left px-4 py-2 hover:bg-primary/10 transition-colors flex items-center gap-2 text-sm"
+                      >
+                        <User className="w-4 h-4" />
+                        Admin Panel
+                      </button>
+                      <button
+                        onClick={async () => {
+                          await signOut();
+                          setIsUserMenuOpen(false);
+                        }}
+                        className="w-full text-left px-4 py-2 hover:bg-red-500/10 text-red-600 transition-colors flex items-center gap-2 text-sm border-t border-border"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        Logout
+                      </button>
+                    </motion.div>
+                  )}
+                </div>
+              ) : (
+                <>
+                  <Button
+                    onClick={() => navigate("/auth")}
+                    variant="outline"
+                    className="border-primary/30 hover:bg-primary/10 transition-all duration-300"
+                  >
+                    Login
+                  </Button>
+                  <Button
+                    onClick={() => scrollToSection("contact")}
+                    className="bg-gradient-primary hover:shadow-glow-primary transition-all duration-300"
+                  >
+                    Get Free Quote
+                  </Button>
+                </>
+              )}
             </div>
 
             {/* Mobile Menu Button */}
