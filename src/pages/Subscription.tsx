@@ -10,6 +10,9 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
 import { calculateTotalPrice, processPayment, generateAccessCode } from "@/lib/payment";
+import { useAuth } from "@/context/AuthProvider";
+import { createMembershipRecord } from "@/lib/membership";
+import { useNavigate } from "react-router-dom";
 
 interface SubscriptionState {
   hasAccessCode: boolean;
