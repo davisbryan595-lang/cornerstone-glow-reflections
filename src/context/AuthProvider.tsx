@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { getSupabase } from "@/lib/supabase";
+import { mockDb } from "@/lib/mockDatabase";
 
 export type Profile = {
   id?: string;
@@ -49,36 +50,43 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
+  const isUsingMockDb = !supabase;
+
   async function loadUser() {
-    if (!supabase) {
-      setLoading(false);
-      return;
-    }
     setLoading(true);
-    const { data: { session } } = await supabase.auth.getSession();
-    const user = session?.user ? { id: session.user.id, email: session.user.email } : null;
-    setSessionUser(user);
+    try {
+      let user: { id: string; email?: string | null } | null = null;
 
-    if (user) {
-      const { data: prof } = await supabase
-        .from("profiles")
-        .select("id,user_id,email,role,marketing_opt_in,created_at")
-        .eq("user_id", user.id)
-        .maybeSingle();
-      setProfile(prof ?? null);
+      if (isUsingMockDb) {
+        // For mock DB, we'll use localStorage to track the current user
+        const storedUserId = localStorage.getItem("currentUserId");
+        if (storedUserId) {
+          const prof = await mockDb.profiles.get(storedUserId);
+          if (prof) {
+            user = { id: storedUserId, email: prof.email };
+          }
+        }
+      } else {
+        // Use Supabase
+        const { data: { session } } = await supabase.auth.getSession();
+        user = session?.user ? { id: session.user.id, email: session.user.email } : null;
+      }
 
-      const { data: member } = await supabase
-        .from("memberships")
-        .select("id,user_id,plan_id,status,payment_status,access_code,next_billing_at,start_date,end_date")
-        .eq("user_id", user.id)
-        .eq("status", "active")
-        .maybeSingle();
-      setMembership(member ?? null);
-    } else {
-      setProfile(null);
-      setMembership(null);
+      setSessionUser(user);
+
+      if (user) {
+        const prof = await mockDb.profiles.get(user.id);
+        setProfile(prof ?? null);
+
+        const member = await mockDb.memberships.getActive(user.id);
+        setMembership(member ?? null);
+      } else {
+        setProfile(null);
+        setMembership(null);
+      }
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   useEffect(() => {
@@ -101,9 +109,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     isMember: Boolean(membership && membership.status === "active"),
     isAdmin: profile?.role === "admin",
     signOut: async () => {
-      if (!supabase) return;
-      await supabase.auth.signOut();
-      await loadUser();
+      if (isUsingMockDb) {
+        localStorage.removeItem("currentUserId");
+        await loadUser();
+      } else if (supabase) {
+        await supabase.auth.signOut();
+        await loadUser();
+      }
     },
     refresh: loadUser,
   };
