@@ -1,5 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { Check, Award, Zap, Heart, Shield } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -102,6 +103,49 @@ const Membership = () => {
         </section>
 
 
+        {/* Dashboard Preview */}
+        <section className="py-16">
+          <div className="container mx-auto px-4">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6 }}
+              className="text-center mb-8"
+            >
+              <h3 className="text-2xl font-montserrat font-bold mb-2">Member Dashboard Preview</h3>
+              <p className="text-muted-foreground max-w-2xl mx-auto mb-6">Quick access to scheduling, plan management, and member support—no billing changes here.</p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5 }}
+                className="bg-card border border-border rounded-2xl p-6 flex flex-col gap-4"
+              >
+                <h4 className="font-montserrat font-bold text-lg">Manage Membership</h4>
+                <p className="text-sm text-muted-foreground">View plan details, pause or resume membership, and access member resources.</p>
+                <div className="mt-auto">
+                  <Button className="bg-gradient-primary" onClick={() => navigate('/subscription-member')}>Open Dashboard</Button>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6 }}
+                className="bg-card border border-border rounded-2xl p-6 flex flex-col gap-4"
+              >
+                <h4 className="font-montserrat font-bold text-lg">Schedule Service</h4>
+                <p className="text-sm text-muted-foreground">Quickly schedule upcoming maintenance or request a specific technician.</p>
+                <div className="mt-auto">
+                  <Button className="bg-primary/10 text-primary border border-primary" onClick={() => navigate('/subscription')}>Schedule Now</Button>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
         {/* Tiers */}
         <section className="py-20">
           <div className="container mx-auto px-4">
@@ -155,6 +199,40 @@ const Membership = () => {
                     Get Started
                   </Button>
                 </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Testimonials */}
+        <section className="py-20 bg-background/50">
+          <div className="container mx-auto px-4">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6 }}
+              className="text-center mb-8"
+            >
+              <h3 className="text-3xl font-montserrat font-bold mb-2">What Members Say</h3>
+              <p className="text-muted-foreground max-w-2xl mx-auto">Real members, real results—why our members stick with us.</p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {[
+                { quote: "My car never looked better. Membership made maintenance effortless.", author: "— Sarah L." },
+                { quote: "Priority scheduling is a game changer. I always get the time I want.", author: "— Marcus T." },
+                { quote: "Great value and excellent attention to detail. Highly recommend.", author: "— Priya R." },
+              ].map((t, i) => (
+                <motion.blockquote
+                  key={i}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.45, delay: i * 0.08 }}
+                  className="bg-card border border-border rounded-xl p-6 text-sm"
+                >
+                  <p className="mb-4 text-muted-foreground">"{t.quote}"</p>
+                  <cite className="text-xs font-semibold">{t.author}</cite>
+                </motion.blockquote>
               ))}
             </div>
           </div>
