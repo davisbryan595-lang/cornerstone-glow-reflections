@@ -147,208 +147,70 @@ const SubscriptionMember = () => {
           </div>
         </section>
 
-        {/* Quick Actions */}
+        {/* Member Status Only Dashboard */}
         <section className="py-20">
-          <div className="container mx-auto px-4">
-            <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5 }}
-                onClick={handleScheduleService}
-                className="group relative bg-gradient-to-br from-primary to-primary/80 rounded-2xl p-8 text-left hover:shadow-glow-primary transition-all duration-300"
-              >
-                <div className="relative z-10">
-                  <p className="text-primary-foreground/80 text-sm font-inter mb-2">
-                    Next Step
-                  </p>
-                  <h3 className="text-2xl font-montserrat font-bold text-primary-foreground mb-2">
-                    Schedule Your Service
-                  </h3>
-                  <p className="text-primary-foreground/70 font-inter text-sm mb-4">
-                    Book your next maintenance appointment at your convenience.
-                  </p>
-                  <div className="inline-block">
-                    <Button
-                      className="bg-primary-foreground text-primary hover:bg-primary-foreground/90"
-                      onClick={handleScheduleService}
-                    >
-                      Book Now →
-                    </Button>
-                  </div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                onClick={handleUpgradePlan}
-                className="group relative bg-gradient-to-br from-card via-card to-card/50 border border-primary/20 rounded-2xl p-8 text-left hover:border-primary/50 transition-all duration-300"
-              >
-                <div className="relative z-10">
-                  <p className="text-primary text-sm font-inter mb-2">
-                    Enhance Your Plan
-                  </p>
-                  <h3 className="text-2xl font-montserrat font-bold text-foreground mb-2">
-                    Upgrade Your Membership
-                  </h3>
-                  <p className="text-muted-foreground font-inter text-sm mb-4">
-                    Get more benefits and enhanced protection for your vehicle.
-                  </p>
-                  <div className="inline-block">
-                    <Button
-                      variant="outline"
-                      className="border-primary hover:bg-primary/10"
-                      onClick={handleUpgradePlan}
-                    >
-                      Explore Plans →
-                    </Button>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </section>
-
-        {/* Member Benefits */}
-        <section className="py-20 bg-card/30 border-y border-border">
-          <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-4xl md:text-5xl font-montserrat font-bold mb-4">
-                Member Benefits
-              </h2>
-              <p className="text-muted-foreground font-inter max-w-2xl mx-auto">
-                Enjoy exclusive advantages reserved just for our valued members
-              </p>
-            </motion.div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
-              {memberBenefits.map((benefit, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="bg-card border border-border rounded-xl p-6 hover:border-primary/50 transition-all duration-300 group"
-                >
-                  <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center mb-4 group-hover:shadow-glow-primary transition-all duration-300">
-                    <benefit.icon className="w-6 h-6 text-primary-foreground" />
-                  </div>
-                  <h3 className="text-lg font-montserrat font-bold mb-2">
-                    {benefit.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground font-inter">
-                    {benefit.description}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Membership Tiers */}
-        <section className="py-20">
-          <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-4xl md:text-5xl font-montserrat font-bold mb-4">
-                Your Plan Options
-              </h2>
-              <p className="text-muted-foreground font-inter max-w-2xl mx-auto">
-                Choose the plan that fits your vehicle maintenance needs
-              </p>
-            </motion.div>
-
-            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-              {membershipTiers.map((tier, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className={`rounded-2xl p-8 flex flex-col transition-all duration-300 ${
-                    tier.featured
-                      ? "bg-gradient-to-br from-primary/20 to-primary/5 border-2 border-primary shadow-glow-primary"
-                      : "bg-card border border-border hover:border-primary/50"
-                  }`}
-                >
-                  {tier.featured && (
-                    <div className="bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full w-fit mb-4">
-                      Most Popular
-                    </div>
-                  )}
-
-                  <h3 className="text-2xl font-montserrat font-bold mb-2">
-                    {tier.name}
-                  </h3>
-                  <div className="text-3xl font-montserrat font-bold text-primary mb-6">
-                    {tier.price}
-                  </div>
-
-                  <ul className="flex-1 space-y-3 mb-6">
-                    {tier.benefits.map((benefit, idx) => (
-                      <li
-                        key={idx}
-                        className="flex items-start gap-3 text-sm font-inter"
-                      >
-                        <Check className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                        <span>{benefit}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <Button
-                    onClick={handleUpgradePlan}
-                    className={`w-full ${
-                      tier.featured
-                        ? "bg-gradient-primary hover:shadow-glow-primary"
-                        : "bg-primary/10 hover:bg-primary/20 text-primary border border-primary"
-                    }`}
-                  >
-                    {tier.featured ? "Current Plan" : "Upgrade to This Plan"}
-                  </Button>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Support */}
-        <section className="py-16 bg-card/30 border-t border-border">
-          <div className="container mx-auto px-4 text-center">
+          <div className="container mx-auto px-4 max-w-3xl">
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6 }}
+              className="bg-card border border-border rounded-2xl p-6"
             >
-              <h3 className="text-2xl font-montserrat font-bold mb-4">
-                Need Assistance?
-              </h3>
-              <p className="text-muted-foreground mb-6 font-inter">
-                Our dedicated support team is here to help with any questions
-                about your membership.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="tel:980-312-4236">
-                  <Button className="bg-gradient-primary hover:shadow-glow-primary">
-                    Call Support: 980-312-4236
-                  </Button>
-                </a>
-                <a href="mailto:cornerstonemobile55@gmail.com">
-                  <Button variant="outline">
-                    Email: cornerstonemobile55@gmail.com
-                  </Button>
-                </a>
+              <h3 className="text-2xl font-montserrat font-bold mb-4">Your Membership Status</h3>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div className="p-4 bg-background/50 rounded-lg">
+                  <p className="text-xs text-muted-foreground">Plan</p>
+                  <p className="font-semibold">Maintenance - Premium</p>
+                </div>
+                <div className="p-4 bg-background/50 rounded-lg">
+                  <p className="text-xs text-muted-foreground">Membership Status</p>
+                  <p className="font-semibold text-emerald-500">Active</p>
+                </div>
+                <div className="p-4 bg-background/50 rounded-lg">
+                  <p className="text-xs text-muted-foreground">Payment Status</p>
+                  <p className="font-semibold">Paid</p>
+                </div>
+              </div>
+
+              <div className="border-t border-border pt-4 mb-6">
+                <p className="text-sm text-muted-foreground">Billing</p>
+                <p className="font-medium">Monthly • Next billing: 2025-01-15</p>
+              </div>
+
+              <div className="mb-4">
+                <h4 className="font-semibold mb-2">Recommended Upgrades</h4>
+                <ul className="space-y-3">
+                  <li className="flex items-center justify-between">
+                    <div>
+                      <p className="font-medium">Ceramic Touch-up</p>
+                      <p className="text-sm text-muted-foreground">Add between services to extend protection.</p>
+                    </div>
+                    <Button className="bg-gradient-primary" onClick={() => toast({ title: 'Upgrade', description: 'Redirecting to upgrade flow...' })}>Upgrade</Button>
+                  </li>
+
+                  <li className="flex items-center justify-between">
+                    <div>
+                      <p className="font-medium">Elite Upgrade</p>
+                      <p className="text-sm text-muted-foreground">Quarterly care + concierge support.</p>
+                    </div>
+                    <Button className="bg-primary/10 text-primary border border-primary" onClick={() => toast({ title: 'Upgrade', description: 'Redirecting to upgrade flow...' })}>Learn More</Button>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="border-t border-border pt-4">
+                <h4 className="font-semibold mb-3">Send a suggestion</h4>
+                <form onSubmit={(e) => { e.preventDefault(); const fd = new FormData(e.currentTarget as HTMLFormElement); const name = (fd.get('name') as string) || 'Anonymous'; const email = (fd.get('email') as string) || ''; const message = (fd.get('message') as string) || ''; if(!message || message.trim().length < 5){ toast({ title: 'Message too short', description: 'Please enter a longer message.' }); return; } toast({ title: 'Thanks!', description: 'Your suggestion was received.' }); (e.currentTarget as HTMLFormElement).reset(); }} className="space-y-3">
+                  <div className="grid md:grid-cols-2 gap-3">
+                    <input name="name" placeholder="Your name" className="input bg-background border-border rounded-md p-2 w-full" />
+                    <input name="email" placeholder="Email (optional)" type="email" className="input bg-background border-border rounded-md p-2 w-full" />
+                  </div>
+                  <textarea name="message" placeholder="Tell us your suggestion" className="input bg-background border-border rounded-md p-2 w-full h-28" />
+                  <div className="flex justify-end">
+                    <Button type="submit" className="bg-gradient-primary">Send Suggestion</Button>
+                  </div>
+                </form>
               </div>
             </motion.div>
           </div>
