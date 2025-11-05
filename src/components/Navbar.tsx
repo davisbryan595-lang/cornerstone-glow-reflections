@@ -60,6 +60,7 @@ const Navbar = () => {
     { name: "Services", id: "services" },
     { name: "Pricing", id: "pricing" },
     { name: "Maintenance Plans", id: "maintenance-plans", path: "/maintenance-plans" },
+    { name: "Membership", id: "membership", path: "/membership" },
     { name: "Gallery", id: "gallery" },
     { name: "Team", id: "team" },
     { name: "Contact", id: "contact" },
