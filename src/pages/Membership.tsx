@@ -11,6 +11,7 @@ const Membership = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   const benefits = [
     {
