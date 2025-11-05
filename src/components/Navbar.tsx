@@ -162,80 +162,68 @@ const Navbar = () => {
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-1">
-              {navLinks.map((link, index) => {
-                const hasPricingDropdown = link.id === "pricing";
-                const [showDropdown, setShowDropdown] = useState(false);
-
-                return (
-                  <div key={link.id} className="relative group">
-                    <motion.button
-                      onClick={() => scrollToSection(link.id)}
-                      className="px-4 py-2 font-inter font-medium text-sm relative"
-                      whileHover={{ scale: 1.05 }}
-                      initial={{ opacity: 0, y: -20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      onMouseEnter={() => hasPricingDropdown && setShowDropdown(true)}
-                      onMouseLeave={() => hasPricingDropdown && setShowDropdown(false)}
-                    >
+              {navLinks.map((link, index) => (
+                <motion.div
+                  key={link.id}
+                  className={link.id === "pricing" ? "relative group" : ""}
+                  onMouseEnter={() => link.id === "pricing" && setIsUserMenuOpen(false)}
+                >
+                  <motion.button
+                    onClick={() => scrollToSection(link.id)}
+                    className="px-4 py-2 font-inter font-medium text-sm relative group"
+                    whileHover={{ scale: 1.05 }}
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <span className="flex items-center gap-1">
                       {link.name}
-                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-primary group-hover:w-full transition-all duration-300" />
-                      {hasPricingDropdown && (
-                        <span className="ml-1 text-xs">▼</span>
-                      )}
-                    </motion.button>
+                      {link.id === "pricing" && <span className="text-xs">▼</span>}
+                    </span>
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-primary group-hover:w-full transition-all duration-300" />
+                  </motion.button>
 
-                    {hasPricingDropdown && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={showDropdown ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }}
-                        transition={{ duration: 0.2 }}
-                        className={`absolute left-0 mt-0 w-48 bg-card border border-border rounded-lg shadow-xl overflow-hidden z-50 ${
-                          showDropdown ? "pointer-events-auto" : "pointer-events-none"
-                        }`}
-                        onMouseEnter={() => setShowDropdown(true)}
-                        onMouseLeave={() => setShowDropdown(false)}
+                  {link.id === "pricing" && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute left-0 mt-2 w-56 bg-card border border-border rounded-xl shadow-xl overflow-hidden z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300"
+                    >
+                      <motion.button
+                        onClick={() => navigate("/pricing")}
+                        className="w-full text-left px-4 py-3 hover:bg-primary/10 transition-colors text-sm font-inter flex items-center gap-3 group/item"
+                        whileHover={{ paddingLeft: 20 }}
                       >
-                        <motion.button
-                          onClick={() => {
-                            navigate("/pricing");
-                            setShowDropdown(false);
-                          }}
-                          className="w-full text-left px-4 py-3 hover:bg-primary/10 transition-colors text-sm font-inter flex items-center gap-2 group/item"
-                          whileHover={{ paddingLeft: 20 }}
-                        >
-                          <span className="w-1.5 h-1.5 rounded-full bg-gradient-primary" />
-                          Pricing
-                        </motion.button>
+                        <span className="w-2 h-2 rounded-full bg-gradient-to-r from-primary to-accent flex-shrink-0" />
+                        <span>Pricing Plans</span>
+                      </motion.button>
 
-                        <motion.button
-                          onClick={() => {
-                            navigate("/maintenance-plans");
-                            setShowDropdown(false);
-                          }}
-                          className="w-full text-left px-4 py-3 hover:bg-primary/10 transition-colors text-sm font-inter flex items-center gap-2 border-t border-border/50 group/item"
-                          whileHover={{ paddingLeft: 20 }}
-                        >
-                          <span className="w-1.5 h-1.5 rounded-full bg-gradient-primary" />
-                          Maintenance Plans
-                        </motion.button>
+                      <motion.div className="border-t border-border/30" />
 
-                        <motion.button
-                          onClick={() => {
-                            navigate("/membership");
-                            setShowDropdown(false);
-                          }}
-                          className="w-full text-left px-4 py-3 hover:bg-primary/10 transition-colors text-sm font-inter flex items-center gap-2 border-t border-border/50 group/item"
-                          whileHover={{ paddingLeft: 20 }}
-                        >
-                          <span className="w-1.5 h-1.5 rounded-full bg-gradient-primary" />
-                          Membership
-                        </motion.button>
-                      </motion.div>
-                    )}
-                  </div>
-                );
-              })}
+                      <motion.button
+                        onClick={() => navigate("/maintenance-plans")}
+                        className="w-full text-left px-4 py-3 hover:bg-primary/10 transition-colors text-sm font-inter flex items-center gap-3 group/item"
+                        whileHover={{ paddingLeft: 20 }}
+                      >
+                        <span className="w-2 h-2 rounded-full bg-gradient-to-r from-primary to-accent flex-shrink-0" />
+                        <span>Maintenance Plans</span>
+                      </motion.button>
+
+                      <motion.div className="border-t border-border/30" />
+
+                      <motion.button
+                        onClick={() => navigate("/membership")}
+                        className="w-full text-left px-4 py-3 hover:bg-primary/10 transition-colors text-sm font-inter flex items-center gap-3 group/item"
+                        whileHover={{ paddingLeft: 20 }}
+                      >
+                        <span className="w-2 h-2 rounded-full bg-gradient-to-r from-primary to-accent flex-shrink-0" />
+                        <span>Membership</span>
+                      </motion.button>
+                    </motion.div>
+                  )}
+                </motion.div>
+              ))}
             </div>
 
             {/* CTA Buttons & User Menu */}
