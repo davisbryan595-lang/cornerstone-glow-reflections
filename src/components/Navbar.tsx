@@ -207,6 +207,7 @@ const Navbar = () => {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
                       className="absolute right-0 mt-2 w-48 bg-card border border-border rounded-lg shadow-xl overflow-hidden z-50"
+                      onClick={(e) => e.stopPropagation()}
                     >
                       <div className="px-4 py-3 border-b border-border">
                         <p className="text-sm font-semibold truncate">{sessionUser.email}</p>
