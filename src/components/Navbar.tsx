@@ -363,15 +363,76 @@ const Navbar = () => {
             Apply for Job
           </Button>
 
-          <div className="flex flex-col gap-4 flex-1">
+          <div className="flex flex-col gap-2 flex-1">
             {navLinks.map((link) => (
-              <button
-                key={link.id}
-                onClick={() => scrollToSection(link.id)}
-                className="text-left px-4 py-3 rounded-lg hover:bg-primary/10 transition-colors font-inter"
-              >
-                {link.name}
-              </button>
+              <div key={link.id}>
+                {link.id === "pricing" ? (
+                  <>
+                    <button
+                      onClick={() => setIsMobilePricingDropdownOpen(!isMobilePricingDropdownOpen)}
+                      className="w-full text-left px-4 py-3 rounded-lg hover:bg-primary/10 transition-colors font-inter flex items-center justify-between"
+                    >
+                      <span>{link.name}</span>
+                      <motion.span
+                        animate={{ rotate: isMobilePricingDropdownOpen ? 180 : 0 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        ▼
+                      </motion.span>
+                    </button>
+                    {isMobilePricingDropdownOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="flex flex-col gap-1 bg-primary/5 rounded-lg mt-1 px-2 py-2"
+                      >
+                        <button
+                          onClick={() => {
+                            navigate("/pricing");
+                            setIsMobileMenuOpen(false);
+                            setIsMobilePricingDropdownOpen(false);
+                          }}
+                          className="text-left px-4 py-2 rounded hover:bg-primary/10 transition-colors text-sm flex items-center gap-2"
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full bg-gradient-primary" />
+                          Pricing Plans
+                        </button>
+                        <button
+                          onClick={() => {
+                            navigate("/maintenance-plans");
+                            setIsMobileMenuOpen(false);
+                            setIsMobilePricingDropdownOpen(false);
+                          }}
+                          className="text-left px-4 py-2 rounded hover:bg-primary/10 transition-colors text-sm flex items-center gap-2"
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full bg-gradient-primary" />
+                          Maintenance Plans
+                        </button>
+                        <button
+                          onClick={() => {
+                            navigate("/membership");
+                            setIsMobileMenuOpen(false);
+                            setIsMobilePricingDropdownOpen(false);
+                          }}
+                          className="text-left px-4 py-2 rounded hover:bg-primary/10 transition-colors text-sm flex items-center gap-2"
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full bg-gradient-primary" />
+                          Membership
+                        </button>
+                      </motion.div>
+                    )}
+                  </>
+                ) : (
+                  <button
+                    onClick={() => scrollToSection(link.id)}
+                    className="text-left px-4 py-3 rounded-lg hover:bg-primary/10 transition-colors font-inter"
+                  >
+                    {link.name}
+                  </button>
+                )}
+              </div>
             ))}
           </div>
 
