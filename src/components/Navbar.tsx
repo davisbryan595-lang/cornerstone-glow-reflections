@@ -190,7 +190,10 @@ const Navbar = () => {
               {loading ? null : sessionUser ? (
                 <div className="relative">
                   <motion.button
-                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsUserMenuOpen(!isUserMenuOpen);
+                    }}
                     whileHover={{ scale: 1.05 }}
                     className="p-2 rounded-full bg-primary/10 hover:bg-primary/20 transition-all duration-300 flex items-center justify-center"
                     title={sessionUser.email}
