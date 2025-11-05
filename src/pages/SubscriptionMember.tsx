@@ -151,7 +151,7 @@ const SubscriptionMember = () => {
         <section className="py-20">
           <div className="container mx-auto px-4">
             <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-              <motion.button
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5 }}
@@ -177,7 +177,7 @@ const SubscriptionMember = () => {
                     </Button>
                   </div>
                 </div>
-              </motion.button>
+              </motion.div>
 
               <motion.button
                 initial={{ opacity: 0, y: 20 }}
