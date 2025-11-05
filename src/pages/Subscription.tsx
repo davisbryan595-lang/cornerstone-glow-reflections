@@ -1,7 +1,6 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Check, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,6 +9,9 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
 import { calculateTotalPrice, processPayment, generateAccessCode } from "@/lib/payment";
+import { useAuth } from "@/context/AuthProvider";
+import { createMembershipRecord } from "@/lib/membership";
+import { useNavigate } from "react-router-dom";
 
 interface SubscriptionState {
   hasAccessCode: boolean;
@@ -23,6 +25,8 @@ const Subscription = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
   const { toast } = useToast();
+  const { sessionUser } = useAuth();
+  const navigate = useNavigate();
   const [state, setState] = useState<SubscriptionState>({
     hasAccessCode: false,
     accessCode: "",
@@ -143,8 +147,8 @@ const Subscription = () => {
     // Process payment
     const paymentResult = await processPayment({
       planId: state.selectedPlan,
-      customerId: "customer-123", // In a real app, this would be the logged-in user's ID
-      email: "customer@example.com", // In a real app, this would be the user's email
+      customerId: sessionUser?.id || "anonymous",
+      email: sessionUser?.email || "unknown@example.com",
       paymentFrequency: state.paymentFrequency,
       agreedToTerms: state.agreedToTerms,
     });
@@ -158,9 +162,16 @@ const Subscription = () => {
         description: `Subscription confirmed! Your access code: ${accessCode}`,
       });
 
-      // In a real implementation, redirect to Stripe checkout
-      // or success page
-      // window.location.href = `/payment-success?code=${accessCode}`;
+      try {
+        if (sessionUser && state.selectedPlan) {
+          await createMembershipRecord({ userId: sessionUser.id, planId: state.selectedPlan, accessCode });
+          navigate("/subscription-member", { replace: true });
+        } else {
+          toast({ title: "Login required", description: "Please log in to finalize your membership.", variant: "destructive" as any });
+        }
+      } catch (e: any) {
+        toast({ title: "Error saving membership", description: e.message, variant: "destructive" as any });
+      }
     } else {
       toast({
         title: "Payment Failed",
