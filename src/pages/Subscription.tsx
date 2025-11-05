@@ -148,8 +148,8 @@ const Subscription = () => {
     // Process payment
     const paymentResult = await processPayment({
       planId: state.selectedPlan,
-      customerId: "customer-123", // In a real app, this would be the logged-in user's ID
-      email: "customer@example.com", // In a real app, this would be the user's email
+      customerId: sessionUser?.id || "anonymous",
+      email: sessionUser?.email || "unknown@example.com",
       paymentFrequency: state.paymentFrequency,
       agreedToTerms: state.agreedToTerms,
     });
