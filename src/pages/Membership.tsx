@@ -101,41 +101,6 @@ const Membership = () => {
           </div>
         </section>
 
-        {/* Benefits */}
-        <section className="py-20 bg-card/30 border-y border-border">
-          <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-16"
-              ref={ref}
-            >
-              <h2 className="text-4xl md:text-5xl font-montserrat font-bold mb-4">Why Become a Member?</h2>
-              <p className="text-muted-foreground font-inter max-w-2xl mx-auto">
-                Enjoy predictable maintenance, better protection, and exclusive perks that save time and money.
-              </p>
-            </motion.div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
-              {benefits.map((item, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="bg-card border border-border rounded-xl p-6 hover:border-primary/50 transition-all duration-300 group"
-                >
-                  <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center mb-4 group-hover:shadow-glow-primary transition-all duration-300">
-                    <item.icon className="w-6 h-6 text-primary-foreground" />
-                  </div>
-                  <h3 className="text-lg font-montserrat font-bold mb-2">{item.title}</h3>
-                  <p className="text-sm text-muted-foreground font-inter">{item.description}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
 
         {/* Tiers */}
         <section className="py-20">
@@ -209,6 +174,42 @@ const Membership = () => {
                 Choose a Plan
               </Button>
             </motion.div>
+          </div>
+        </section>
+
+        {/* Benefits (moved to bottom) */}
+        <section className="py-20 bg-card/30 border-y border-border">
+          <div className="container mx-auto px-4">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6 }}
+              className="text-center mb-16"
+              ref={ref}
+            >
+              <h2 className="text-4xl md:text-5xl font-montserrat font-bold mb-4">Why Become a Member?</h2>
+              <p className="text-muted-foreground font-inter max-w-2xl mx-auto">
+                Enjoy predictable maintenance, better protection, and exclusive perks that save time and money.
+              </p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+              {benefits.map((item, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  className="bg-card border border-border rounded-xl p-6 hover:border-primary/50 transition-all duration-300 group"
+                >
+                  <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center mb-4 group-hover:shadow-glow-primary transition-all duration-300">
+                    <item.icon className="w-6 h-6 text-primary-foreground" />
+                  </div>
+                  <h3 className="text-lg font-montserrat font-bold mb-2">{item.title}</h3>
+                  <p className="text-sm text-muted-foreground font-inter">{item.description}</p>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </section>
       </main>
