@@ -162,20 +162,80 @@ const Navbar = () => {
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-1">
-              {navLinks.map((link, index) => (
-                <motion.button
-                  key={link.id}
-                  onClick={() => scrollToSection(link.id)}
-                  className="px-4 py-2 font-inter font-medium text-sm relative group"
-                  whileHover={{ scale: 1.05 }}
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  {link.name}
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-primary group-hover:w-full transition-all duration-300" />
-                </motion.button>
-              ))}
+              {navLinks.map((link, index) => {
+                const hasPricingDropdown = link.id === "pricing";
+                const [showDropdown, setShowDropdown] = useState(false);
+
+                return (
+                  <div key={link.id} className="relative group">
+                    <motion.button
+                      onClick={() => scrollToSection(link.id)}
+                      className="px-4 py-2 font-inter font-medium text-sm relative"
+                      whileHover={{ scale: 1.05 }}
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      onMouseEnter={() => hasPricingDropdown && setShowDropdown(true)}
+                      onMouseLeave={() => hasPricingDropdown && setShowDropdown(false)}
+                    >
+                      {link.name}
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-primary group-hover:w-full transition-all duration-300" />
+                      {hasPricingDropdown && (
+                        <span className="ml-1 text-xs">▼</span>
+                      )}
+                    </motion.button>
+
+                    {hasPricingDropdown && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={showDropdown ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }}
+                        transition={{ duration: 0.2 }}
+                        className={`absolute left-0 mt-0 w-48 bg-card border border-border rounded-lg shadow-xl overflow-hidden z-50 ${
+                          showDropdown ? "pointer-events-auto" : "pointer-events-none"
+                        }`}
+                        onMouseEnter={() => setShowDropdown(true)}
+                        onMouseLeave={() => setShowDropdown(false)}
+                      >
+                        <motion.button
+                          onClick={() => {
+                            navigate("/pricing");
+                            setShowDropdown(false);
+                          }}
+                          className="w-full text-left px-4 py-3 hover:bg-primary/10 transition-colors text-sm font-inter flex items-center gap-2 group/item"
+                          whileHover={{ paddingLeft: 20 }}
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full bg-gradient-primary" />
+                          Pricing
+                        </motion.button>
+
+                        <motion.button
+                          onClick={() => {
+                            navigate("/maintenance-plans");
+                            setShowDropdown(false);
+                          }}
+                          className="w-full text-left px-4 py-3 hover:bg-primary/10 transition-colors text-sm font-inter flex items-center gap-2 border-t border-border/50 group/item"
+                          whileHover={{ paddingLeft: 20 }}
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full bg-gradient-primary" />
+                          Maintenance Plans
+                        </motion.button>
+
+                        <motion.button
+                          onClick={() => {
+                            navigate("/membership");
+                            setShowDropdown(false);
+                          }}
+                          className="w-full text-left px-4 py-3 hover:bg-primary/10 transition-colors text-sm font-inter flex items-center gap-2 border-t border-border/50 group/item"
+                          whileHover={{ paddingLeft: 20 }}
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full bg-gradient-primary" />
+                          Membership
+                        </motion.button>
+                      </motion.div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
 
             {/* CTA Buttons & User Menu */}
