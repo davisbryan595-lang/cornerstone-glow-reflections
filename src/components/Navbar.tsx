@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Facebook, Instagram, Mail, Phone, Menu, X, Linkedin } from "lucide-react";
+import { Facebook, Instagram, Mail, Phone, Menu, X, Linkedin, LogOut, User } from "lucide-react";
 import { Button } from "./ui/button";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/context/AuthProvider";
 
 
 const logoUrl = "https://cdn.builder.io/api/v1/image/assets%2F8c5319227ec44fd9bdef2d63efcb9acb%2Fc689032066c740e3a83978925f1d1000?format=webp&width=800";
@@ -17,7 +18,10 @@ const socialMediaLinks = {
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isMobilePricingDropdownOpen, setIsMobilePricingDropdownOpen] = useState(false);
   const navigate = useNavigate();
+  const { sessionUser, signOut, loading } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,6 +30,16 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setIsUserMenuOpen(false);
+    };
+    if (isUserMenuOpen) {
+      document.addEventListener("click", handleClickOutside);
+      return () => document.removeEventListener("click", handleClickOutside);
+    }
+  }, [isUserMenuOpen]);
 
   const scrollToSection = (id: string) => {
     // If link has an explicit route path, navigate to it
@@ -59,8 +73,6 @@ const Navbar = () => {
     { name: "About", id: "about" },
     { name: "Services", id: "services" },
     { name: "Pricing", id: "pricing" },
-    { name: "Maintenance Plans", id: "maintenance-plans", path: "/maintenance-plans" },
-    { name: "Membership", id: "membership", path: "/membership" },
     { name: "Gallery", id: "gallery" },
     { name: "Team", id: "team" },
     { name: "Contact", id: "contact" },
@@ -150,22 +162,70 @@ const Navbar = () => {
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-1">
               {navLinks.map((link, index) => (
-                <motion.button
+                <motion.div
                   key={link.id}
-                  onClick={() => scrollToSection(link.id)}
-                  className="px-4 py-2 font-inter font-medium text-sm relative group"
-                  whileHover={{ scale: 1.05 }}
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
+                  className={link.id === "pricing" ? "relative group" : ""}
+                  onMouseEnter={() => link.id === "pricing" && setIsUserMenuOpen(false)}
                 >
-                  {link.name}
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-primary group-hover:w-full transition-all duration-300" />
-                </motion.button>
+                  <motion.button
+                    onClick={() => scrollToSection(link.id)}
+                    className="px-4 py-2 font-inter font-medium text-sm relative group"
+                    whileHover={{ scale: 1.05 }}
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <span className="flex items-center gap-1">
+                      {link.name}
+                      {link.id === "pricing" && <span className="text-xs">▼</span>}
+                    </span>
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-primary group-hover:w-full transition-all duration-300" />
+                  </motion.button>
+
+                  {link.id === "pricing" && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute left-0 mt-2 w-56 bg-card border border-border rounded-xl shadow-xl overflow-hidden z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300"
+                    >
+                      <motion.button
+                        onClick={() => navigate("/pricing")}
+                        className="w-full text-left px-4 py-3 hover:bg-primary/10 transition-colors text-sm font-inter flex items-center gap-3 group/item"
+                        whileHover={{ paddingLeft: 20 }}
+                      >
+                        <span className="w-2 h-2 rounded-full bg-gradient-to-r from-primary to-accent flex-shrink-0" />
+                        <span>Pricing Plans</span>
+                      </motion.button>
+
+                      <motion.div className="border-t border-border/30" />
+
+                      <motion.button
+                        onClick={() => navigate("/maintenance-plans")}
+                        className="w-full text-left px-4 py-3 hover:bg-primary/10 transition-colors text-sm font-inter flex items-center gap-3 group/item"
+                        whileHover={{ paddingLeft: 20 }}
+                      >
+                        <span className="w-2 h-2 rounded-full bg-gradient-to-r from-primary to-accent flex-shrink-0" />
+                        <span>Maintenance Plans</span>
+                      </motion.button>
+
+                      <motion.div className="border-t border-border/30" />
+
+                      <motion.button
+                        onClick={() => navigate("/membership")}
+                        className="w-full text-left px-4 py-3 hover:bg-primary/10 transition-colors text-sm font-inter flex items-center gap-3 group/item"
+                        whileHover={{ paddingLeft: 20 }}
+                      >
+                        <span className="w-2 h-2 rounded-full bg-gradient-to-r from-primary to-accent flex-shrink-0" />
+                        <span>Membership</span>
+                      </motion.button>
+                    </motion.div>
+                  )}
+                </motion.div>
               ))}
             </div>
 
-            {/* CTA Buttons */}
+            {/* CTA Buttons & User Menu */}
             <div className="hidden lg:flex items-center gap-3">
               <Button
                 onClick={() => navigate("/careers")}
@@ -173,12 +233,83 @@ const Navbar = () => {
               >
                 Apply for Job
               </Button>
-              <Button
-                onClick={() => scrollToSection("contact")}
-                className="bg-gradient-primary hover:shadow-glow-primary transition-all duration-300"
-              >
-                Get Free Quote
-              </Button>
+
+              {loading ? null : sessionUser ? (
+                <div className="relative">
+                  <motion.button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsUserMenuOpen(!isUserMenuOpen);
+                    }}
+                    whileHover={{ scale: 1.05 }}
+                    className="p-2 rounded-full bg-primary/10 hover:bg-primary/20 transition-all duration-300 flex items-center justify-center"
+                    title={sessionUser.email}
+                  >
+                    <User className="w-5 h-5 text-primary" />
+                  </motion.button>
+
+                  {isUserMenuOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="absolute right-0 mt-2 w-48 bg-card border border-border rounded-lg shadow-xl overflow-hidden z-50"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <div className="px-4 py-3 border-b border-border">
+                        <p className="text-sm font-semibold truncate">{sessionUser.email}</p>
+                        <p className="text-xs text-muted-foreground">Logged in</p>
+                      </div>
+                      <button
+                        onClick={() => {
+                          navigate("/subscription-member");
+                          setIsUserMenuOpen(false);
+                        }}
+                        className="w-full text-left px-4 py-2 hover:bg-primary/10 transition-colors flex items-center gap-2 text-sm"
+                      >
+                        <User className="w-4 h-4" />
+                        My Dashboard
+                      </button>
+                      <button
+                        onClick={() => {
+                          navigate("/admin");
+                          setIsUserMenuOpen(false);
+                        }}
+                        className="w-full text-left px-4 py-2 hover:bg-primary/10 transition-colors flex items-center gap-2 text-sm"
+                      >
+                        <User className="w-4 h-4" />
+                        Admin Panel
+                      </button>
+                      <button
+                        onClick={async () => {
+                          await signOut();
+                          setIsUserMenuOpen(false);
+                        }}
+                        className="w-full text-left px-4 py-2 hover:bg-red-500/10 text-red-600 transition-colors flex items-center gap-2 text-sm border-t border-border"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        Logout
+                      </button>
+                    </motion.div>
+                  )}
+                </div>
+              ) : (
+                <>
+                  <Button
+                    onClick={() => navigate("/auth")}
+                    variant="outline"
+                    className="border-primary/30 hover:bg-primary/10 transition-all duration-300"
+                  >
+                    Login
+                  </Button>
+                  <Button
+                    onClick={() => scrollToSection("contact")}
+                    className="bg-gradient-primary hover:shadow-glow-primary transition-all duration-300"
+                  >
+                    Get Free Quote
+                  </Button>
+                </>
+              )}
             </div>
 
             {/* Mobile Menu Button */}
@@ -213,6 +344,13 @@ const Navbar = () => {
             </button>
           </div>
 
+          {sessionUser && (
+            <div className="mb-6 p-3 bg-primary/10 rounded-lg border border-primary/20">
+              <p className="text-sm font-semibold truncate">{sessionUser.email}</p>
+              <p className="text-xs text-muted-foreground">Logged in</p>
+            </div>
+          )}
+
           <Button
             onClick={() => {
               navigate("/careers");
@@ -223,15 +361,76 @@ const Navbar = () => {
             Apply for Job
           </Button>
 
-          <div className="flex flex-col gap-4 flex-1">
+          <div className="flex flex-col gap-2 flex-1">
             {navLinks.map((link) => (
-              <button
-                key={link.id}
-                onClick={() => scrollToSection(link.id)}
-                className="text-left px-4 py-3 rounded-lg hover:bg-primary/10 transition-colors font-inter"
-              >
-                {link.name}
-              </button>
+              <div key={link.id}>
+                {link.id === "pricing" ? (
+                  <>
+                    <button
+                      onClick={() => setIsMobilePricingDropdownOpen(!isMobilePricingDropdownOpen)}
+                      className="w-full text-left px-4 py-3 rounded-lg hover:bg-primary/10 transition-colors font-inter flex items-center justify-between"
+                    >
+                      <span>{link.name}</span>
+                      <motion.span
+                        animate={{ rotate: isMobilePricingDropdownOpen ? 180 : 0 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        ▼
+                      </motion.span>
+                    </button>
+                    {isMobilePricingDropdownOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="flex flex-col gap-1 bg-primary/5 rounded-lg mt-1 px-2 py-2"
+                      >
+                        <button
+                          onClick={() => {
+                            navigate("/pricing");
+                            setIsMobileMenuOpen(false);
+                            setIsMobilePricingDropdownOpen(false);
+                          }}
+                          className="text-left px-4 py-2 rounded hover:bg-primary/10 transition-colors text-sm flex items-center gap-2"
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full bg-gradient-primary" />
+                          Pricing Plans
+                        </button>
+                        <button
+                          onClick={() => {
+                            navigate("/maintenance-plans");
+                            setIsMobileMenuOpen(false);
+                            setIsMobilePricingDropdownOpen(false);
+                          }}
+                          className="text-left px-4 py-2 rounded hover:bg-primary/10 transition-colors text-sm flex items-center gap-2"
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full bg-gradient-primary" />
+                          Maintenance Plans
+                        </button>
+                        <button
+                          onClick={() => {
+                            navigate("/membership");
+                            setIsMobileMenuOpen(false);
+                            setIsMobilePricingDropdownOpen(false);
+                          }}
+                          className="text-left px-4 py-2 rounded hover:bg-primary/10 transition-colors text-sm flex items-center gap-2"
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full bg-gradient-primary" />
+                          Membership
+                        </button>
+                      </motion.div>
+                    )}
+                  </>
+                ) : (
+                  <button
+                    onClick={() => scrollToSection(link.id)}
+                    className="text-left px-4 py-3 rounded-lg hover:bg-primary/10 transition-colors font-inter"
+                  >
+                    {link.name}
+                  </button>
+                )}
+              </div>
             ))}
           </div>
 
@@ -278,12 +477,52 @@ const Navbar = () => {
             </div>
           </div>
 
-          <Button
-            onClick={() => scrollToSection("contact")}
-            className="w-full bg-gradient-primary mt-4"
-          >
-            Get Free Quote
-          </Button>
+          {sessionUser ? (
+            <>
+              <Button
+                onClick={() => {
+                  navigate("/subscription-member");
+                  setIsMobileMenuOpen(false);
+                }}
+                className="w-full bg-primary/10 text-primary border border-primary/30 mb-2"
+              >
+                My Dashboard
+              </Button>
+              <Button
+                onClick={async () => {
+                  await signOut();
+                  setIsMobileMenuOpen(false);
+                }}
+                variant="outline"
+                className="w-full border-red-500/30 text-red-600 hover:bg-red-500/10"
+              >
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                onClick={() => {
+                  navigate("/auth");
+                  setIsMobileMenuOpen(false);
+                }}
+                variant="outline"
+                className="w-full border-primary/30 hover:bg-primary/10 mb-2"
+              >
+                Login
+              </Button>
+              <Button
+                onClick={() => {
+                  scrollToSection("contact");
+                  setIsMobileMenuOpen(false);
+                }}
+                className="w-full bg-gradient-primary"
+              >
+                Get Free Quote
+              </Button>
+            </>
+          )}
         </div>
       </motion.div>
     </>

@@ -13,12 +13,13 @@ import SubscriptionMember from "./pages/SubscriptionMember";
 import MaintenancePlans from "./pages/MaintenancePlans";
 import Terms from "./pages/Terms";
 import Membership from "./pages/Membership";
+import Checkout from "./pages/Checkout";
 
 const queryClient = new QueryClient();
 
 import ChatBot from "@/components/ChatBot";
 import { AuthProvider } from "@/context/AuthProvider";
-import { RequireAdmin, RequireMember } from "@/components/RouteGuards";
+import { RequireAdmin, RequireMember, RequireAuth } from "@/components/RouteGuards";
 import Admin from "@/pages/Admin";
 import Auth from "@/pages/Auth";
 
@@ -35,6 +36,7 @@ const App = () => (
             <Route path="/careers" element={<Careers />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/subscription" element={<Subscription />} />
+            <Route path="/checkout" element={<RequireAuth><Checkout /></RequireAuth>} />
             <Route path="/subscription-member" element={<RequireMember><SubscriptionMember /></RequireMember>} />
             <Route path="/maintenance-plans" element={<MaintenancePlans />} />
             <Route path="/terms" element={<Terms />} />

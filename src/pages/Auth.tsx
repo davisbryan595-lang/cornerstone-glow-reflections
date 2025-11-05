@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { getSupabase } from "@/lib/supabase";
+import { mockDb } from "@/lib/mockDatabase";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -14,7 +15,15 @@ const Auth: React.FC = () => {
   const next = params.get("next") || "/subscription-member";
   const { toast } = useToast();
 
-  const supabase = useMemo(() => getSupabase(), []);
+  const supabase = useMemo(() => {
+    try {
+      return getSupabase();
+    } catch {
+      return null;
+    }
+  }, []);
+
+  const isUsingMockDb = !supabase;
 
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
@@ -23,29 +32,70 @@ const Auth: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   async function upsertProfile(userId: string, emailVal?: string | null, marketing?: boolean) {
-    await supabase.from("profiles").upsert({ user_id: userId, email: emailVal, marketing_opt_in: marketing ?? undefined }).eq("user_id", userId);
+    if (isUsingMockDb) {
+      await mockDb.profiles.upsert({
+        user_id: userId,
+        email: emailVal,
+        marketing_opt_in: marketing,
+        role: "user",
+      });
+    } else {
+      await supabase.from("profiles").upsert({ user_id: userId, email: emailVal, marketing_opt_in: marketing ?? undefined }).eq("user_id", userId);
+    }
   }
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
+      if (!email || !password) {
+        toast({ title: "Error", description: "Please fill in all fields", variant: "destructive" as any });
+        setLoading(false);
+        return;
+      }
+
       if (mode === "signup") {
-        const { data, error } = await supabase.auth.signUp({ email, password });
-        if (error) throw error;
-        const user = data.user;
-        if (user) await upsertProfile(user.id, user.email, marketingOptIn);
-        navigate(next, { replace: true });
-      } else {
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        const user = data.user;
-        if (user) {
-          toast({ title: "Enable notifications?", description: "Get emails about offers and updates.", action: (
-            <Button onClick={async () => { await upsertProfile(user.id, user.email, true); toast({ title: "Notifications enabled" }); }}>Enable</Button>
-          ) });
+        if (isUsingMockDb) {
+          // For mock DB, generate a simple user ID
+          const userId = `user-${Date.now()}`;
+          await upsertProfile(userId, email, marketingOptIn);
+          localStorage.setItem("currentUserId", userId);
+          toast({ title: "Success!", description: "Account created. Redirecting..." });
+          setTimeout(() => {
+            window.location.href = next;
+          }, 500);
+        } else {
+          const { data, error } = await supabase.auth.signUp({ email, password });
+          if (error) throw error;
+          const user = data.user;
+          if (user) await upsertProfile(user.id, user.email, marketingOptIn);
+          navigate(next, { replace: true });
         }
-        navigate(next, { replace: true });
+      } else {
+        if (isUsingMockDb) {
+          // For mock DB, find user by email
+          const profiles = await mockDb.profiles.list();
+          const userProfile = profiles.find((p) => p.email === email);
+          if (!userProfile) {
+            toast({ title: "Authentication error", description: "Email not found", variant: "destructive" as any });
+          } else {
+            localStorage.setItem("currentUserId", userProfile.user_id);
+            toast({ title: "Success!", description: "Logged in. Redirecting..." });
+            setTimeout(() => {
+              window.location.href = next;
+            }, 500);
+          }
+        } else {
+          const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+          if (error) throw error;
+          const user = data.user;
+          if (user) {
+            toast({ title: "Enable notifications?", description: "Get emails about offers and updates.", action: (
+              <Button onClick={async () => { await upsertProfile(user.id, user.email, true); toast({ title: "Notifications enabled" }); }}>Enable</Button>
+            ) });
+          }
+          navigate(next, { replace: true });
+        }
       }
     } catch (err: any) {
       toast({ title: "Authentication error", description: err.message, variant: "destructive" as any });
@@ -89,6 +139,13 @@ const Auth: React.FC = () => {
               <button className="underline" onClick={() => setMode("login")}>Have an account? Login</button>
             )}
           </div>
+          {isUsingMockDb && (
+            <div className="mt-6 p-3 bg-blue-50 border border-blue-200 rounded-md">
+              <p className="text-xs text-blue-800">
+                <strong>Demo Mode:</strong> Try logging in with <code>member@example.com</code> to see the member dashboard, or sign up with a new email.
+              </p>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

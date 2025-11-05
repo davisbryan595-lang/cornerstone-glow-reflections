@@ -1,16 +1,22 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { getSupabase } from "@/lib/supabase";
+import { mockDb } from "@/lib/mockDatabase";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/context/AuthProvider";
+import { useToast } from "@/hooks/use-toast";
+import { generateAccessCode } from "@/lib/accessCodeGenerator";
+import { generateCouponBatch } from "@/lib/discountCodeManager";
+import { Copy, Download } from "lucide-react";
 
 function downloadCsv(filename: string, rows: any[]) {
   if (!rows || !rows.length) return;
-  const headers = Array.from(new Set(rows.flatMap(r => Object.keys(r))));
-  const csv = [headers.join(",")]
-    .concat(rows.map(r => headers.map(h => JSON.stringify((r as any)[h] ?? "")).join(",")))
-    .join("\n");
+  const headers = Array.from(new Set(rows.flatMap((r) => Object.keys(r))));
+  const csv = [headers.join(",")].concat(rows.map((r) => headers.map((h) => JSON.stringify((r as any)[h] ?? "")).join(","))).join("\n");
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
@@ -19,72 +25,379 @@ function downloadCsv(filename: string, rows: any[]) {
 }
 
 const Admin: React.FC = () => {
-  const supabase = useMemo(() => getSupabase(), []);
+  const supabase = useMemo(() => {
+    try {
+      return getSupabase();
+    } catch {
+      return null;
+    }
+  }, []);
+
+  const isUsingMockDb = !supabase;
   const { isAdmin } = useAuth();
-  const [stats, setStats] = useState({ users: 0, members: 0 });
+  const { toast } = useToast();
+
+  const [stats, setStats] = useState({ users: 0, members: 0, accessCodes: 0, discountCodes: 0 });
   const [recent, setRecent] = useState<{ email: string | null; created_at: string }[]>([]);
+  const [accessCodes, setAccessCodes] = useState<any[]>([]);
+  const [discountCodes, setDiscountCodes] = useState<any[]>([]);
+
+  const [generateCount, setGenerateCount] = useState("10");
+  const [discountTier, setDiscountTier] = useState("basic");
+  const [discountExpiryDays, setDiscountExpiryDays] = useState("30");
 
   useEffect(() => {
     async function load() {
-      const usersHead = await supabase.from("profiles").select("*", { count: "exact", head: true });
-      const membersHead = await supabase.from("memberships").select("*", { count: "exact", head: true }).eq("status", "active");
-      const recentUsers = await supabase.from("profiles").select("email,created_at").order("created_at", { ascending: false }).limit(10);
-      setStats({ users: usersHead.count ?? 0, members: membersHead.count ?? 0 });
-      setRecent(recentUsers.data ?? []);
+      try {
+        if (isUsingMockDb) {
+          const profiles = await mockDb.profiles.list();
+          const memberships = await mockDb.memberships.listActive();
+          const allAccessCodes = await mockDb.accessCodes.listAll();
+          const allDiscountCodes = await mockDb.discountCodes.listAll();
+
+          setStats({
+            users: profiles.length,
+            members: memberships.length,
+            accessCodes: allAccessCodes.length,
+            discountCodes: allDiscountCodes.length,
+          });
+          setRecent(
+            profiles
+              .sort((a, b) => new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime())
+              .slice(0, 10)
+              .map((p) => ({ email: p.email, created_at: p.created_at || new Date().toISOString() }))
+          );
+          setAccessCodes(allAccessCodes);
+          setDiscountCodes(allDiscountCodes);
+        }
+      } catch (error) {
+        console.error("Error loading admin data:", error);
+      }
     }
     if (isAdmin) void load();
-  }, [isAdmin, supabase]);
+  }, [isAdmin, isUsingMockDb]);
 
   const exportUsers = async () => {
-    const { data } = await supabase.from("profiles").select("user_id,email,role,marketing_opt_in,created_at");
-    downloadCsv("users.csv", data ?? []);
+    const profiles = await mockDb.profiles.list();
+    downloadCsv(
+      "users.csv",
+      profiles.map((p) => ({ user_id: p.user_id, email: p.email, role: p.role, marketing_opt_in: p.marketing_opt_in, created_at: p.created_at }))
+    );
   };
+
   const exportMembers = async () => {
-    const { data } = await supabase.from("memberships").select("user_id,plan_id,status,payment_status,access_code,next_billing_at,start_date,end_date");
-    downloadCsv("members.csv", data ?? []);
+    const memberships = await mockDb.memberships.list();
+    downloadCsv(
+      "members.csv",
+      memberships.map((m) => ({ user_id: m.user_id, plan_id: m.plan_id, status: m.status, payment_status: m.payment_status, access_code: m.access_code, next_billing_at: m.next_billing_at }))
+    );
+  };
+
+  const handleGenerateAccessCodes = async () => {
+    const count = parseInt(generateCount) || 10;
+    const codes: any[] = [];
+
+    for (let i = 0; i < count; i++) {
+      const code = generateAccessCode();
+      const accessCode = await mockDb.accessCodes.create({
+        code,
+        user_id: "",
+        membership_id: "",
+        plan_id: "all",
+        expires_at: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+        is_used: false,
+      });
+      codes.push(accessCode);
+    }
+
+    setAccessCodes((prev) => [...prev, ...codes]);
+    toast({ title: "Success", description: `Generated ${count} access codes` });
+  };
+
+  const handleGenerateDiscountCodes = async () => {
+    const count = parseInt(generateCount) || 10;
+    const codes = generateCouponBatch(discountTier, count);
+    const expiryDate = new Date(Date.now() + parseInt(discountExpiryDays) * 24 * 60 * 60 * 1000).toISOString();
+
+    const tierDiscounts = { basic: 10, premium: 20, elite: 25, referral: 15 };
+    const newCodes = [];
+
+    for (const code of codes) {
+      const discountCode = await mockDb.discountCodes.create({
+        code,
+        plan_id: discountTier,
+        discount_percentage: tierDiscounts[discountTier as keyof typeof tierDiscounts] || 10,
+        description: `${discountTier.charAt(0).toUpperCase() + discountTier.slice(1)} discount code`,
+        max_uses: count,
+        current_uses: 0,
+        expires_at: expiryDate,
+        is_active: true,
+      });
+      newCodes.push(discountCode);
+    }
+
+    setDiscountCodes((prev) => [...prev, ...newCodes]);
+    toast({ title: "Success", description: `Generated ${count} discount codes` });
+  };
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast({ title: "Copied", description: "Code copied to clipboard" });
+  };
+
+  const downloadCodes = (codes: any[], filename: string) => {
+    downloadCsv(filename, codes);
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-6 space-y-6">
+    <div className="max-w-7xl mx-auto p-6 space-y-6">
       <h1 className="text-3xl font-montserrat font-bold">Admin Dashboard</h1>
-      <div className="grid md:grid-cols-3 gap-4">
+
+      <div className="grid md:grid-cols-4 gap-4">
         <Card>
-          <CardHeader><CardTitle>Total Users</CardTitle></CardHeader>
+          <CardHeader>
+            <CardTitle className="text-sm font-medium">Total Users</CardTitle>
+          </CardHeader>
           <CardContent className="text-3xl font-bold">{stats.users}</CardContent>
         </Card>
         <Card>
-          <CardHeader><CardTitle>Active Members</CardTitle></CardHeader>
+          <CardHeader>
+            <CardTitle className="text-sm font-medium">Active Members</CardTitle>
+          </CardHeader>
           <CardContent className="text-3xl font-bold">{stats.members}</CardContent>
         </Card>
         <Card>
-          <CardHeader><CardTitle>Exports</CardTitle></CardHeader>
-          <CardContent className="flex gap-2">
-            <Button onClick={exportUsers}>Export Users CSV</Button>
-            <Button variant="outline" onClick={exportMembers}>Export Members CSV</Button>
-          </CardContent>
+          <CardHeader>
+            <CardTitle className="text-sm font-medium">Access Codes</CardTitle>
+          </CardHeader>
+          <CardContent className="text-3xl font-bold">{stats.accessCodes}</CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-sm font-medium">Discount Codes</CardTitle>
+          </CardHeader>
+          <CardContent className="text-3xl font-bold">{stats.discountCodes}</CardContent>
         </Card>
       </div>
-      <Card>
-        <CardHeader><CardTitle>Recent Signups</CardTitle></CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Email</TableHead>
-                <TableHead>Created</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {recent.map((r, i) => (
-                <TableRow key={i}>
-                  <TableCell>{r.email}</TableCell>
-                  <TableCell>{new Date(r.created_at).toLocaleString()}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+
+      <Tabs defaultValue="overview" className="w-full">
+        <TabsList className="grid w-full grid-cols-4">
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="access-codes">Access Codes</TabsTrigger>
+          <TabsTrigger value="discount-codes">Discount Codes</TabsTrigger>
+          <TabsTrigger value="exports">Exports</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="overview" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Recent Signups</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {recent.length === 0 ? (
+                <p className="text-muted-foreground">No users yet</p>
+              ) : (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Email</TableHead>
+                      <TableHead>Created</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {recent.map((r, i) => (
+                      <TableRow key={i}>
+                        <TableCell>{r.email}</TableCell>
+                        <TableCell>{new Date(r.created_at).toLocaleString()}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="access-codes" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Generate Access Codes</CardTitle>
+              <p className="text-sm text-muted-foreground mt-2">Generate codes for members to access their dashboard</p>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex gap-4">
+                <div>
+                  <Label htmlFor="access-count">Number of codes</Label>
+                  <Input
+                    id="access-count"
+                    type="number"
+                    value={generateCount}
+                    onChange={(e) => setGenerateCount(e.target.value)}
+                    min="1"
+                    max="100"
+                    className="mt-1"
+                  />
+                </div>
+                <div className="flex items-end">
+                  <Button onClick={handleGenerateAccessCodes}>Generate Codes</Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Access Codes ({accessCodes.length})</CardTitle>
+              {accessCodes.length > 0 && (
+                <Button variant="outline" size="sm" className="mt-2" onClick={() => downloadCodes(accessCodes, "access_codes.csv")}>
+                  <Download className="w-4 h-4 mr-2" />
+                  Download CSV
+                </Button>
+              )}
+            </CardHeader>
+            <CardContent>
+              {accessCodes.length === 0 ? (
+                <p className="text-muted-foreground">No access codes yet</p>
+              ) : (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Code</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Expires</TableHead>
+                      <TableHead>Action</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {accessCodes.slice(0, 10).map((code) => (
+                      <TableRow key={code.id}>
+                        <TableCell className="font-mono font-bold">{code.code}</TableCell>
+                        <TableCell>{code.is_used ? "Used" : "Available"}</TableCell>
+                        <TableCell>{new Date(code.expires_at).toLocaleDateString()}</TableCell>
+                        <TableCell>
+                          <Button variant="ghost" size="sm" onClick={() => copyToClipboard(code.code)}>
+                            <Copy className="w-4 h-4" />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="discount-codes" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Generate Discount Codes</CardTitle>
+              <p className="text-sm text-muted-foreground mt-2">Create discount codes for different membership tiers</p>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex gap-4 flex-wrap items-end">
+                <div>
+                  <Label htmlFor="discount-tier">Tier</Label>
+                  <select
+                    id="discount-tier"
+                    value={discountTier}
+                    onChange={(e) => setDiscountTier(e.target.value)}
+                    className="mt-1 border rounded px-2 py-2 text-sm"
+                  >
+                    <option value="basic">Basic (10%)</option>
+                    <option value="premium">Premium (20%)</option>
+                    <option value="elite">Elite (25%)</option>
+                    <option value="referral">Referral (15%)</option>
+                  </select>
+                </div>
+                <div>
+                  <Label htmlFor="discount-count">Number of codes</Label>
+                  <Input id="discount-count" type="number" value={generateCount} onChange={(e) => setGenerateCount(e.target.value)} min="1" max="100" className="mt-1" />
+                </div>
+                <div>
+                  <Label htmlFor="discount-expiry">Expiry (days)</Label>
+                  <Input id="discount-expiry" type="number" value={discountExpiryDays} onChange={(e) => setDiscountExpiryDays(e.target.value)} min="1" className="mt-1" />
+                </div>
+                <Button onClick={handleGenerateDiscountCodes}>Generate Codes</Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Discount Codes ({discountCodes.length})</CardTitle>
+              {discountCodes.length > 0 && (
+                <Button variant="outline" size="sm" className="mt-2" onClick={() => downloadCodes(discountCodes, "discount_codes.csv")}>
+                  <Download className="w-4 h-4 mr-2" />
+                  Download CSV
+                </Button>
+              )}
+            </CardHeader>
+            <CardContent>
+              {discountCodes.length === 0 ? (
+                <p className="text-muted-foreground">No discount codes yet</p>
+              ) : (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Code</TableHead>
+                      <TableHead>Discount</TableHead>
+                      <TableHead>Uses</TableHead>
+                      <TableHead>Expires</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Action</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {discountCodes.slice(0, 10).map((code) => (
+                      <TableRow key={code.id}>
+                        <TableCell className="font-mono font-bold">{code.code}</TableCell>
+                        <TableCell>{code.discount_percentage}%</TableCell>
+                        <TableCell>
+                          {code.current_uses}/{code.max_uses}
+                        </TableCell>
+                        <TableCell>{new Date(code.expires_at).toLocaleDateString()}</TableCell>
+                        <TableCell>{code.is_active ? "Active" : "Inactive"}</TableCell>
+                        <TableCell>
+                          <Button variant="ghost" size="sm" onClick={() => copyToClipboard(code.code)}>
+                            <Copy className="w-4 h-4" />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="exports" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Export Data</CardTitle>
+            </CardHeader>
+            <CardContent className="flex gap-2 flex-wrap">
+              <Button onClick={exportUsers} variant="outline">
+                <Download className="w-4 h-4 mr-2" />
+                Export Users CSV
+              </Button>
+              <Button onClick={exportMembers} variant="outline">
+                <Download className="w-4 h-4 mr-2" />
+                Export Members CSV
+              </Button>
+              <Button onClick={() => downloadCodes(accessCodes, "access_codes.csv")} variant="outline">
+                <Download className="w-4 h-4 mr-2" />
+                Export Access Codes CSV
+              </Button>
+              <Button onClick={() => downloadCodes(discountCodes, "discount_codes.csv")} variant="outline">
+                <Download className="w-4 h-4 mr-2" />
+                Export Discount Codes CSV
+              </Button>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
