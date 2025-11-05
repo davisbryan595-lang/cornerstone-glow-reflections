@@ -489,7 +489,7 @@ const MaintenancePlans = () => {
                 </div>
               </div>
               <div className="w-full md:w-56">
-                <img src="/public/placeholder.svg" alt="membership" className="w-full h-auto" />
+                <img src="/placeholder.svg" alt="membership" className="w-full h-auto" />
               </div>
             </div>
           </div>
