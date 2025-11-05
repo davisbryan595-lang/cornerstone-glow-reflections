@@ -1,4 +1,3 @@
-import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Check, Award, Zap, Heart, Shield } from "lucide-react";
