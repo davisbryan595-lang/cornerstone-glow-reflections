@@ -471,6 +471,30 @@ const MaintenancePlans = () => {
           </div>
         </section>
 
+        {/* Membership Callout */}
+        <section className="py-12 bg-gradient-to-r from-primary/6 to-background border-b border-border">
+          <div className="container mx-auto px-4 max-w-5xl">
+            <div className="flex flex-col md:flex-row items-center gap-6 p-6 bg-card border border-border rounded-2xl">
+              <div className="flex-1">
+                <h3 className="text-2xl font-montserrat font-bold mb-2">Prefer convenience?</h3>
+                <p className="text-muted-foreground mb-4">Memberships offer recurring scheduled maintenance, priority booking, and member-only savings. If you want regular service with less hassle, consider joining our Membership Program.</p>
+                <ul className="text-sm text-muted-foreground space-y-2 mb-4">
+                  <li>• Predictable scheduling and reminders</li>
+                  <li>• Priority access to booking windows</li>
+                  <li>• Member-only discounts and perks</li>
+                </ul>
+                <div className="flex gap-3">
+                  <Button className="bg-gradient-primary" onClick={() => window.location.href='/membership'}>Learn About Membership</Button>
+                  <Button variant="outline" onClick={() => window.location.href='/subscription'}>Keep Using Maintenance Plans</Button>
+                </div>
+              </div>
+              <div className="w-full md:w-56">
+                <img src="/placeholder.svg" alt="membership" className="w-full h-auto" />
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Info Section */}
         <section className="py-20 bg-card/30 border-t border-border">
           <div className="container mx-auto px-4">
