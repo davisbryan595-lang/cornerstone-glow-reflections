@@ -104,10 +104,10 @@ const Checkout: React.FC = () => {
         end_date: null,
       };
 
-      await mockDb.memberships.upsert(membership);
+      await db.memberships.upsert(membership);
 
       if (discountValid && appliedDiscount) {
-        await mockDb.discountCodes.incrementUses(appliedDiscount.code);
+        await db.discountCodes.incrementUses(appliedDiscount.code);
       }
 
       await refresh();
