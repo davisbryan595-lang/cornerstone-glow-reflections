@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+  id               Int      @id @default(autoincrement())
+  user_id          String   @unique
+  email            String?  @db.VarChar(255)
+  role             String?  @db.VarChar(50)
+  marketing_opt_in Boolean?
+  created_at       DateTime?
+}
+
+model Membership {
+  id             Int      @id @default(autoincrement())
+  user_id        String   @unique
+  plan_id        String?
+  status         String?
+  payment_status String?
+  access_code    String?
+  next_billing_at DateTime?
+  start_date     DateTime?
+  end_date       DateTime?
+}
+
+model AccessCode {
+  id           Int      @id @default(autoincrement())
+  code         String   @unique
+  user_id      String
+  membership_id String?
+  plan_id      String?
+  created_at   DateTime @default(now())
+  expires_at   DateTime?
+  used_at      DateTime?
+  is_used      Boolean  @default(false)
+}
+
+model DiscountCode {
+  id                 Int      @id @default(autoincrement())
+  code               String   @unique
+  plan_id            String?
+  discount_percentage Int?
+  description        String?
+  max_uses           Int?
+  current_uses       Int?     @default(0)
+  created_at         DateTime @default(now())
+  expires_at         DateTime?
+  is_active          Boolean  @default(true)
+}
