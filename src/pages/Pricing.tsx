@@ -9,8 +9,8 @@ import Navbar from "@/components/Navbar";
 const detailingServices = [
   {
     name: "Interior Detail",
-    coupeSedan: 217.99,
-    truckSuv: 237.99,
+    coupeSedan: 229,
+    truckSuv: 229,
     description: <>This our thorough interior detailing service. Once done, your car's interior will invite you with a <strong>Fresh Look</strong>, <strong>Nice Smell</strong>, & <strong>Feel</strong> for a peaceful driving experience!</>,
     services: [
       "Detailed Vacuum of Floors, Carpets, and Trunk",
@@ -26,8 +26,8 @@ const detailingServices = [
   },
   {
     name: "Exterior Detail",
-    coupeSedan: 144.99,
-    truckSuv: 184.88,
+    coupeSedan: 199,
+    truckSuv: 199,
     description: <>This premium exterior detail is designed to <strong>Remove Micro Contaminants</strong> from your cars paint, leave a <strong>Silky Smooth Finish</strong>, and <strong>Protect</strong> the paint for up to 8 months!</>,
     services: [
       "EXTERIOR (detailed wash, prep & protection)",
@@ -45,8 +45,8 @@ const detailingServices = [
   },
   {
     name: "Full Detail",
-    coupeSedan: 304.99,
-    truckSuv: 324.99,
+    coupeSedan: 319,
+    truckSuv: 319,
     description: <>This is our full interior & exterior detail designed to <strong>clean every inch</strong> of your car!</>,
     services: [
       "INTERIOR (detailed cleaning)",
@@ -70,8 +70,8 @@ const detailingServices = [
   },
   {
     name: "The Best In Class",
-    coupeSedan: 419.99,
-    truckSuv: 449.99,
+    coupeSedan: 449,
+    truckSuv: 449,
     description: <>Our one of a kind service that speaks volumes about what you represent <strong>Luxury</strong></>,
     featured: true,
     offerText: "Get 10% off your next maintenance wash",
@@ -108,8 +108,8 @@ const paintCorrectionServices = [
     name: "1 Step Paint Correction & Polish",
     vehicleTypeCoupe: "Coupe/Sedan",
     vehicleTypeTruck: "Truck/Sedan",
-    coupePrice: 399,
-    truckSedan: 549.99,
+    coupePrice: 499,
+    truckSedan: 599,
     description: <>Reveal an elevated look by removing light swirls and surface imperfections with a precision single-stage polish. Aiming to correct between <strong>60–70%</strong> of fine scratches and swirl marks for an enhanced finish.</>,
     services: [
       "EXTERIOR WASH PROCESS:",
@@ -132,8 +132,8 @@ const paintCorrectionServices = [
     name: "2 Step Paint Correction & Polish",
     vehicleTypeCoupe: "Coupe/Sedan",
     vehicleTypeTruck: "Truck/Sedan",
-    coupePrice: 694.99,
-    truckSedan: 749.99,
+    coupePrice: 799,
+    truckSedan: 899,
     description: <>Reveal an elevated look by removing light swirls and surface imperfections with a precision two-stage polish. Aiming to correct between <strong>70–80%</strong> of fine scratches and swirl marks for a nearly perfect finish.</>,
     services: [
       "EXTERIOR WASH PROCESS:",
@@ -157,8 +157,8 @@ const paintCorrectionServices = [
     name: "3 Step Paint Correction & Polish",
     vehicleTypeCoupe: "Coupe/Sedan",
     vehicleTypeTruck: "Truck/Sedan",
-    coupePrice: 894.99,
-    truckSedan: 949.99,
+    coupePrice: 1049,
+    truckSedan: 1249,
     description: <>Completely transform your car's paintwork, restoring a near perfect, show-room quality finish with our 3 stage paint correction—aiming to correct <strong>95%</strong> of impurities.</>,
     services: [
       "EXTERIOR WASH PROCESS:",
