@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { getSupabase } from "@/lib/supabase";
-import db, { isUsingSupabase, isUsingMySQL } from "@/lib/database";
+import db, { isUsingSupabase } from "@/lib/database";
 
 export type Profile = {
   id?: string;
@@ -50,7 +50,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
-  const isUsingMockDb = !(isUsingSupabase || isUsingMySQL);
+  const isUsingMockDb = !isUsingSupabase;
 
   async function loadUser() {
     setLoading(true);
