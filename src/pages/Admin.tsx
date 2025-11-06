@@ -259,8 +259,8 @@ const Admin: React.FC = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {accessCodes.slice(0, 10).map((code) => (
-                      <TableRow key={code.id}>
+                    {accessCodes.slice(0, 10).map((code, i) => (
+                      <TableRow key={`${code.code}-${i}`}>
                         <TableCell className="font-mono font-bold">{code.code}</TableCell>
                         <TableCell>{code.is_used ? "Used" : "Available"}</TableCell>
                         <TableCell>{new Date(code.expires_at).toLocaleDateString()}</TableCell>
@@ -339,8 +339,8 @@ const Admin: React.FC = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {discountCodes.slice(0, 10).map((code) => (
-                      <TableRow key={code.id}>
+                    {discountCodes.slice(0, 10).map((code, i) => (
+                      <TableRow key={`${code.code}-${i}`}>
                         <TableCell className="font-mono font-bold">{code.code}</TableCell>
                         <TableCell>{code.discount_percentage}%</TableCell>
                         <TableCell>
