@@ -74,8 +74,8 @@ const Auth: React.FC = () => {
       } else {
         if (isUsingMockDb) {
           // For mock DB, find user by email
-          const profiles = await mockDb.profiles.list();
-          const userProfile = profiles.find((p) => p.email === email);
+          const profiles = await db.profiles.list();
+          const userProfile = profiles.find((p: any) => p.email === email);
           if (!userProfile) {
             toast({ title: "Authentication error", description: "Email not found", variant: "destructive" as any });
           } else {
