@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { getSupabase } from "@/lib/supabase";
-import { mockDb } from "@/lib/mockDatabase";
+import db from "@/lib/database";
+import { isUsingSupabase } from "@/lib/database";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,15 +25,7 @@ function downloadCsv(filename: string, rows: any[]) {
 }
 
 const Admin: React.FC = () => {
-  const supabase = useMemo(() => {
-    try {
-      return getSupabase();
-    } catch {
-      return null;
-    }
-  }, []);
-
-  const isUsingMockDb = !supabase;
+  const isUsingMockDb = !isUsingSupabase;
   const { isAdmin } = useAuth();
   const { toast } = useToast();
 
@@ -49,27 +41,25 @@ const Admin: React.FC = () => {
   useEffect(() => {
     async function load() {
       try {
-        if (isUsingMockDb) {
-          const profiles = await mockDb.profiles.list();
-          const memberships = await mockDb.memberships.listActive();
-          const allAccessCodes = await mockDb.accessCodes.listAll();
-          const allDiscountCodes = await mockDb.discountCodes.listAll();
+        const profiles = await db.profiles.list();
+        const memberships = await db.memberships.listActive();
+        const allAccessCodes = await db.accessCodes.listAll();
+        const allDiscountCodes = await db.discountCodes.listAll();
 
-          setStats({
-            users: profiles.length,
-            members: memberships.length,
-            accessCodes: allAccessCodes.length,
-            discountCodes: allDiscountCodes.length,
-          });
-          setRecent(
-            profiles
-              .sort((a, b) => new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime())
-              .slice(0, 10)
-              .map((p) => ({ email: p.email, created_at: p.created_at || new Date().toISOString() }))
-          );
-          setAccessCodes(allAccessCodes);
-          setDiscountCodes(allDiscountCodes);
-        }
+        setStats({
+          users: profiles.length,
+          members: memberships.length,
+          accessCodes: allAccessCodes.length,
+          discountCodes: allDiscountCodes.length,
+        });
+        setRecent(
+          profiles
+            .sort((a: any, b: any) => new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime())
+            .slice(0, 10)
+            .map((p: any) => ({ email: p.email, created_at: p.created_at || new Date().toISOString() }))
+        );
+        setAccessCodes(allAccessCodes as any[]);
+        setDiscountCodes(allDiscountCodes as any[]);
       } catch (error) {
         console.error("Error loading admin data:", error);
       }
@@ -78,18 +68,18 @@ const Admin: React.FC = () => {
   }, [isAdmin, isUsingMockDb]);
 
   const exportUsers = async () => {
-    const profiles = await mockDb.profiles.list();
+    const profiles = await db.profiles.list();
     downloadCsv(
       "users.csv",
-      profiles.map((p) => ({ user_id: p.user_id, email: p.email, role: p.role, marketing_opt_in: p.marketing_opt_in, created_at: p.created_at }))
+      profiles.map((p: any) => ({ user_id: p.user_id, email: p.email, role: p.role, marketing_opt_in: p.marketing_opt_in, created_at: p.created_at }))
     );
   };
 
   const exportMembers = async () => {
-    const memberships = await mockDb.memberships.list();
+    const memberships = await db.memberships.list();
     downloadCsv(
       "members.csv",
-      memberships.map((m) => ({ user_id: m.user_id, plan_id: m.plan_id, status: m.status, payment_status: m.payment_status, access_code: m.access_code, next_billing_at: m.next_billing_at }))
+      memberships.map((m: any) => ({ user_id: m.user_id, plan_id: m.plan_id, status: m.status, payment_status: m.payment_status, access_code: m.access_code, next_billing_at: m.next_billing_at }))
     );
   };
 
@@ -99,7 +89,7 @@ const Admin: React.FC = () => {
 
     for (let i = 0; i < count; i++) {
       const code = generateAccessCode();
-      const accessCode = await mockDb.accessCodes.create({
+      const accessCode = await db.accessCodes.create({
         code,
         user_id: "",
         membership_id: "",
@@ -123,7 +113,7 @@ const Admin: React.FC = () => {
     const newCodes = [];
 
     for (const code of codes) {
-      const discountCode = await mockDb.discountCodes.create({
+      const discountCode = await db.discountCodes.create({
         code,
         plan_id: discountTier,
         discount_percentage: tierDiscounts[discountTier as keyof typeof tierDiscounts] || 10,
@@ -269,8 +259,8 @@ const Admin: React.FC = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {accessCodes.slice(0, 10).map((code) => (
-                      <TableRow key={code.id}>
+                    {accessCodes.slice(0, 10).map((code, i) => (
+                      <TableRow key={`${code.code}-${i}`}>
                         <TableCell className="font-mono font-bold">{code.code}</TableCell>
                         <TableCell>{code.is_used ? "Used" : "Available"}</TableCell>
                         <TableCell>{new Date(code.expires_at).toLocaleDateString()}</TableCell>
@@ -349,8 +339,8 @@ const Admin: React.FC = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {discountCodes.slice(0, 10).map((code) => (
-                      <TableRow key={code.id}>
+                    {discountCodes.slice(0, 10).map((code, i) => (
+                      <TableRow key={`${code.code}-${i}`}>
                         <TableCell className="font-mono font-bold">{code.code}</TableCell>
                         <TableCell>{code.discount_percentage}%</TableCell>
                         <TableCell>

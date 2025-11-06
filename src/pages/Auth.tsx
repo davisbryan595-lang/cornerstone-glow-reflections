@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { getSupabase } from "@/lib/supabase";
-import { mockDb } from "@/lib/mockDatabase";
+import db, { isUsingSupabase } from "@/lib/database";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -23,7 +23,7 @@ const Auth: React.FC = () => {
     }
   }, []);
 
-  const isUsingMockDb = !supabase;
+  const isUsingMockDb = !isUsingSupabase;
 
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
@@ -33,7 +33,7 @@ const Auth: React.FC = () => {
 
   async function upsertProfile(userId: string, emailVal?: string | null, marketing?: boolean) {
     if (isUsingMockDb) {
-      await mockDb.profiles.upsert({
+      await db.profiles.upsert({
         user_id: userId,
         email: emailVal,
         marketing_opt_in: marketing,
@@ -74,8 +74,8 @@ const Auth: React.FC = () => {
       } else {
         if (isUsingMockDb) {
           // For mock DB, find user by email
-          const profiles = await mockDb.profiles.list();
-          const userProfile = profiles.find((p) => p.email === email);
+          const profiles = await db.profiles.list();
+          const userProfile = profiles.find((p: any) => p.email === email);
           if (!userProfile) {
             toast({ title: "Authentication error", description: "Email not found", variant: "destructive" as any });
           } else {

@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/context/AuthProvider";
-import { mockDb, validateAndGetDiscount } from "@/lib/mockDatabase";
+import db, { validateAndGetDiscount } from "@/lib/database";
 import { MEMBERSHIP_PLANS } from "@/lib/payment";
 import { calculateCheckoutSummary, formatPrice } from "@/lib/discountCodeManager";
 import { generateAccessCode } from "@/lib/accessCodeGenerator";
@@ -104,10 +104,10 @@ const Checkout: React.FC = () => {
         end_date: null,
       };
 
-      await mockDb.memberships.upsert(membership);
+      await db.memberships.upsert(membership);
 
       if (discountValid && appliedDiscount) {
-        await mockDb.discountCodes.incrementUses(appliedDiscount.code);
+        await db.discountCodes.incrementUses(appliedDiscount.code);
       }
 
       await refresh();
