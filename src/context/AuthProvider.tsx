@@ -50,7 +50,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
-  const isUsingMockDb = !supabase;
+  const isUsingMockDb = !isUsingSupabase;
 
   async function loadUser() {
     setLoading(true);
