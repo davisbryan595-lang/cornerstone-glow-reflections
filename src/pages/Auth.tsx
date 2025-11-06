@@ -23,7 +23,7 @@ const Auth: React.FC = () => {
     }
   }, []);
 
-  const isUsingMockDb = !supabase;
+  const isUsingMockDb = !isUsingSupabase;
 
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
