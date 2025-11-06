@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { getSupabase } from "@/lib/supabase";
-import db, { isUsingSupabase, isUsingMySQL } from "@/lib/database";
+import db from "@/lib/database";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -23,7 +23,7 @@ const Auth: React.FC = () => {
     }
   }, []);
 
-  const isUsingMockDb = !(isUsingSupabase || isUsingMySQL);
+  const isUsingMockDb = !supabase;
 
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
@@ -32,7 +32,7 @@ const Auth: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   async function upsertProfile(userId: string, emailVal?: string | null, marketing?: boolean) {
-    if (isUsingMockDb) {
+    if (!supabase) {
       await db.profiles.upsert({
         user_id: userId,
         email: emailVal,
