@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { getSupabase } from "@/lib/supabase";
-import { mockDb } from "@/lib/mockDatabase";
+import db, { isUsingSupabase } from "@/lib/database";
 
 export type Profile = {
   id?: string;
