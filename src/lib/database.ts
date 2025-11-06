@@ -9,6 +9,8 @@ const supabase = (() => {
   }
 })();
 
+export const isUsingSupabase = Boolean(supabase);
+
 export const db = {
   profiles: {
     async get(userId: string) {
