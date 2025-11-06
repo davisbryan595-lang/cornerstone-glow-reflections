@@ -68,18 +68,18 @@ const Admin: React.FC = () => {
   }, [isAdmin, isUsingMockDb]);
 
   const exportUsers = async () => {
-    const profiles = await mockDb.profiles.list();
+    const profiles = await db.profiles.list();
     downloadCsv(
       "users.csv",
-      profiles.map((p) => ({ user_id: p.user_id, email: p.email, role: p.role, marketing_opt_in: p.marketing_opt_in, created_at: p.created_at }))
+      profiles.map((p: any) => ({ user_id: p.user_id, email: p.email, role: p.role, marketing_opt_in: p.marketing_opt_in, created_at: p.created_at }))
     );
   };
 
   const exportMembers = async () => {
-    const memberships = await mockDb.memberships.list();
+    const memberships = await db.memberships.list();
     downloadCsv(
       "members.csv",
-      memberships.map((m) => ({ user_id: m.user_id, plan_id: m.plan_id, status: m.status, payment_status: m.payment_status, access_code: m.access_code, next_billing_at: m.next_billing_at }))
+      memberships.map((m: any) => ({ user_id: m.user_id, plan_id: m.plan_id, status: m.status, payment_status: m.payment_status, access_code: m.access_code, next_billing_at: m.next_billing_at }))
     );
   };
 
@@ -89,7 +89,7 @@ const Admin: React.FC = () => {
 
     for (let i = 0; i < count; i++) {
       const code = generateAccessCode();
-      const accessCode = await mockDb.accessCodes.create({
+      const accessCode = await db.accessCodes.create({
         code,
         user_id: "",
         membership_id: "",
@@ -113,7 +113,7 @@ const Admin: React.FC = () => {
     const newCodes = [];
 
     for (const code of codes) {
-      const discountCode = await mockDb.discountCodes.create({
+      const discountCode = await db.discountCodes.create({
         code,
         plan_id: discountTier,
         discount_percentage: tierDiscounts[discountTier as keyof typeof tierDiscounts] || 10,
