@@ -41,27 +41,25 @@ const Admin: React.FC = () => {
   useEffect(() => {
     async function load() {
       try {
-        if (isUsingMockDb) {
-          const profiles = await mockDb.profiles.list();
-          const memberships = await mockDb.memberships.listActive();
-          const allAccessCodes = await mockDb.accessCodes.listAll();
-          const allDiscountCodes = await mockDb.discountCodes.listAll();
+        const profiles = await db.profiles.list();
+        const memberships = await db.memberships.listActive();
+        const allAccessCodes = await db.accessCodes.listAll();
+        const allDiscountCodes = await db.discountCodes.listAll();
 
-          setStats({
-            users: profiles.length,
-            members: memberships.length,
-            accessCodes: allAccessCodes.length,
-            discountCodes: allDiscountCodes.length,
-          });
-          setRecent(
-            profiles
-              .sort((a, b) => new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime())
-              .slice(0, 10)
-              .map((p) => ({ email: p.email, created_at: p.created_at || new Date().toISOString() }))
-          );
-          setAccessCodes(allAccessCodes);
-          setDiscountCodes(allDiscountCodes);
-        }
+        setStats({
+          users: profiles.length,
+          members: memberships.length,
+          accessCodes: allAccessCodes.length,
+          discountCodes: allDiscountCodes.length,
+        });
+        setRecent(
+          profiles
+            .sort((a: any, b: any) => new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime())
+            .slice(0, 10)
+            .map((p: any) => ({ email: p.email, created_at: p.created_at || new Date().toISOString() }))
+        );
+        setAccessCodes(allAccessCodes as any[]);
+        setDiscountCodes(allDiscountCodes as any[]);
       } catch (error) {
         console.error("Error loading admin data:", error);
       }
