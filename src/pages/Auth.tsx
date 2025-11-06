@@ -81,8 +81,9 @@ const Auth: React.FC = () => {
           } else {
             localStorage.setItem("currentUserId", userProfile.user_id);
             toast({ title: "Success!", description: "Logged in. Redirecting..." });
+            const dest = userProfile.role === "admin" ? "/admin" : next;
             setTimeout(() => {
-              window.location.href = next;
+              window.location.href = dest;
             }, 500);
           }
         } else {
@@ -90,11 +91,16 @@ const Auth: React.FC = () => {
           if (error) throw error;
           const user = data.user;
           if (user) {
+            // Check profile role to decide destination
+            const prof = await db.profiles.get(user.id);
+            const dest = prof?.role === "admin" ? "/admin" : next;
             toast({ title: "Enable notifications?", description: "Get emails about offers and updates.", action: (
               <Button onClick={async () => { await upsertProfile(user.id, user.email, true); toast({ title: "Notifications enabled" }); }}>Enable</Button>
             ) });
+            navigate(dest, { replace: true });
+          } else {
+            navigate(next, { replace: true });
           }
-          navigate(next, { replace: true });
         }
       }
     } catch (err: any) {
