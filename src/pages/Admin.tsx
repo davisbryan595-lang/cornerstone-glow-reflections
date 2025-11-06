@@ -25,15 +25,7 @@ function downloadCsv(filename: string, rows: any[]) {
 }
 
 const Admin: React.FC = () => {
-  const supabase = useMemo(() => {
-    try {
-      return getSupabase();
-    } catch {
-      return null;
-    }
-  }, []);
-
-  const isUsingMockDb = !supabase;
+  const isUsingMockDb = !isUsingSupabase;
   const { isAdmin } = useAuth();
   const { toast } = useToast();
 
