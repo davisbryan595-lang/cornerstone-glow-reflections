@@ -11,9 +11,9 @@ const Pricing = () => {
   const plans = [
     {
       name: "Interior Detail",
-      price: "$217.99",
-      coupePrice: 217.99,
-      truckPrice: 237.99,
+      price: "$229",
+      coupePrice: 229,
+      truckPrice: 229,
       description: "Thorough interior detailing service",
       features: [
         "Detailed Vacuum of Floors, Carpets, and Trunk",
@@ -30,9 +30,9 @@ const Pricing = () => {
     },
     {
       name: "Exterior Detail",
-      price: "$144.99",
-      coupePrice: 144.99,
-      truckPrice: 184.88,
+      price: "$199",
+      coupePrice: 199,
+      truckPrice: 199,
       description: "Premium exterior detail with protection",
       features: [
         "Professional Hand Wash + Foam Bath",
@@ -49,9 +49,9 @@ const Pricing = () => {
     },
     {
       name: "Full Detail",
-      price: "$304.99",
-      coupePrice: 304.99,
-      truckPrice: 324.99,
+      price: "$319",
+      coupePrice: 319,
+      truckPrice: 319,
       description: "Complete interior & exterior detail",
       features: [
         "Detailed Vacuum",
@@ -68,9 +68,9 @@ const Pricing = () => {
     },
     {
       name: "The Best In Class",
-      price: "$419.99",
-      coupePrice: 419.99,
-      truckPrice: 449.99,
+      price: "$449",
+      coupePrice: 449,
+      truckPrice: 449,
       description: "Premium package with enhanced treatments",
       features: [
         "Every crack & Crevice Detailed",
