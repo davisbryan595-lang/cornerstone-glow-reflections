@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { getSupabase } from "@/lib/supabase";
-import db, { isUsingSupabase } from "@/lib/database";
+import db, { isUsingSupabase, isUsingMySQL } from "@/lib/database";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -23,7 +23,7 @@ const Auth: React.FC = () => {
     }
   }, []);
 
-  const isUsingMockDb = !isUsingSupabase;
+  const isUsingMockDb = !(isUsingSupabase || isUsingMySQL);
 
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
