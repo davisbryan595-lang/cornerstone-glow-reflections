@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { getSupabase } from "@/lib/supabase";
-import db, { isUsingSupabase } from "@/lib/database";
+import db, { isUsingSupabase, isUsingMySQL } from "@/lib/database";
 
 export type Profile = {
   id?: string;
@@ -50,7 +50,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
-  const isUsingMockDb = !isUsingSupabase;
+  const isUsingMockDb = !(isUsingSupabase || isUsingMySQL);
 
   async function loadUser() {
     setLoading(true);
@@ -66,10 +66,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             user = { id: storedUserId, email: prof.email };
           }
         }
-      } else {
+      } else if (supabase) {
         // Use Supabase
         const { data: { session } } = await supabase.auth.getSession();
         user = session?.user ? { id: session.user.id, email: session.user.email } : null;
+      } else {
+        // Using MySQL with custom auth (email only mock login)
+        user = null;
       }
 
       setSessionUser(user);
