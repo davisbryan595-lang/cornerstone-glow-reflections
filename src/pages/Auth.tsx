@@ -33,7 +33,7 @@ const Auth: React.FC = () => {
 
   async function upsertProfile(userId: string, emailVal?: string | null, marketing?: boolean) {
     if (isUsingMockDb) {
-      await mockDb.profiles.upsert({
+      await db.profiles.upsert({
         user_id: userId,
         email: emailVal,
         marketing_opt_in: marketing,
