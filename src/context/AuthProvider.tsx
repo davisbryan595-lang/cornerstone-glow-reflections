@@ -61,7 +61,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         // For mock DB, we'll use localStorage to track the current user
         const storedUserId = localStorage.getItem("currentUserId");
         if (storedUserId) {
-          const prof = await mockDb.profiles.get(storedUserId);
+          const prof = await db.profiles.get(storedUserId);
           if (prof) {
             user = { id: storedUserId, email: prof.email };
           }
@@ -75,10 +75,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setSessionUser(user);
 
       if (user) {
-        const prof = await mockDb.profiles.get(user.id);
+        const prof = await db.profiles.get(user.id);
         setProfile(prof ?? null);
 
-        const member = await mockDb.memberships.getActive(user.id);
+        const member = await db.memberships.getActive(user.id);
         setMembership(member ?? null);
       } else {
         setProfile(null);
