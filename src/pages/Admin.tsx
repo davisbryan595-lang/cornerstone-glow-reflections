@@ -297,6 +297,213 @@ const Admin: React.FC = () => {
           </Card>
         </TabsContent>
 
+        <TabsContent value="members" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Search & Manage Members</CardTitle>
+              <p className="text-sm text-muted-foreground mt-2">Find and manage your active members</p>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex gap-4 flex-wrap items-end">
+                <div className="flex-1 min-w-48">
+                  <Label htmlFor="member-search">Search by email</Label>
+                  <div className="relative mt-1">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <Input
+                      id="member-search"
+                      placeholder="Search members..."
+                      value={memberSearch}
+                      onChange={(e) => setMemberSearch(e.target.value)}
+                      className="pl-10"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <Label htmlFor="status-filter">Filter by status</Label>
+                  <select
+                    id="status-filter"
+                    value={memberStatusFilter}
+                    onChange={(e) => setMemberStatusFilter(e.target.value)}
+                    className="mt-1 border rounded px-2 py-2 text-sm"
+                  >
+                    <option value="all">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="canceled">Canceled</option>
+                    <option value="past_due">Past Due</option>
+                  </select>
+                </div>
+              </div>
+
+              {selectedMembers.length > 0 && (
+                <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg flex items-center justify-between">
+                  <span className="text-sm font-medium">{selectedMembers.length} members selected</span>
+                  <div className="flex gap-2">
+                    <Button size="sm" variant="outline" onClick={handleBulkSendEmails}>
+                      <Mail className="w-4 h-4 mr-2" />
+                      Send Invites
+                    </Button>
+                    <Button size="sm" variant="destructive" onClick={handleBulkSuspend}>
+                      <Lock className="w-4 h-4 mr-2" />
+                      Suspend
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Members ({filteredMembers.length})</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {filteredMembers.length === 0 ? (
+                <p className="text-muted-foreground">No members found</p>
+              ) : (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>
+                        <input
+                          type="checkbox"
+                          checked={selectedMembers.length === filteredMembers.length && filteredMembers.length > 0}
+                          onChange={handleSelectAllMembers}
+                        />
+                      </TableHead>
+                      <TableHead>Email</TableHead>
+                      <TableHead>Plan</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Next Billing</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredMembers.slice(0, 20).map((member: any) => {
+                      const profile = allProfiles.find((p: any) => p.user_id === member.user_id);
+                      return (
+                        <TableRow key={member.id}>
+                          <TableCell>
+                            <input
+                              type="checkbox"
+                              checked={selectedMembers.includes(member.id)}
+                              onChange={() => handleToggleMemberSelection(member.id)}
+                            />
+                          </TableCell>
+                          <TableCell>{profile?.email}</TableCell>
+                          <TableCell className="capitalize">{member.plan_id}</TableCell>
+                          <TableCell>
+                            <span className={`px-2 py-1 rounded text-xs font-medium ${member.status === "active" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
+                              {member.status}
+                            </span>
+                          </TableCell>
+                          <TableCell>{member.next_billing_at ? new Date(member.next_billing_at).toLocaleDateString() : "N/A"}</TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="analytics" className="space-y-4">
+          <div className="grid md:grid-cols-3 gap-4">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
+              </CardHeader>
+              <CardContent className="text-3xl font-bold">${totalRevenue.toFixed(2)}</CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-sm font-medium">Total Discounts Given</CardTitle>
+              </CardHeader>
+              <CardContent className="text-3xl font-bold">${totalDiscountGiven.toFixed(2)}</CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-sm font-medium">Upcoming Renewals (30 days)</CardTitle>
+              </CardHeader>
+              <CardContent className="text-3xl font-bold">{upcomingRenewals.length}</CardContent>
+            </Card>
+          </div>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Upcoming Subscription Renewals</CardTitle>
+              <p className="text-sm text-muted-foreground mt-2">Members renewing in the next 30 days</p>
+            </CardHeader>
+            <CardContent>
+              {upcomingRenewals.length === 0 ? (
+                <p className="text-muted-foreground">No upcoming renewals</p>
+              ) : (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Email</TableHead>
+                      <TableHead>Plan</TableHead>
+                      <TableHead>Renewal Date</TableHead>
+                      <TableHead>Status</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {upcomingRenewals.slice(0, 15).map((member: any) => {
+                      const profile = allProfiles.find((p: any) => p.user_id === member.user_id);
+                      return (
+                        <TableRow key={member.id}>
+                          <TableCell>{profile?.email}</TableCell>
+                          <TableCell className="capitalize">{member.plan_id}</TableCell>
+                          <TableCell>{new Date(member.next_billing_at).toLocaleDateString()}</TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-1">
+                              <CheckCircle className="w-4 h-4 text-green-600" />
+                              <span className="text-xs font-medium">Ready</span>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Recent Invoices</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {invoices.length === 0 ? (
+                <p className="text-muted-foreground">No invoices yet</p>
+              ) : (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Amount</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Date</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {invoices.slice(0, 10).map((invoice: any) => (
+                      <TableRow key={invoice.id}>
+                        <TableCell>${invoice.final_amount?.toFixed(2)}</TableCell>
+                        <TableCell>
+                          <span className={`px-2 py-1 rounded text-xs font-medium ${invoice.status === "paid" ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"}`}>
+                            {invoice.status}
+                          </span>
+                        </TableCell>
+                        <TableCell>{new Date(invoice.issued_at).toLocaleDateString()}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
         <TabsContent value="access-codes" className="space-y-4">
           <Card>
             <CardHeader>
