@@ -12,6 +12,7 @@ const SubscriptionMember = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
 
   const memberBenefits = [
