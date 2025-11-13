@@ -48,13 +48,19 @@ const Admin: React.FC = () => {
     async function load() {
       try {
         const profiles = await db.profiles.list();
-        const memberships = await db.memberships.listActive();
+        const memberships = await db.memberships.list();
+        const activeMemberships = await db.memberships.listActive();
         const allAccessCodes = await db.accessCodes.listAll();
         const allDiscountCodes = await db.discountCodes.listAll();
+        const allInvoices = await db.invoices.listAll();
+
+        setAllProfiles(profiles);
+        setAllMembers(memberships);
+        setInvoices(allInvoices);
 
         setStats({
           users: profiles.length,
-          members: memberships.length,
+          members: activeMemberships.length,
           accessCodes: allAccessCodes.length,
           discountCodes: allDiscountCodes.length,
         });
