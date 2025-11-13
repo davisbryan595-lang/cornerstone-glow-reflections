@@ -14,6 +14,7 @@ import MaintenancePlans from "./pages/MaintenancePlans";
 import Terms from "./pages/Terms";
 import Membership from "./pages/Membership";
 import Checkout from "./pages/Checkout";
+import MemberSettings from "./pages/MemberSettings";
 
 const queryClient = new QueryClient();
 
