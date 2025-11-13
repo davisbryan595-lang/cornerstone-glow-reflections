@@ -14,6 +14,8 @@ import MaintenancePlans from "./pages/MaintenancePlans";
 import Terms from "./pages/Terms";
 import Membership from "./pages/Membership";
 import Checkout from "./pages/Checkout";
+import MemberSettings from "./pages/MemberSettings";
+import PasswordReset from "./pages/PasswordReset";
 
 const queryClient = new QueryClient();
 
@@ -38,10 +40,12 @@ const App = () => (
             <Route path="/subscription" element={<Subscription />} />
             <Route path="/checkout" element={<RequireAuth><Checkout /></RequireAuth>} />
             <Route path="/subscription-member" element={<RequireMember><SubscriptionMember /></RequireMember>} />
+            <Route path="/member-settings" element={<RequireMember><MemberSettings /></RequireMember>} />
             <Route path="/maintenance-plans" element={<MaintenancePlans />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/membership" element={<Membership />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/password-reset" element={<PasswordReset />} />
             <Route path="/admin" element={<RequireAdmin><Admin /></RequireAdmin>} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
