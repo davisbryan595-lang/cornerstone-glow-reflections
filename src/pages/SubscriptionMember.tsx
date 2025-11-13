@@ -157,7 +157,18 @@ const SubscriptionMember = () => {
               transition={{ duration: 0.6 }}
               className="bg-card border border-border rounded-2xl p-6"
             >
-              <h3 className="text-2xl font-montserrat font-bold mb-4">Your Membership Status</h3>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-2xl font-montserrat font-bold">Your Membership Status</h3>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => navigate('/member-settings')}
+                  className="flex items-center gap-2"
+                >
+                  <Settings className="w-4 h-4" />
+                  Settings
+                </Button>
+              </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                 <div className="p-4 bg-background/50 rounded-lg">
