@@ -33,10 +33,16 @@ const Admin: React.FC = () => {
   const [recent, setRecent] = useState<{ email: string | null; created_at: string }[]>([]);
   const [accessCodes, setAccessCodes] = useState<any[]>([]);
   const [discountCodes, setDiscountCodes] = useState<any[]>([]);
+  const [allMembers, setAllMembers] = useState<any[]>([]);
+  const [allProfiles, setAllProfiles] = useState<any[]>([]);
+  const [invoices, setInvoices] = useState<any[]>([]);
 
   const [generateCount, setGenerateCount] = useState("10");
   const [discountTier, setDiscountTier] = useState("basic");
   const [discountExpiryDays, setDiscountExpiryDays] = useState("30");
+  const [memberSearch, setMemberSearch] = useState("");
+  const [memberStatusFilter, setMemberStatusFilter] = useState("all");
+  const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
 
   useEffect(() => {
     async function load() {
