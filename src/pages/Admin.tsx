@@ -258,8 +258,10 @@ const Admin: React.FC = () => {
       </div>
 
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="members">Members</TabsTrigger>
+          <TabsTrigger value="analytics">Analytics</TabsTrigger>
           <TabsTrigger value="access-codes">Access Codes</TabsTrigger>
           <TabsTrigger value="discount-codes">Discount Codes</TabsTrigger>
           <TabsTrigger value="exports">Exports</TabsTrigger>
