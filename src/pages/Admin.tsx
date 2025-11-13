@@ -151,6 +151,81 @@ const Admin: React.FC = () => {
     downloadCsv(filename, codes);
   };
 
+  const filteredMembers = useMemo(() => {
+    return allMembers.filter((member: any) => {
+      const profile = allProfiles.find((p: any) => p.user_id === member.user_id);
+      const email = profile?.email || "";
+      const matchesSearch = email.toLowerCase().includes(memberSearch.toLowerCase());
+      const matchesStatus = memberStatusFilter === "all" || member.status === memberStatusFilter;
+      return matchesSearch && matchesStatus;
+    });
+  }, [allMembers, allProfiles, memberSearch, memberStatusFilter]);
+
+  const handleToggleMemberSelection = (memberId: string) => {
+    setSelectedMembers((prev) =>
+      prev.includes(memberId) ? prev.filter((id) => id !== memberId) : [...prev, memberId]
+    );
+  };
+
+  const handleSelectAllMembers = () => {
+    if (selectedMembers.length === filteredMembers.length) {
+      setSelectedMembers([]);
+    } else {
+      setSelectedMembers(filteredMembers.map((m: any) => m.id));
+    }
+  };
+
+  const handleBulkSuspend = async () => {
+    if (!selectedMembers.length) {
+      toast({ title: "Error", description: "Please select members to suspend", variant: "destructive" });
+      return;
+    }
+
+    try {
+      for (const memberId of selectedMembers) {
+        const member = filteredMembers.find((m: any) => m.id === memberId);
+        if (member) {
+          await db.memberships.update(member.user_id, { status: "canceled" });
+        }
+      }
+      setSelectedMembers([]);
+      toast({ title: "Success", description: `Suspended ${selectedMembers.length} members` });
+      setTimeout(() => window.location.reload(), 1000);
+    } catch (error) {
+      toast({ title: "Error", description: "Failed to suspend members", variant: "destructive" });
+    }
+  };
+
+  const handleBulkSendEmails = async () => {
+    if (!selectedMembers.length) {
+      toast({ title: "Error", description: "Please select members", variant: "destructive" });
+      return;
+    }
+
+    toast({
+      title: "Info",
+      description: `Email invitations would be sent to ${selectedMembers.length} members (Email integration required)`,
+    });
+  };
+
+  const calculateRenewalMetrics = () => {
+    const nextMonth = new Date();
+    nextMonth.setDate(nextMonth.getDate() + 30);
+
+    const upcomingRenewals = allMembers.filter((m: any) => {
+      if (!m.next_billing_at) return false;
+      const billingDate = new Date(m.next_billing_at);
+      return billingDate <= nextMonth && billingDate > new Date();
+    });
+
+    const totalRevenue = invoices.reduce((sum: number, inv: any) => sum + (inv.final_amount || 0), 0);
+    const totalDiscountGiven = invoices.reduce((sum: number, inv: any) => sum + (inv.discount_amount || 0), 0);
+
+    return { upcomingRenewals, totalRevenue, totalDiscountGiven };
+  };
+
+  const { upcomingRenewals, totalRevenue, totalDiscountGiven } = calculateRenewalMetrics();
+
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-6">
       <h1 className="text-3xl font-montserrat font-bold">Admin Dashboard</h1>
