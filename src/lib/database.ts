@@ -70,6 +70,18 @@ export const db = {
       if (error) throw error;
       return data || [];
     },
+    async update(userId: string, updates: any) {
+      if (!supabase) return mockDb.memberships.upsert(updates);
+      const { data, error } = await supabase.from("memberships").update(updates).eq("user_id", userId).select();
+      if (error) throw error;
+      return data?.[0] || null;
+    },
+    async search(query: string) {
+      if (!supabase) return [];
+      const { data, error } = await supabase.from("memberships").select("*, profiles(email)").ilike("profiles.email", `%${query}%`);
+      if (error) throw error;
+      return data || [];
+    },
   },
 
   accessCodes: {
