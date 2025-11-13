@@ -75,9 +75,15 @@ const MemberSettings = () => {
     setLoading(true);
     try {
       if (profile?.user_id) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(newPassword);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const passwordHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
         await db.profiles.upsert({
           user_id: profile.user_id,
-          password_hash: btoa(newPassword),
+          password_hash: passwordHash,
         });
 
         toast({
