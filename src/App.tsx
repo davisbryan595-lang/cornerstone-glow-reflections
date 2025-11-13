@@ -39,6 +39,7 @@ const App = () => (
             <Route path="/subscription" element={<Subscription />} />
             <Route path="/checkout" element={<RequireAuth><Checkout /></RequireAuth>} />
             <Route path="/subscription-member" element={<RequireMember><SubscriptionMember /></RequireMember>} />
+            <Route path="/member-settings" element={<RequireMember><MemberSettings /></RequireMember>} />
             <Route path="/maintenance-plans" element={<MaintenancePlans />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/membership" element={<Membership />} />
