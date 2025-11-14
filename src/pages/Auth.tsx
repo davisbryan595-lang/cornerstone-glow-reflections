@@ -65,11 +65,29 @@ const Auth: React.FC = () => {
             window.location.href = next;
           }, 500);
         } else {
-          const { data, error } = await supabase.auth.signUp({ email, password });
-          if (error) throw error;
-          const user = data.user;
-          if (user) await upsertProfile(user.id, user.email, marketingOptIn);
-          navigate(next, { replace: true });
+          try {
+            const { data, error } = await supabase.auth.signUp({ email, password });
+            if (error) {
+              const errorMsg = error.message || "Sign up failed. Please try again.";
+              toast({ title: "Sign up error", description: errorMsg, variant: "destructive" as any });
+              setLoading(false);
+              return;
+            }
+            const user = data?.user;
+            if (user) {
+              await upsertProfile(user.id, user.email, marketingOptIn);
+              toast({ title: "Success!", description: "Account created. Logging in..." });
+              setTimeout(() => {
+                navigate(next, { replace: true });
+              }, 500);
+            } else {
+              navigate(next, { replace: true });
+            }
+          } catch (err: any) {
+            const errorMsg = err?.message || "Sign up failed. Please try again.";
+            toast({ title: "Sign up error", description: errorMsg, variant: "destructive" as any });
+            setLoading(false);
+          }
         }
       } else {
         if (isUsingMockDb) {
