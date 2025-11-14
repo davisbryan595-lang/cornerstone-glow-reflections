@@ -1,16 +1,18 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Check, Award, Zap, Heart, Shield } from "lucide-react";
+import { Check, Award, Zap, Heart, Shield, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 const SubscriptionMember = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
 
   const memberBenefits = [
@@ -155,7 +157,18 @@ const SubscriptionMember = () => {
               transition={{ duration: 0.6 }}
               className="bg-card border border-border rounded-2xl p-6"
             >
-              <h3 className="text-2xl font-montserrat font-bold mb-4">Your Membership Status</h3>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-2xl font-montserrat font-bold">Your Membership Status</h3>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => navigate('/member-settings')}
+                  className="flex items-center gap-2"
+                >
+                  <Settings className="w-4 h-4" />
+                  Settings
+                </Button>
+              </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                 <div className="p-4 bg-background/50 rounded-lg">

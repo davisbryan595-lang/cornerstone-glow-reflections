@@ -11,7 +11,7 @@ import { useAuth } from "@/context/AuthProvider";
 import { useToast } from "@/hooks/use-toast";
 import { generateAccessCode } from "@/lib/accessCodeGenerator";
 import { generateCouponBatch } from "@/lib/discountCodeManager";
-import { Copy, Download } from "lucide-react";
+import { Copy, Download, Search, Filter, Mail, Lock, CheckCircle } from "lucide-react";
 
 function downloadCsv(filename: string, rows: any[]) {
   if (!rows || !rows.length) return;
@@ -33,22 +33,34 @@ const Admin: React.FC = () => {
   const [recent, setRecent] = useState<{ email: string | null; created_at: string }[]>([]);
   const [accessCodes, setAccessCodes] = useState<any[]>([]);
   const [discountCodes, setDiscountCodes] = useState<any[]>([]);
+  const [allMembers, setAllMembers] = useState<any[]>([]);
+  const [allProfiles, setAllProfiles] = useState<any[]>([]);
+  const [invoices, setInvoices] = useState<any[]>([]);
 
   const [generateCount, setGenerateCount] = useState("10");
   const [discountTier, setDiscountTier] = useState("basic");
   const [discountExpiryDays, setDiscountExpiryDays] = useState("30");
+  const [memberSearch, setMemberSearch] = useState("");
+  const [memberStatusFilter, setMemberStatusFilter] = useState("all");
+  const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
 
   useEffect(() => {
     async function load() {
       try {
         const profiles = await db.profiles.list();
-        const memberships = await db.memberships.listActive();
+        const memberships = await db.memberships.list();
+        const activeMemberships = await db.memberships.listActive();
         const allAccessCodes = await db.accessCodes.listAll();
         const allDiscountCodes = await db.discountCodes.listAll();
+        const allInvoices = await db.invoices.listAll();
+
+        setAllProfiles(profiles);
+        setAllMembers(memberships);
+        setInvoices(allInvoices);
 
         setStats({
           users: profiles.length,
-          members: memberships.length,
+          members: activeMemberships.length,
           accessCodes: allAccessCodes.length,
           discountCodes: allDiscountCodes.length,
         });
@@ -139,6 +151,81 @@ const Admin: React.FC = () => {
     downloadCsv(filename, codes);
   };
 
+  const filteredMembers = useMemo(() => {
+    return allMembers.filter((member: any) => {
+      const profile = allProfiles.find((p: any) => p.user_id === member.user_id);
+      const email = profile?.email || "";
+      const matchesSearch = email.toLowerCase().includes(memberSearch.toLowerCase());
+      const matchesStatus = memberStatusFilter === "all" || member.status === memberStatusFilter;
+      return matchesSearch && matchesStatus;
+    });
+  }, [allMembers, allProfiles, memberSearch, memberStatusFilter]);
+
+  const handleToggleMemberSelection = (memberId: string) => {
+    setSelectedMembers((prev) =>
+      prev.includes(memberId) ? prev.filter((id) => id !== memberId) : [...prev, memberId]
+    );
+  };
+
+  const handleSelectAllMembers = () => {
+    if (selectedMembers.length === filteredMembers.length) {
+      setSelectedMembers([]);
+    } else {
+      setSelectedMembers(filteredMembers.map((m: any) => m.id));
+    }
+  };
+
+  const handleBulkSuspend = async () => {
+    if (!selectedMembers.length) {
+      toast({ title: "Error", description: "Please select members to suspend", variant: "destructive" });
+      return;
+    }
+
+    try {
+      for (const memberId of selectedMembers) {
+        const member = filteredMembers.find((m: any) => m.id === memberId);
+        if (member) {
+          await db.memberships.update(member.user_id, { status: "canceled" });
+        }
+      }
+      setSelectedMembers([]);
+      toast({ title: "Success", description: `Suspended ${selectedMembers.length} members` });
+      setTimeout(() => window.location.reload(), 1000);
+    } catch (error) {
+      toast({ title: "Error", description: "Failed to suspend members", variant: "destructive" });
+    }
+  };
+
+  const handleBulkSendEmails = async () => {
+    if (!selectedMembers.length) {
+      toast({ title: "Error", description: "Please select members", variant: "destructive" });
+      return;
+    }
+
+    toast({
+      title: "Info",
+      description: `Email invitations would be sent to ${selectedMembers.length} members (Email integration required)`,
+    });
+  };
+
+  const calculateRenewalMetrics = () => {
+    const nextMonth = new Date();
+    nextMonth.setDate(nextMonth.getDate() + 30);
+
+    const upcomingRenewals = allMembers.filter((m: any) => {
+      if (!m.next_billing_at) return false;
+      const billingDate = new Date(m.next_billing_at);
+      return billingDate <= nextMonth && billingDate > new Date();
+    });
+
+    const totalRevenue = invoices.reduce((sum: number, inv: any) => sum + (inv.final_amount || 0), 0);
+    const totalDiscountGiven = invoices.reduce((sum: number, inv: any) => sum + (inv.discount_amount || 0), 0);
+
+    return { upcomingRenewals, totalRevenue, totalDiscountGiven };
+  };
+
+  const { upcomingRenewals, totalRevenue, totalDiscountGiven } = calculateRenewalMetrics();
+
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-6">
       <h1 className="text-3xl font-montserrat font-bold">Admin Dashboard</h1>
@@ -171,8 +258,10 @@ const Admin: React.FC = () => {
       </div>
 
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="members">Members</TabsTrigger>
+          <TabsTrigger value="analytics">Analytics</TabsTrigger>
           <TabsTrigger value="access-codes">Access Codes</TabsTrigger>
           <TabsTrigger value="discount-codes">Discount Codes</TabsTrigger>
           <TabsTrigger value="exports">Exports</TabsTrigger>
@@ -199,6 +288,213 @@ const Admin: React.FC = () => {
                       <TableRow key={i}>
                         <TableCell>{r.email}</TableCell>
                         <TableCell>{new Date(r.created_at).toLocaleString()}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="members" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Search & Manage Members</CardTitle>
+              <p className="text-sm text-muted-foreground mt-2">Find and manage your active members</p>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex gap-4 flex-wrap items-end">
+                <div className="flex-1 min-w-48">
+                  <Label htmlFor="member-search">Search by email</Label>
+                  <div className="relative mt-1">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <Input
+                      id="member-search"
+                      placeholder="Search members..."
+                      value={memberSearch}
+                      onChange={(e) => setMemberSearch(e.target.value)}
+                      className="pl-10"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <Label htmlFor="status-filter">Filter by status</Label>
+                  <select
+                    id="status-filter"
+                    value={memberStatusFilter}
+                    onChange={(e) => setMemberStatusFilter(e.target.value)}
+                    className="mt-1 border rounded px-2 py-2 text-sm"
+                  >
+                    <option value="all">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="canceled">Canceled</option>
+                    <option value="past_due">Past Due</option>
+                  </select>
+                </div>
+              </div>
+
+              {selectedMembers.length > 0 && (
+                <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg flex items-center justify-between">
+                  <span className="text-sm font-medium">{selectedMembers.length} members selected</span>
+                  <div className="flex gap-2">
+                    <Button size="sm" variant="outline" onClick={handleBulkSendEmails}>
+                      <Mail className="w-4 h-4 mr-2" />
+                      Send Invites
+                    </Button>
+                    <Button size="sm" variant="destructive" onClick={handleBulkSuspend}>
+                      <Lock className="w-4 h-4 mr-2" />
+                      Suspend
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Members ({filteredMembers.length})</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {filteredMembers.length === 0 ? (
+                <p className="text-muted-foreground">No members found</p>
+              ) : (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>
+                        <input
+                          type="checkbox"
+                          checked={selectedMembers.length === filteredMembers.length && filteredMembers.length > 0}
+                          onChange={handleSelectAllMembers}
+                        />
+                      </TableHead>
+                      <TableHead>Email</TableHead>
+                      <TableHead>Plan</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Next Billing</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredMembers.slice(0, 20).map((member: any) => {
+                      const profile = allProfiles.find((p: any) => p.user_id === member.user_id);
+                      return (
+                        <TableRow key={member.id}>
+                          <TableCell>
+                            <input
+                              type="checkbox"
+                              checked={selectedMembers.includes(member.id)}
+                              onChange={() => handleToggleMemberSelection(member.id)}
+                            />
+                          </TableCell>
+                          <TableCell>{profile?.email}</TableCell>
+                          <TableCell className="capitalize">{member.plan_id}</TableCell>
+                          <TableCell>
+                            <span className={`px-2 py-1 rounded text-xs font-medium ${member.status === "active" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
+                              {member.status}
+                            </span>
+                          </TableCell>
+                          <TableCell>{member.next_billing_at ? new Date(member.next_billing_at).toLocaleDateString() : "N/A"}</TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="analytics" className="space-y-4">
+          <div className="grid md:grid-cols-3 gap-4">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
+              </CardHeader>
+              <CardContent className="text-3xl font-bold">${totalRevenue.toFixed(2)}</CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-sm font-medium">Total Discounts Given</CardTitle>
+              </CardHeader>
+              <CardContent className="text-3xl font-bold">${totalDiscountGiven.toFixed(2)}</CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-sm font-medium">Upcoming Renewals (30 days)</CardTitle>
+              </CardHeader>
+              <CardContent className="text-3xl font-bold">{upcomingRenewals.length}</CardContent>
+            </Card>
+          </div>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Upcoming Subscription Renewals</CardTitle>
+              <p className="text-sm text-muted-foreground mt-2">Members renewing in the next 30 days</p>
+            </CardHeader>
+            <CardContent>
+              {upcomingRenewals.length === 0 ? (
+                <p className="text-muted-foreground">No upcoming renewals</p>
+              ) : (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Email</TableHead>
+                      <TableHead>Plan</TableHead>
+                      <TableHead>Renewal Date</TableHead>
+                      <TableHead>Status</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {upcomingRenewals.slice(0, 15).map((member: any) => {
+                      const profile = allProfiles.find((p: any) => p.user_id === member.user_id);
+                      return (
+                        <TableRow key={member.id}>
+                          <TableCell>{profile?.email}</TableCell>
+                          <TableCell className="capitalize">{member.plan_id}</TableCell>
+                          <TableCell>{new Date(member.next_billing_at).toLocaleDateString()}</TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-1">
+                              <CheckCircle className="w-4 h-4 text-green-600" />
+                              <span className="text-xs font-medium">Ready</span>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Recent Invoices</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {invoices.length === 0 ? (
+                <p className="text-muted-foreground">No invoices yet</p>
+              ) : (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Amount</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Date</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {invoices.slice(0, 10).map((invoice: any) => (
+                      <TableRow key={invoice.id}>
+                        <TableCell>${invoice.final_amount?.toFixed(2)}</TableCell>
+                        <TableCell>
+                          <span className={`px-2 py-1 rounded text-xs font-medium ${invoice.status === "paid" ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"}`}>
+                            {invoice.status}
+                          </span>
+                        </TableCell>
+                        <TableCell>{new Date(invoice.issued_at).toLocaleDateString()}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

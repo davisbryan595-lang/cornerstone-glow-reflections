@@ -70,6 +70,18 @@ export const db = {
       if (error) throw error;
       return data || [];
     },
+    async update(userId: string, updates: any) {
+      if (!supabase) return mockDb.memberships.upsert(updates);
+      const { data, error } = await supabase.from("memberships").update(updates).eq("user_id", userId).select();
+      if (error) throw error;
+      return data?.[0] || null;
+    },
+    async search(query: string) {
+      if (!supabase) return [];
+      const { data, error } = await supabase.from("memberships").select("*, profiles(email)").ilike("profiles.email", `%${query}%`);
+      if (error) throw error;
+      return data || [];
+    },
   },
 
   accessCodes: {
@@ -151,6 +163,66 @@ export const db = {
         .update({ current_uses: (existing.current_uses || 0) + 1 })
         .eq("code", code)
         .select();
+      if (error) throw error;
+      return data?.[0] || null;
+    },
+  },
+
+  invoices: {
+    async create(invoice: any) {
+      if (!supabase) return mockDb.invoices?.create?.(invoice) || null;
+      const { data, error } = await supabase.from("invoices").insert(invoice).select();
+      if (error) throw error;
+      return data?.[0];
+    },
+    async get(id: string) {
+      if (!supabase) return mockDb.invoices?.get?.(id) || null;
+      const { data, error } = await supabase.from("invoices").select("*").eq("id", id).limit(1).single();
+      if (error) throw error;
+      return data || null;
+    },
+    async listByUser(userId: string) {
+      if (!supabase) return mockDb.invoices?.listByUser?.(userId) || [];
+      const { data, error } = await supabase.from("invoices").select("*").eq("user_id", userId).order("issued_at", { ascending: false });
+      if (error) throw error;
+      return data || [];
+    },
+    async listByMembership(membershipId: string) {
+      if (!supabase) return mockDb.invoices?.listByMembership?.(membershipId) || [];
+      const { data, error } = await supabase.from("invoices").select("*").eq("membership_id", membershipId).order("issued_at", { ascending: false });
+      if (error) throw error;
+      return data || [];
+    },
+    async listAll() {
+      if (!supabase) return mockDb.invoices?.listAll?.() || [];
+      const { data, error } = await supabase.from("invoices").select("*").order("issued_at", { ascending: false });
+      if (error) throw error;
+      return data || [];
+    },
+    async update(id: string, updates: any) {
+      if (!supabase) return mockDb.invoices?.update?.(id, updates) || null;
+      const { data, error } = await supabase.from("invoices").update(updates).eq("id", id).select();
+      if (error) throw error;
+      return data?.[0] || null;
+    },
+  },
+
+  passwordResetTokens: {
+    async create(userId: string, token: string, expiresAt: string) {
+      if (!supabase) return null;
+      const { data, error } = await supabase.from("password_reset_tokens").insert({ user_id: userId, token, expires_at: expiresAt }).select();
+      if (error) throw error;
+      return data?.[0];
+    },
+    async getByToken(token: string) {
+      if (!supabase) return null;
+      const { data, error } = await supabase.from("password_reset_tokens").select("*").eq("token", token).limit(1).single();
+      if (error) throw error;
+      return data || null;
+    },
+    async markAsUsed(id: string) {
+      if (!supabase) return null;
+      const { data, error } = await supabase.from("password_reset_tokens").update({ used_at: new Date().toISOString() }).eq("id", id).select();
       if (error) throw error;
       return data?.[0] || null;
     },
