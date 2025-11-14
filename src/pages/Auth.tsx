@@ -87,19 +87,30 @@ const Auth: React.FC = () => {
             }, 500);
           }
         } else {
-          const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-          if (error) throw error;
-          const user = data.user;
-          if (user) {
-            // Check profile role to decide destination
-            const prof = await db.profiles.get(user.id);
-            const dest = prof?.role === "admin" ? "/admin" : next;
-            toast({ title: "Enable notifications?", description: "Get emails about offers and updates.", action: (
-              <Button onClick={async () => { await upsertProfile(user.id, user.email, true); toast({ title: "Notifications enabled" }); }}>Enable</Button>
-            ) });
-            navigate(dest, { replace: true });
-          } else {
-            navigate(next, { replace: true });
+          try {
+            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+            if (error) {
+              const errorMsg = error.message || "Authentication failed. Please check your credentials.";
+              toast({ title: "Authentication error", description: errorMsg, variant: "destructive" as any });
+              setLoading(false);
+              return;
+            }
+            const user = data?.user;
+            if (user) {
+              // Check profile role to decide destination
+              const prof = await db.profiles.get(user.id);
+              const dest = prof?.role === "admin" ? "/admin" : next;
+              toast({ title: "Enable notifications?", description: "Get emails about offers and updates.", action: (
+                <Button onClick={async () => { await upsertProfile(user.id, user.email, true); toast({ title: "Notifications enabled" }); }}>Enable</Button>
+              ) });
+              navigate(dest, { replace: true });
+            } else {
+              navigate(next, { replace: true });
+            }
+          } catch (err: any) {
+            const errorMsg = err?.message || "Authentication failed. Please try again.";
+            toast({ title: "Authentication error", description: errorMsg, variant: "destructive" as any });
+            setLoading(false);
           }
         }
       }
