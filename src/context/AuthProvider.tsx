@@ -93,7 +93,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   useEffect(() => {
-    loadUser();
+    // Sign out all users on first visit
+    const initializeAuth = async () => {
+      // Clear mock DB session
+      localStorage.removeItem("currentUserId");
+
+      // Sign out from Supabase if using it
+      if (supabase) {
+        await supabase.auth.signOut();
+      }
+
+      // Load user (which will now be null)
+      await loadUser();
+    };
+
+    initializeAuth();
+
     if (!supabase) return;
     const { data: sub } = supabase.auth.onAuthStateChange((_event, _session) => {
       loadUser();

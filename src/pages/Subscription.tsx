@@ -12,6 +12,7 @@ import { calculateTotalPrice, processPayment, generateAccessCode } from "@/lib/p
 import { useAuth } from "@/context/AuthProvider";
 import { createMembershipRecord } from "@/lib/membership";
 import { useNavigate } from "react-router-dom";
+import db from "@/lib/database";
 
 interface SubscriptionState {
   hasAccessCode: boolean;
@@ -25,7 +26,7 @@ const Subscription = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
   const { toast } = useToast();
-  const { sessionUser } = useAuth();
+  const { sessionUser, refresh } = useAuth();
   const navigate = useNavigate();
   const [state, setState] = useState<SubscriptionState>({
     hasAccessCode: false,
@@ -40,8 +41,8 @@ const Subscription = () => {
       id: "maintenance-basic",
       name: "Maintenance - Basic",
       frequency: "Monthly",
-      monthlyPrice: 50.00,
-      fullPrice: 150.00,
+      monthlyPrice: 149.99,
+      fullPrice: 429.97,
       description:
         "Keep your vehicle looking fresh with regular maintenance washes. Perfect for customers who want consistent care at an affordable price.",
       includes: [
@@ -57,8 +58,8 @@ const Subscription = () => {
       id: "maintenance-premium",
       name: "Maintenance - Premium",
       frequency: "Bi-Monthly",
-      monthlyPrice: 50.00,
-      fullPrice: 150.00,
+      monthlyPrice: 199.99,
+      fullPrice: 599.97,
       description:
         "Elevate your vehicle's care with our premium maintenance plan. Bi-monthly service for superior results and extended protection.",
       includes: [
@@ -76,8 +77,8 @@ const Subscription = () => {
       id: "maintenance-elite",
       name: "Maintenance - Elite",
       frequency: "Seasonal",
-      monthlyPrice: 50.00,
-      fullPrice: 150.00,
+      monthlyPrice: 249.99,
+      fullPrice: 749.97,
       description:
         "Our most comprehensive membership for those who demand excellence. Quarterly service with all premium treatments included.",
       includes: [
@@ -94,18 +95,64 @@ const Subscription = () => {
     },
   ];
 
-  const handleAccessCodeSubmit = (code: string) => {
-    // Validate access code (in a real app, this would be verified against the database)
-    if (code.length > 0) {
-      setState({ ...state, hasAccessCode: true, accessCode: code });
-      toast({
-        title: "Access Granted",
-        description: "Welcome back! You can now manage your subscription.",
-      });
-    } else {
+  const handleAccessCodeSubmit = async (code: string) => {
+    if (!code.length) {
       toast({
         title: "Invalid Code",
         description: "Please enter a valid access code.",
+      });
+      return;
+    }
+
+    try {
+      // Validate access code against database
+      const accessCode = await db.accessCodes.get(code);
+
+      if (!accessCode) {
+        toast({
+          title: "Invalid Code",
+          description: "The access code you entered is not valid.",
+        });
+        return;
+      }
+
+      // Check if code has expired
+      if (new Date(accessCode.expires_at) < new Date()) {
+        toast({
+          title: "Code Expired",
+          description: "This access code has expired. Please contact support.",
+        });
+        return;
+      }
+
+      // Check if code has already been used
+      if (accessCode.is_used) {
+        toast({
+          title: "Code Already Used",
+          description: "This access code has already been used.",
+        });
+        return;
+      }
+
+      // Set the user session in localStorage and refresh auth
+      localStorage.setItem("currentUserId", accessCode.user_id);
+      await refresh();
+
+      // Mark access code as used
+      await db.accessCodes.markAsUsed(accessCode.id);
+
+      toast({
+        title: "Access Granted",
+        description: "Welcome back! Redirecting to your dashboard...",
+      });
+
+      // Redirect to membership dashboard
+      setTimeout(() => navigate("/membership-dashboard"), 1500);
+    } catch (error) {
+      console.error("Error validating access code:", error);
+      toast({
+        title: "Error",
+        description: "Failed to validate access code. Please try again.",
       });
     }
   };

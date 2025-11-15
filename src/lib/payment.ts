@@ -30,7 +30,7 @@ export const MEMBERSHIP_PLANS: Record<string, PaymentPlan> = {
   "maintenance-basic": {
     planId: "maintenance-basic",
     planName: "Maintenance - Basic",
-    amount: 5000, // $50.00 in cents
+    amount: 14999, // $149.99 in cents
     currency: "usd",
     interval: "month",
     description: "Monthly maintenance detail service",
@@ -38,7 +38,7 @@ export const MEMBERSHIP_PLANS: Record<string, PaymentPlan> = {
   "maintenance-premium": {
     planId: "maintenance-premium",
     planName: "Maintenance - Premium",
-    amount: 5000, // $50.00 in cents
+    amount: 19999, // $199.99 in cents
     currency: "usd",
     interval: "month",
     description: "Bi-monthly full detail service",
@@ -46,7 +46,7 @@ export const MEMBERSHIP_PLANS: Record<string, PaymentPlan> = {
   "maintenance-elite": {
     planId: "maintenance-elite",
     planName: "Maintenance - Elite",
-    amount: 5000, // $50.00 in cents
+    amount: 24999, // $249.99 in cents
     currency: "usd",
     interval: "month",
     description: "Quarterly comprehensive detail service",
