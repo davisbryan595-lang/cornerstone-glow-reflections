@@ -158,13 +158,6 @@ const Auth: React.FC = () => {
               <button className="underline" onClick={() => setMode("login")}>Have an account? Login</button>
             )}
           </div>
-          {isUsingMockDb && (
-            <div className="mt-6 p-3 bg-blue-50 border border-blue-200 rounded-md">
-              <p className="text-xs text-blue-800">
-                <strong>Demo Mode:</strong> Try logging in with <code>member@example.com</code> to see the member dashboard, or sign up with a new email.
-              </p>
-            </div>
-          )}
         </CardContent>
       </Card>
     </div>
