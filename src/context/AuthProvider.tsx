@@ -47,26 +47,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   async function loadUser() {
     setLoading(true);
     try {
-      let user: { id: string; email?: string | null } | null = null;
-
-      if (isUsingMockDb) {
-        // For mock DB, we'll use localStorage to track the current user
-        const storedUserId = localStorage.getItem("currentUserId");
-        if (storedUserId) {
-          const prof = await db.profiles.get(storedUserId);
-          if (prof) {
-            user = { id: storedUserId, email: prof.email };
-          }
-        }
-      } else if (supabase) {
-        // Use Supabase
-        const { data: { session } } = await supabase.auth.getSession();
-        user = session?.user ? { id: session.user.id, email: session.user.email } : null;
-      } else {
-        // Using MySQL with custom auth (email only mock login)
-        user = null;
-      }
-
+      const { data: { session } } = await supabase.auth.getSession();
+      const user = session?.user ? { id: session.user.id, email: session.user.email } : null;
       setSessionUser(user);
 
       if (user) {
