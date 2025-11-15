@@ -1,15 +1,7 @@
 import { getSupabase } from "./supabase";
-import { mockDb } from "./mockDatabase";
 
-const supabase = (() => {
-  try {
-    return getSupabase();
-  } catch {
-    return null as any;
-  }
-})();
-
-export const isUsingSupabase = Boolean(supabase);
+const supabase = getSupabase();
+export const isUsingSupabase = true;
 
 export const db = {
   profiles: {
