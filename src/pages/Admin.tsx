@@ -11,7 +11,8 @@ import { useAuth } from "@/context/AuthProvider";
 import { useToast } from "@/hooks/use-toast";
 import { generateAccessCode } from "@/lib/accessCodeGenerator";
 import { generateCouponBatch } from "@/lib/discountCodeManager";
-import { Copy, Download, Search, Filter, Mail, Lock, CheckCircle } from "lucide-react";
+import { Copy, Download, Search, Filter, Mail, Lock, CheckCircle, ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 function downloadCsv(filename: string, rows: any[]) {
   if (!rows || !rows.length) return;
@@ -28,6 +29,7 @@ const Admin: React.FC = () => {
   const isUsingMockDb = !isUsingSupabase;
   const { isAdmin } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const [stats, setStats] = useState({ users: 0, members: 0, accessCodes: 0, discountCodes: 0 });
   const [recent, setRecent] = useState<{ email: string | null; created_at: string }[]>([]);
@@ -96,50 +98,98 @@ const Admin: React.FC = () => {
   };
 
   const handleGenerateAccessCodes = async () => {
-    const count = parseInt(generateCount) || 10;
-    const codes: any[] = [];
+    try {
+      const count = parseInt(generateCount) || 10;
+      const codes: any[] = [];
 
-    for (let i = 0; i < count; i++) {
-      const code = generateAccessCode();
-      const accessCode = await db.accessCodes.create({
-        code,
-        user_id: "",
-        membership_id: "",
-        plan_id: "all",
-        expires_at: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
-        is_used: false,
+      for (let i = 0; i < count; i++) {
+        const code = generateAccessCode();
+        const accessCode = await db.accessCodes.create({
+          code,
+          user_id: "",
+          membership_id: "",
+          plan_id: "all",
+          expires_at: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+          is_used: false,
+        });
+        if (accessCode) {
+          codes.push(accessCode);
+        }
+      }
+
+      if (codes.length > 0) {
+        // Reload all access codes from database to ensure they're persisted
+        const allCodes = await db.accessCodes.listAll();
+        setAccessCodes(allCodes);
+        toast({
+          title: "Success",
+          description: `Generated and saved ${codes.length} access codes`
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to generate access codes",
+          variant: "destructive"
+        });
+      }
+    } catch (error) {
+      console.error("Error generating access codes:", error);
+      toast({
+        title: "Error",
+        description: "Failed to generate access codes. Check console for details.",
+        variant: "destructive"
       });
-      codes.push(accessCode);
     }
-
-    setAccessCodes((prev) => [...prev, ...codes]);
-    toast({ title: "Success", description: `Generated ${count} access codes` });
   };
 
   const handleGenerateDiscountCodes = async () => {
-    const count = parseInt(generateCount) || 10;
-    const codes = generateCouponBatch(discountTier, count);
-    const expiryDate = new Date(Date.now() + parseInt(discountExpiryDays) * 24 * 60 * 60 * 1000).toISOString();
+    try {
+      const count = parseInt(generateCount) || 10;
+      const codes = generateCouponBatch(discountTier, count);
+      const expiryDate = new Date(Date.now() + parseInt(discountExpiryDays) * 24 * 60 * 60 * 1000).toISOString();
 
-    const tierDiscounts = { basic: 10, premium: 20, elite: 25, referral: 15 };
-    const newCodes = [];
+      const tierDiscounts = { basic: 10, premium: 20, elite: 25, referral: 15 };
+      const newCodes = [];
 
-    for (const code of codes) {
-      const discountCode = await db.discountCodes.create({
-        code,
-        plan_id: discountTier,
-        discount_percentage: tierDiscounts[discountTier as keyof typeof tierDiscounts] || 10,
-        description: `${discountTier.charAt(0).toUpperCase() + discountTier.slice(1)} discount code`,
-        max_uses: count,
-        current_uses: 0,
-        expires_at: expiryDate,
-        is_active: true,
+      for (const code of codes) {
+        const discountCode = await db.discountCodes.create({
+          code,
+          plan_id: discountTier,
+          discount_percentage: tierDiscounts[discountTier as keyof typeof tierDiscounts] || 10,
+          description: `${discountTier.charAt(0).toUpperCase() + discountTier.slice(1)} discount code`,
+          max_uses: count,
+          current_uses: 0,
+          expires_at: expiryDate,
+          is_active: true,
+        });
+        if (discountCode) {
+          newCodes.push(discountCode);
+        }
+      }
+
+      if (newCodes.length > 0) {
+        // Reload all discount codes from database to ensure they're persisted
+        const allCodes = await db.discountCodes.listAll();
+        setDiscountCodes(allCodes);
+        toast({
+          title: "Success",
+          description: `Generated and saved ${newCodes.length} discount codes`
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to generate discount codes",
+          variant: "destructive"
+        });
+      }
+    } catch (error) {
+      console.error("Error generating discount codes:", error);
+      toast({
+        title: "Error",
+        description: "Failed to generate discount codes. Check console for details.",
+        variant: "destructive"
       });
-      newCodes.push(discountCode);
     }
-
-    setDiscountCodes((prev) => [...prev, ...newCodes]);
-    toast({ title: "Success", description: `Generated ${count} discount codes` });
   };
 
   const copyToClipboard = (text: string) => {
@@ -228,6 +278,16 @@ const Admin: React.FC = () => {
 
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-6">
+      <div className="flex items-center justify-between mb-4">
+        <button
+          onClick={() => navigate("/")}
+          className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
+          title="Back to home"
+        >
+          <ArrowLeft className="w-5 h-5" />
+          <span className="text-sm font-semibold">Back to Home</span>
+        </button>
+      </div>
       <h1 className="text-3xl font-montserrat font-bold">Admin Dashboard</h1>
 
       <div className="grid md:grid-cols-4 gap-4">
