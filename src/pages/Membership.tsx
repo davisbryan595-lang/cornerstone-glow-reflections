@@ -212,12 +212,28 @@ const Membership = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className={`rounded-2xl p-8 flex flex-col transition-all duration-300 ${
+                  className={`rounded-2xl p-8 flex flex-col transition-all duration-300 relative ${
                     tier.featured
                       ? "bg-gradient-to-br from-primary/20 to-primary/5 border-2 border-primary shadow-glow-primary"
                       : "bg-card border border-border hover:border-primary/50"
-                  }`}
+                  } ${!sessionUser && !isMember ? "blur-sm opacity-60" : ""}`}
                 >
+                  {!sessionUser && !isMember && (
+                    <div className="absolute inset-0 rounded-2xl flex items-center justify-center bg-background/40 backdrop-blur-sm z-10">
+                      <div className="text-center">
+                        <Lock className="w-12 h-12 text-primary mx-auto mb-3" />
+                        <p className="text-sm font-semibold text-foreground mb-3">Members Only</p>
+                        <Button
+                          size="sm"
+                          className="bg-gradient-primary hover:shadow-glow-primary"
+                          onClick={() => navigate("/subscription")}
+                        >
+                          Sign In or Join
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+
                   {tier.featured && (
                     <div className="bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full w-fit mb-4">
                       Most Popular
