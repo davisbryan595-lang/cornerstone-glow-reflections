@@ -98,24 +98,48 @@ const Admin: React.FC = () => {
   };
 
   const handleGenerateAccessCodes = async () => {
-    const count = parseInt(generateCount) || 10;
-    const codes: any[] = [];
+    try {
+      const count = parseInt(generateCount) || 10;
+      const codes: any[] = [];
 
-    for (let i = 0; i < count; i++) {
-      const code = generateAccessCode();
-      const accessCode = await db.accessCodes.create({
-        code,
-        user_id: "",
-        membership_id: "",
-        plan_id: "all",
-        expires_at: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
-        is_used: false,
+      for (let i = 0; i < count; i++) {
+        const code = generateAccessCode();
+        const accessCode = await db.accessCodes.create({
+          code,
+          user_id: "",
+          membership_id: "",
+          plan_id: "all",
+          expires_at: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+          is_used: false,
+        });
+        if (accessCode) {
+          codes.push(accessCode);
+        }
+      }
+
+      if (codes.length > 0) {
+        // Reload all access codes from database to ensure they're persisted
+        const allCodes = await db.accessCodes.listAll();
+        setAccessCodes(allCodes);
+        toast({
+          title: "Success",
+          description: `Generated and saved ${codes.length} access codes`
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to generate access codes",
+          variant: "destructive"
+        });
+      }
+    } catch (error) {
+      console.error("Error generating access codes:", error);
+      toast({
+        title: "Error",
+        description: "Failed to generate access codes. Check console for details.",
+        variant: "destructive"
       });
-      codes.push(accessCode);
     }
-
-    setAccessCodes((prev) => [...prev, ...codes]);
-    toast({ title: "Success", description: `Generated ${count} access codes` });
   };
 
   const handleGenerateDiscountCodes = async () => {
