@@ -58,7 +58,7 @@ const MembershipDashboard = () => {
       id: 1,
       type: "payment",
       title: "Payment Received",
-      message: `Your $${membership?.plan_id === 'maintenance-basic' ? '149.99' : membership?.plan_id === 'maintenance-premium' ? '199.99' : '249.99'} membership payment was processed successfully.`,
+      message: `Your $50.00 membership payment was processed successfully.`,
       timestamp: "Today",
       read: true,
     },
