@@ -15,7 +15,7 @@ export const db = {
   profiles: {
     async get(userId: string) {
       if (!supabase) return mockDb.profiles.get(userId);
-      const { data, error } = await supabase.from("profiles").select("*").eq("user_id", userId).limit(1).single();
+      const { data, error } = await supabase.from("profiles").select("*").eq("user_id", userId).limit(1).maybeSingle();
       if (error) throw error;
       return data || null;
     },
@@ -36,7 +36,7 @@ export const db = {
   memberships: {
     async get(userId: string) {
       if (!supabase) return mockDb.memberships.get(userId);
-      const { data, error } = await supabase.from("memberships").select("*").eq("user_id", userId).limit(1).single();
+      const { data, error } = await supabase.from("memberships").select("*").eq("user_id", userId).limit(1).maybeSingle();
       if (error) throw error;
       return data || null;
     },
@@ -48,7 +48,7 @@ export const db = {
         .eq("user_id", userId)
         .eq("status", "active")
         .limit(1)
-        .single();
+        .maybeSingle();
       if (error) throw error;
       return data || null;
     },
@@ -93,13 +93,13 @@ export const db = {
     },
     async get(code: string) {
       if (!supabase) return mockDb.accessCodes.get(code);
-      const { data, error } = await supabase.from("access_codes").select("*").eq("code", code).limit(1).single();
+      const { data, error } = await supabase.from("access_codes").select("*").eq("code", code).limit(1).maybeSingle();
       if (error) throw error;
       return data || null;
     },
     async getByMembership(membershipId: string) {
       if (!supabase) return mockDb.accessCodes.getByMembership(membershipId);
-      const { data, error } = await supabase.from("access_codes").select("*").eq("membership_id", membershipId).limit(1).single();
+      const { data, error } = await supabase.from("access_codes").select("*").eq("membership_id", membershipId).limit(1).maybeSingle();
       if (error) throw error;
       return data || null;
     },
@@ -132,7 +132,7 @@ export const db = {
     },
     async get(code: string) {
       if (!supabase) return mockDb.discountCodes.get(code);
-      const { data, error } = await supabase.from("discount_codes").select("*").eq("code", code).limit(1).single();
+      const { data, error } = await supabase.from("discount_codes").select("*").eq("code", code).limit(1).maybeSingle();
       if (error) throw error;
       return data || null;
     },
@@ -177,7 +177,7 @@ export const db = {
     },
     async get(id: string) {
       if (!supabase) return mockDb.invoices?.get?.(id) || null;
-      const { data, error } = await supabase.from("invoices").select("*").eq("id", id).limit(1).single();
+      const { data, error } = await supabase.from("invoices").select("*").eq("id", id).limit(1).maybeSingle();
       if (error) throw error;
       return data || null;
     },
@@ -216,7 +216,7 @@ export const db = {
     },
     async getByToken(token: string) {
       if (!supabase) return null;
-      const { data, error } = await supabase.from("password_reset_tokens").select("*").eq("token", token).limit(1).single();
+      const { data, error } = await supabase.from("password_reset_tokens").select("*").eq("token", token).limit(1).maybeSingle();
       if (error) throw error;
       return data || null;
     },
