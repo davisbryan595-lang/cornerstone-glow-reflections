@@ -40,8 +40,8 @@ const Subscription = () => {
       id: "maintenance-basic",
       name: "Maintenance - Basic",
       frequency: "Monthly",
-      monthlyPrice: 149.99,
-      fullPrice: 429.97,
+      monthlyPrice: 50.00,
+      fullPrice: 150.00,
       description:
         "Keep your vehicle looking fresh with regular maintenance washes. Perfect for customers who want consistent care at an affordable price.",
       includes: [
@@ -57,8 +57,8 @@ const Subscription = () => {
       id: "maintenance-premium",
       name: "Maintenance - Premium",
       frequency: "Bi-Monthly",
-      monthlyPrice: 199.99,
-      fullPrice: 599.97,
+      monthlyPrice: 50.00,
+      fullPrice: 150.00,
       description:
         "Elevate your vehicle's care with our premium maintenance plan. Bi-monthly service for superior results and extended protection.",
       includes: [
@@ -76,8 +76,8 @@ const Subscription = () => {
       id: "maintenance-elite",
       name: "Maintenance - Elite",
       frequency: "Seasonal",
-      monthlyPrice: 249.99,
-      fullPrice: 749.97,
+      monthlyPrice: 50.00,
+      fullPrice: 150.00,
       description:
         "Our most comprehensive membership for those who demand excellence. Quarterly service with all premium treatments included.",
       includes: [

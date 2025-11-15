@@ -1,17 +1,19 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Check, Award, Zap, Heart, Shield } from "lucide-react";
+import { Check, Award, Zap, Heart, Shield, Lock } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/context/AuthProvider";
 
 const Membership = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { sessionUser, isMember } = useAuth();
 
   const benefits = [
     {
@@ -43,7 +45,7 @@ const Membership = () => {
   const tiers = [
     {
       name: "Maintenance - Basic",
-      price: "$149.99/mo",
+      price: "$50/mo",
       highlights: [
         "Monthly maintenance detail",
         "Interior refresh + exterior wash",
@@ -53,7 +55,7 @@ const Membership = () => {
     },
     {
       name: "Maintenance - Premium",
-      price: "$199.99/mo",
+      price: "$50/mo",
       highlights: [
         "Bi-monthly full detail",
         "Deep interior + exterior cleaning",
@@ -65,7 +67,7 @@ const Membership = () => {
     },
     {
       name: "Maintenance - Elite",
-      price: "$249.99/mo",
+      price: "$50/mo",
       highlights: [
         "Quarterly comprehensive detail",
         "Paint correction service",
@@ -103,91 +105,6 @@ const Membership = () => {
           </div>
         </section>
 
-
-        {/* Membership Dashboard Preview (status-only) */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-8"
-            >
-              <h3 className="text-2xl font-montserrat font-bold mb-2">Membership Status</h3>
-              <p className="text-muted-foreground max-w-2xl mx-auto mb-6">This preview shows only the current membership status, payment status, and upgrade suggestions.</p>
-            </motion.div>
-
-            <div className="max-w-4xl mx-auto grid gap-6">
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5 }}
-                className="bg-card border border-border rounded-2xl p-6"
-              >
-                <h4 className="font-montserrat font-bold text-lg mb-4">Current Membership</h4>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="p-4 bg-background/50 rounded-lg">
-                    <p className="text-xs text-muted-foreground">Plan</p>
-                    <p className="font-semibold">Maintenance - Premium</p>
-                  </div>
-                  <div className="p-4 bg-background/50 rounded-lg">
-                    <p className="text-xs text-muted-foreground">Status</p>
-                    <p className="font-semibold text-emerald-500">Active</p>
-                  </div>
-                  <div className="p-4 bg-background/50 rounded-lg">
-                    <p className="text-xs text-muted-foreground">Payment Status</p>
-                    <p className="font-semibold">Paid</p>
-                  </div>
-                </div>
-
-                <div className="mt-4 border-t border-border pt-4">
-                  <p className="text-sm text-muted-foreground">Billing Structure</p>
-                  <p className="font-medium">Monthly • Next billing: 2025-01-15</p>
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.08 }}
-                className="bg-card border border-border rounded-2xl p-6"
-              >
-                <h4 className="font-montserrat font-bold text-lg mb-4">Upgrade Suggestions</h4>
-                <ul className="space-y-3 mb-4">
-                  <li className="flex items-center justify-between gap-4">
-                    <div>
-                      <p className="font-medium">Add Ceramic Touch-up</p>
-                      <p className="text-sm text-muted-foreground">Improve paint protection between full services.</p>
-                    </div>
-                    <Button className="bg-primary/10 text-primary border border-primary" onClick={() => navigate('/subscription')}>Add</Button>
-                  </li>
-                  <li className="flex items-center justify-between gap-4">
-                    <div>
-                      <p className="font-medium">Upgrade to Elite</p>
-                      <p className="text-sm text-muted-foreground">Quarterly comprehensive care & concierge support.</p>
-                    </div>
-                    <Button className="bg-gradient-primary" onClick={() => navigate('/subscription')}>Upgrade</Button>
-                  </li>
-                </ul>
-
-                <div className="border-t border-border pt-4">
-                  <h5 className="font-semibold mb-2">Send us a suggestion</h5>
-                  <form id="member-suggestion-form" className="space-y-3" onSubmit={(e) => { e.preventDefault(); const fd = new FormData(e.currentTarget as HTMLFormElement); const name = (fd.get('name') as string) || 'Anonymous'; const email = (fd.get('email') as string) || ''; const message = (fd.get('message') as string) || ''; if(!message || message.trim().length < 5){ toast({ title: 'Message too short', description: 'Please enter a longer message.' }); return; } /* send suggestion - placeholder */ toast({ title: 'Thanks!', description: 'Your suggestion was sent. We appreciate your feedback.' }); (e.currentTarget as HTMLFormElement).reset(); }}>
-                    <div className="grid md:grid-cols-2 gap-3">
-                      <input name="name" placeholder="Your name" className="input bg-background border-border rounded-md p-2 w-full" />
-                      <input name="email" placeholder="Email (optional)" type="email" className="input bg-background border-border rounded-md p-2 w-full" />
-                    </div>
-                    <textarea name="message" placeholder="Tell us your suggestion" className="input bg-background border-border rounded-md p-2 w-full h-28" />
-                    <div className="flex justify-end">
-                      <Button type="submit" className="bg-gradient-primary">Send Suggestion</Button>
-                    </div>
-                  </form>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </section>
-
         {/* Tiers */}
         <section className="py-20">
           <div className="container mx-auto px-4">
@@ -210,12 +127,28 @@ const Membership = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className={`rounded-2xl p-8 flex flex-col transition-all duration-300 ${
+                  className={`rounded-2xl p-8 flex flex-col transition-all duration-300 relative ${
                     tier.featured
                       ? "bg-gradient-to-br from-primary/20 to-primary/5 border-2 border-primary shadow-glow-primary"
                       : "bg-card border border-border hover:border-primary/50"
-                  }`}
+                  } ${!sessionUser && !isMember ? "blur-sm opacity-60" : ""}`}
                 >
+                  {!sessionUser && !isMember && (
+                    <div className="absolute inset-0 rounded-2xl flex items-center justify-center bg-background/40 backdrop-blur-sm z-10">
+                      <div className="text-center">
+                        <Lock className="w-12 h-12 text-primary mx-auto mb-3" />
+                        <p className="text-sm font-semibold text-foreground mb-3">Members Only</p>
+                        <Button
+                          size="sm"
+                          className="bg-gradient-primary hover:shadow-glow-primary"
+                          onClick={() => navigate("/subscription")}
+                        >
+                          Sign In or Join
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+
                   {tier.featured && (
                     <div className="bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full w-fit mb-4">
                       Most Popular

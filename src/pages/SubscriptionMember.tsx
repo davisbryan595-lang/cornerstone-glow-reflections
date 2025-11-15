@@ -45,7 +45,7 @@ const SubscriptionMember = () => {
   const membershipTiers = [
     {
       name: "Maintenance - Basic",
-      price: "$149.99/month",
+      price: "$50/month",
       benefits: [
         "Monthly maintenance service",
         "Interior & exterior care",
@@ -55,7 +55,7 @@ const SubscriptionMember = () => {
     },
     {
       name: "Maintenance - Premium",
-      price: "$199.99/month",
+      price: "$50/month",
       benefits: [
         "Bi-monthly full detail",
         "Deep cleaning services",
@@ -67,7 +67,7 @@ const SubscriptionMember = () => {
     },
     {
       name: "Maintenance - Elite",
-      price: "$249.99/month",
+      price: "$50/month",
       benefits: [
         "Quarterly comprehensive detail",
         "Paint correction service",
