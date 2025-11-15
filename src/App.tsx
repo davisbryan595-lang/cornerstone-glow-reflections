@@ -15,6 +15,7 @@ import Terms from "./pages/Terms";
 import Membership from "./pages/Membership";
 import Checkout from "./pages/Checkout";
 import MemberSettings from "./pages/MemberSettings";
+import MembershipDashboard from "./pages/MembershipDashboard";
 import PasswordReset from "./pages/PasswordReset";
 import ForgotPassword from "./pages/ForgotPassword";
 
@@ -41,6 +42,7 @@ const App = () => (
             <Route path="/subscription" element={<Subscription />} />
             <Route path="/checkout" element={<RequireAuth><Checkout /></RequireAuth>} />
             <Route path="/subscription-member" element={<RequireMember><SubscriptionMember /></RequireMember>} />
+            <Route path="/membership-dashboard" element={<RequireMember><MembershipDashboard /></RequireMember>} />
             <Route path="/member-settings" element={<RequireMember><MemberSettings /></RequireMember>} />
             <Route path="/maintenance-plans" element={<MaintenancePlans />} />
             <Route path="/terms" element={<Terms />} />

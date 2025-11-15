@@ -224,6 +224,18 @@ const SubscriptionMember = () => {
                   </div>
                 </form>
               </div>
+
+              <div className="mt-6 border-t border-border pt-6">
+                <p className="text-sm text-muted-foreground mb-4">
+                  Want to see more? Check out your complete membership dashboard with exclusive offers, maintenance plans, and notifications.
+                </p>
+                <Button
+                  onClick={() => navigate('/membership-dashboard')}
+                  className="w-full bg-gradient-primary"
+                >
+                  View Full Membership Dashboard
+                </Button>
+              </div>
             </motion.div>
           </div>
         </section>
