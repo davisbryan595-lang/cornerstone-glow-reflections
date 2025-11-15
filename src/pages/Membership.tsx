@@ -45,7 +45,7 @@ const Membership = () => {
   const tiers = [
     {
       name: "Maintenance - Basic",
-      price: "$50/mo",
+      price: "$149.99/mo",
       highlights: [
         "Monthly maintenance detail",
         "Interior refresh + exterior wash",
@@ -55,7 +55,7 @@ const Membership = () => {
     },
     {
       name: "Maintenance - Premium",
-      price: "$50/mo",
+      price: "$199.99/mo",
       highlights: [
         "Bi-monthly full detail",
         "Deep interior + exterior cleaning",
@@ -67,7 +67,7 @@ const Membership = () => {
     },
     {
       name: "Maintenance - Elite",
-      price: "$50/mo",
+      price: "$249.99/mo",
       highlights: [
         "Quarterly comprehensive detail",
         "Paint correction service",
