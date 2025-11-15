@@ -12,7 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 const Auth: React.FC = () => {
   const [params] = useSearchParams();
   const navigate = useNavigate();
-  const next = params.get("next") || "/subscription-member";
+  const next = params.get("next");
   const { toast } = useToast();
 
   const supabase = useMemo(() => {
@@ -44,6 +44,19 @@ const Auth: React.FC = () => {
     }
   }
 
+  const getRedirectDestination = async (userId: string, isAdmin: boolean): Promise<string> => {
+    if (isAdmin) {
+      return "/admin";
+    }
+
+    const membership = await db.memberships.getActive(userId);
+    if (membership && membership.status === "active") {
+      return "/membership-dashboard";
+    }
+
+    return "/";
+  };
+
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -61,8 +74,9 @@ const Auth: React.FC = () => {
           await upsertProfile(userId, email, marketingOptIn);
           localStorage.setItem("currentUserId", userId);
           toast({ title: "Success!", description: "Account created. Redirecting..." });
-          setTimeout(() => {
-            window.location.href = next;
+          setTimeout(async () => {
+            const dest = await getRedirectDestination(userId, false);
+            window.location.href = dest;
           }, 500);
         } else {
           try {
@@ -76,12 +90,13 @@ const Auth: React.FC = () => {
             const user = data?.user;
             if (user) {
               await upsertProfile(user.id, user.email, marketingOptIn);
-              toast({ title: "Success!", description: "Account created. Logging in..." });
-              setTimeout(() => {
-                navigate(next, { replace: true });
+              toast({ title: "Success!", description: "Account created. Redirecting..." });
+              setTimeout(async () => {
+                const dest = await getRedirectDestination(user.id, false);
+                navigate(dest, { replace: true });
               }, 500);
             } else {
-              navigate(next, { replace: true });
+              navigate("/", { replace: true });
             }
           } catch (err: any) {
             const errorMsg = err?.message || "Sign up failed. Please try again.";
@@ -96,10 +111,11 @@ const Auth: React.FC = () => {
           const userProfile = profiles.find((p: any) => p.email === email);
           if (!userProfile) {
             toast({ title: "Authentication error", description: "Email not found", variant: "destructive" as any });
+            setLoading(false);
           } else {
             localStorage.setItem("currentUserId", userProfile.user_id);
             toast({ title: "Success!", description: "Logged in. Redirecting..." });
-            const dest = userProfile.role === "admin" ? "/admin" : next;
+            const dest = await getRedirectDestination(userProfile.user_id, userProfile.role === "admin");
             setTimeout(() => {
               window.location.href = dest;
             }, 500);
@@ -117,13 +133,16 @@ const Auth: React.FC = () => {
             if (user) {
               // Check profile role to decide destination
               const prof = await db.profiles.get(user.id);
-              const dest = prof?.role === "admin" ? "/admin" : next;
+              const isAdmin = prof?.role === "admin";
+              const dest = await getRedirectDestination(user.id, isAdmin);
               toast({ title: "Enable notifications?", description: "Get emails about offers and updates.", action: (
                 <Button onClick={async () => { await upsertProfile(user.id, user.email, true); toast({ title: "Notifications enabled" }); }}>Enable</Button>
               ) });
-              navigate(dest, { replace: true });
+              setTimeout(() => {
+                navigate(dest, { replace: true });
+              }, 500);
             } else {
-              navigate(next, { replace: true });
+              navigate("/", { replace: true });
             }
           } catch (err: any) {
             const errorMsg = err?.message || "Authentication failed. Please try again.";
