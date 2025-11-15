@@ -136,7 +136,7 @@ const Subscription = () => {
 
       // Set the user session in localStorage and refresh auth
       localStorage.setItem("currentUserId", accessCode.user_id);
-      await useAuth?.refresh?.();
+      await refresh();
 
       // Mark access code as used
       await db.accessCodes.markAsUsed(accessCode.id);
