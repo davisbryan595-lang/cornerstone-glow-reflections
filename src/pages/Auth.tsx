@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams, useNavigate, Link } from "react-router-dom";
 import { getSupabase } from "@/lib/supabase";
 import db from "@/lib/database";
 import { Button } from "@/components/ui/button";
@@ -65,11 +65,29 @@ const Auth: React.FC = () => {
             window.location.href = next;
           }, 500);
         } else {
-          const { data, error } = await supabase.auth.signUp({ email, password });
-          if (error) throw error;
-          const user = data.user;
-          if (user) await upsertProfile(user.id, user.email, marketingOptIn);
-          navigate(next, { replace: true });
+          try {
+            const { data, error } = await supabase.auth.signUp({ email, password });
+            if (error) {
+              const errorMsg = error.message || "Sign up failed. Please try again.";
+              toast({ title: "Sign up error", description: errorMsg, variant: "destructive" as any });
+              setLoading(false);
+              return;
+            }
+            const user = data?.user;
+            if (user) {
+              await upsertProfile(user.id, user.email, marketingOptIn);
+              toast({ title: "Success!", description: "Account created. Logging in..." });
+              setTimeout(() => {
+                navigate(next, { replace: true });
+              }, 500);
+            } else {
+              navigate(next, { replace: true });
+            }
+          } catch (err: any) {
+            const errorMsg = err?.message || "Sign up failed. Please try again.";
+            toast({ title: "Sign up error", description: errorMsg, variant: "destructive" as any });
+            setLoading(false);
+          }
         }
       } else {
         if (isUsingMockDb) {
@@ -87,19 +105,30 @@ const Auth: React.FC = () => {
             }, 500);
           }
         } else {
-          const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-          if (error) throw error;
-          const user = data.user;
-          if (user) {
-            // Check profile role to decide destination
-            const prof = await db.profiles.get(user.id);
-            const dest = prof?.role === "admin" ? "/admin" : next;
-            toast({ title: "Enable notifications?", description: "Get emails about offers and updates.", action: (
-              <Button onClick={async () => { await upsertProfile(user.id, user.email, true); toast({ title: "Notifications enabled" }); }}>Enable</Button>
-            ) });
-            navigate(dest, { replace: true });
-          } else {
-            navigate(next, { replace: true });
+          try {
+            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+            if (error) {
+              const errorMsg = error.message || "Authentication failed. Please check your credentials.";
+              toast({ title: "Authentication error", description: errorMsg, variant: "destructive" as any });
+              setLoading(false);
+              return;
+            }
+            const user = data?.user;
+            if (user) {
+              // Check profile role to decide destination
+              const prof = await db.profiles.get(user.id);
+              const dest = prof?.role === "admin" ? "/admin" : next;
+              toast({ title: "Enable notifications?", description: "Get emails about offers and updates.", action: (
+                <Button onClick={async () => { await upsertProfile(user.id, user.email, true); toast({ title: "Notifications enabled" }); }}>Enable</Button>
+              ) });
+              navigate(dest, { replace: true });
+            } else {
+              navigate(next, { replace: true });
+            }
+          } catch (err: any) {
+            const errorMsg = err?.message || "Authentication failed. Please try again.";
+            toast({ title: "Authentication error", description: errorMsg, variant: "destructive" as any });
+            setLoading(false);
           }
         }
       }
@@ -127,7 +156,14 @@ const Auth: React.FC = () => {
               <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <div className="flex justify-between items-center">
+                <Label htmlFor="password">Password</Label>
+                {mode === "login" && (
+                  <Link to="/forgot-password" className="text-xs text-primary hover:underline">
+                    Forgot password?
+                  </Link>
+                )}
+              </div>
               <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
             </div>
             {mode === "signup" && (

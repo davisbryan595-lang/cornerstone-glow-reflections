@@ -16,6 +16,7 @@ import Membership from "./pages/Membership";
 import Checkout from "./pages/Checkout";
 import MemberSettings from "./pages/MemberSettings";
 import PasswordReset from "./pages/PasswordReset";
+import ForgotPassword from "./pages/ForgotPassword";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +46,7 @@ const App = () => (
             <Route path="/terms" element={<Terms />} />
             <Route path="/membership" element={<Membership />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/password-reset" element={<PasswordReset />} />
             <Route path="/admin" element={<RequireAdmin><Admin /></RequireAdmin>} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

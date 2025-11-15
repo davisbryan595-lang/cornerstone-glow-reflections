@@ -9,8 +9,8 @@ import Navbar from "@/components/Navbar";
 const detailingServices = [
   {
     name: "Interior Detail",
-    coupeSedan: 229,
-    truckSuv: 229,
+    coupeSedan: 217.99,
+    truckSuv: 237.99,
     description: <>This our thorough interior detailing service. Once done, your car's interior will invite you with a <strong>Fresh Look</strong>, <strong>Nice Smell</strong>, & <strong>Feel</strong> for a peaceful driving experience!</>,
     services: [
       "Detailed Vacuum of Floors, Carpets, and Trunk",
@@ -26,8 +26,8 @@ const detailingServices = [
   },
   {
     name: "Exterior Detail",
-    coupeSedan: 199,
-    truckSuv: 199,
+    coupeSedan: 144.99,
+    truckSuv: 184.88,
     description: <>This premium exterior detail is designed to <strong>Remove Micro Contaminants</strong> from your cars paint, leave a <strong>Silky Smooth Finish</strong>, and <strong>Protect</strong> the paint for up to 8 months!</>,
     services: [
       "EXTERIOR (detailed wash, prep & protection)",
@@ -45,8 +45,8 @@ const detailingServices = [
   },
   {
     name: "Full Detail",
-    coupeSedan: 319,
-    truckSuv: 319,
+    coupeSedan: 304.99,
+    truckSuv: 324.99,
     description: <>This is our full interior & exterior detail designed to <strong>clean every inch</strong> of your car!</>,
     services: [
       "INTERIOR (detailed cleaning)",
@@ -70,8 +70,8 @@ const detailingServices = [
   },
   {
     name: "The Best In Class",
-    coupeSedan: 449,
-    truckSuv: 449,
+    coupeSedan: 449.99,
+    truckSuv: 449.99,
     description: <>Our one of a kind service that speaks volumes about what you represent <strong>Luxury</strong></>,
     featured: true,
     offerText: "Get 10% off your next maintenance wash",
@@ -536,9 +536,9 @@ const Pricing = () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { name: "Pet Hair Removal", price: 75 },
-              { name: "Headlight Restoration", price: 95 },
-              { name: "Ozone Treatment (Odor Elimination)", price: 50 },
+              { name: "Paint Removal", price: 45.00 },
+              { name: "Headlight Restoration", price: 95.00 },
+              { name: "Stain Removal", price: 50.00 },
               { name: "Engine Bay Cleaning", price: 75 },
               { name: "Trim Restoration", price: 75 },
               { name: "Steam Cleaning", price: 50 },
