@@ -119,6 +119,36 @@ const MembershipDashboard = () => {
       expires: "Feb 14, 2025",
       icon: Zap,
     },
+    {
+      id: 4,
+      title: "Water Spot Removal Service",
+      description: "Premium water spot and mineral deposit removal to restore your vehicle's glass and finish.",
+      discount: "30%",
+      originalPrice: "$149",
+      memberPrice: "$104",
+      expires: "Feb 28, 2025",
+      icon: Zap,
+    },
+    {
+      id: 5,
+      title: "Undercarriage Wash & Protection",
+      description: "Deep clean undercarriage with rust protection coating, exclusive for members only.",
+      discount: "20%",
+      originalPrice: "$299",
+      memberPrice: "$239",
+      expires: "Mar 15, 2025",
+      icon: Shield,
+    },
+    {
+      id: 6,
+      title: "Leather Conditioning Treatment",
+      description: "Premium leather care and conditioning to keep your interior supple and protected.",
+      discount: "18%",
+      originalPrice: "$179",
+      memberPrice: "$147",
+      expires: "Feb 28, 2025",
+      icon: Heart,
+    },
   ];
 
   const maintenancePlans = [
