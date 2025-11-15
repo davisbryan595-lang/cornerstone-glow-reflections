@@ -45,9 +45,9 @@ export const DISCOUNT_TIERS: Record<string, DiscountTier> = {
 
 // Plan pricing in cents
 export const PLAN_PRICING = {
-  [PLAN_IDS.MAINTENANCE_BASIC]: 14999, // $149.99
-  [PLAN_IDS.MAINTENANCE_PREMIUM]: 19999, // $199.99
-  [PLAN_IDS.MAINTENANCE_ELITE]: 24999, // $249.99
+  [PLAN_IDS.MAINTENANCE_BASIC]: 5000, // $50.00
+  [PLAN_IDS.MAINTENANCE_PREMIUM]: 5000, // $50.00
+  [PLAN_IDS.MAINTENANCE_ELITE]: 5000, // $50.00
 } as const;
 
 /**
