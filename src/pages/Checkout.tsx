@@ -38,8 +38,6 @@ const Checkout: React.FC = () => {
     }
   }, []);
 
-  const isUsingMockDb = !supabase;
-
   if (!plan) {
     return (
       <div className="min-h-screen flex items-center justify-center">

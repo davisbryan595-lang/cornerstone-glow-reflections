@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { getSupabase } from "@/lib/supabase";
-import db, { isUsingSupabase } from "@/lib/database";
+import db from "@/lib/database";
 
 export type Profile = {
   id?: string;
@@ -42,39 +42,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [profile, setProfile] = useState<Profile | null>(null);
   const [membership, setMembership] = useState<Membership | null>(null);
 
-  const supabase = useMemo(() => {
-    try {
-      return getSupabase();
-    } catch (e) {
-      return null as any;
-    }
-  }, []);
-
-  const isUsingMockDb = !isUsingSupabase;
+  const supabase = useMemo(() => getSupabase(), []);
 
   async function loadUser() {
     setLoading(true);
     try {
-      let user: { id: string; email?: string | null } | null = null;
-
-      if (isUsingMockDb) {
-        // For mock DB, we'll use localStorage to track the current user
-        const storedUserId = localStorage.getItem("currentUserId");
-        if (storedUserId) {
-          const prof = await db.profiles.get(storedUserId);
-          if (prof) {
-            user = { id: storedUserId, email: prof.email };
-          }
-        }
-      } else if (supabase) {
-        // Use Supabase
-        const { data: { session } } = await supabase.auth.getSession();
-        user = session?.user ? { id: session.user.id, email: session.user.email } : null;
-      } else {
-        // Using MySQL with custom auth (email only mock login)
-        user = null;
-      }
-
+      const { data: { session } } = await supabase.auth.getSession();
+      const user = session?.user ? { id: session.user.id, email: session.user.email } : null;
       setSessionUser(user);
 
       if (user) {
@@ -93,23 +67,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   useEffect(() => {
-    // Sign out all users on first visit
     const initializeAuth = async () => {
-      // Clear mock DB session
-      localStorage.removeItem("currentUserId");
-
-      // Sign out from Supabase if using it
-      if (supabase) {
-        await supabase.auth.signOut();
-      }
-
-      // Load user (which will now be null)
       await loadUser();
     };
 
     initializeAuth();
 
-    if (!supabase) return;
     const { data: sub } = supabase.auth.onAuthStateChange((_event, _session) => {
       loadUser();
     });
@@ -117,7 +80,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       sub?.subscription.unsubscribe();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [supabase]);
+  }, []);
 
   const value: AuthState = {
     loading,
@@ -127,13 +90,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     isMember: Boolean(membership && membership.status === "active"),
     isAdmin: profile?.role === "admin",
     signOut: async () => {
-      if (isUsingMockDb) {
-        localStorage.removeItem("currentUserId");
-        await loadUser();
-      } else if (supabase) {
-        await supabase.auth.signOut();
-        await loadUser();
-      }
+      await supabase.auth.signOut();
+      await loadUser();
     },
     refresh: loadUser,
   };

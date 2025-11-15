@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
 import db from "@/lib/database";
-import { isUsingSupabase } from "@/lib/database";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -26,7 +25,6 @@ function downloadCsv(filename: string, rows: any[]) {
 }
 
 const Admin: React.FC = () => {
-  const isUsingMockDb = !isUsingSupabase;
   const { isAdmin } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -79,7 +77,7 @@ const Admin: React.FC = () => {
       }
     }
     if (isAdmin) void load();
-  }, [isAdmin, isUsingMockDb]);
+  }, [isAdmin]);
 
   const exportUsers = async () => {
     const profiles = await db.profiles.list();

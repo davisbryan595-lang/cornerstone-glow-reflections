@@ -15,15 +15,7 @@ const Auth: React.FC = () => {
   const next = params.get("next");
   const { toast } = useToast();
 
-  const supabase = useMemo(() => {
-    try {
-      return getSupabase();
-    } catch {
-      return null;
-    }
-  }, []);
-
-  const isUsingMockDb = !supabase;
+  const supabase = useMemo(() => getSupabase(), []);
 
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
@@ -32,16 +24,7 @@ const Auth: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   async function upsertProfile(userId: string, emailVal?: string | null, marketing?: boolean) {
-    if (!supabase) {
-      await db.profiles.upsert({
-        user_id: userId,
-        email: emailVal,
-        marketing_opt_in: marketing,
-        role: "user",
-      });
-    } else {
-      await supabase.from("profiles").upsert({ user_id: userId, email: emailVal, marketing_opt_in: marketing ?? undefined }).eq("user_id", userId);
-    }
+    await supabase.from("profiles").upsert({ user_id: userId, email: emailVal, marketing_opt_in: marketing ?? undefined }).eq("user_id", userId);
   }
 
   const getRedirectDestination = async (userId: string, isAdmin: boolean): Promise<string> => {
@@ -68,87 +51,57 @@ const Auth: React.FC = () => {
       }
 
       if (mode === "signup") {
-        if (isUsingMockDb) {
-          // For mock DB, generate a simple user ID
-          const userId = `user-${Date.now()}`;
-          await upsertProfile(userId, email, marketingOptIn);
-          localStorage.setItem("currentUserId", userId);
-          toast({ title: "Success!", description: "Account created. Redirecting..." });
-          setTimeout(async () => {
-            const dest = await getRedirectDestination(userId, false);
-            window.location.href = dest;
-          }, 500);
-        } else {
-          try {
-            const { data, error } = await supabase.auth.signUp({ email, password });
-            if (error) {
-              const errorMsg = error.message || "Sign up failed. Please try again.";
-              toast({ title: "Sign up error", description: errorMsg, variant: "destructive" as any });
-              setLoading(false);
-              return;
-            }
-            const user = data?.user;
-            if (user) {
-              await upsertProfile(user.id, user.email, marketingOptIn);
-              toast({ title: "Success!", description: "Account created. Redirecting..." });
-              setTimeout(async () => {
-                const dest = await getRedirectDestination(user.id, false);
-                navigate(dest, { replace: true });
-              }, 500);
-            } else {
-              navigate("/", { replace: true });
-            }
-          } catch (err: any) {
-            const errorMsg = err?.message || "Sign up failed. Please try again.";
+        try {
+          const { data, error } = await supabase.auth.signUp({ email, password });
+          if (error) {
+            const errorMsg = error.message || "Sign up failed. Please try again.";
             toast({ title: "Sign up error", description: errorMsg, variant: "destructive" as any });
             setLoading(false);
+            return;
           }
+          const user = data?.user;
+          if (user) {
+            await upsertProfile(user.id, user.email, marketingOptIn);
+            toast({ title: "Success!", description: "Account created. Redirecting..." });
+            setTimeout(async () => {
+              const dest = await getRedirectDestination(user.id, false);
+              navigate(dest, { replace: true });
+            }, 500);
+          } else {
+            navigate("/", { replace: true });
+          }
+        } catch (err: any) {
+          const errorMsg = err?.message || "Sign up failed. Please try again.";
+          toast({ title: "Sign up error", description: errorMsg, variant: "destructive" as any });
+          setLoading(false);
         }
       } else {
-        if (isUsingMockDb) {
-          // For mock DB, find user by email
-          const profiles = await db.profiles.list();
-          const userProfile = profiles.find((p: any) => p.email === email);
-          if (!userProfile) {
-            toast({ title: "Authentication error", description: "Email not found", variant: "destructive" as any });
-            setLoading(false);
-          } else {
-            localStorage.setItem("currentUserId", userProfile.user_id);
-            toast({ title: "Success!", description: "Logged in. Redirecting..." });
-            const dest = await getRedirectDestination(userProfile.user_id, userProfile.role === "admin");
-            setTimeout(() => {
-              window.location.href = dest;
-            }, 500);
-          }
-        } else {
-          try {
-            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-            if (error) {
-              const errorMsg = error.message || "Authentication failed. Please check your credentials.";
-              toast({ title: "Authentication error", description: errorMsg, variant: "destructive" as any });
-              setLoading(false);
-              return;
-            }
-            const user = data?.user;
-            if (user) {
-              // Check profile role to decide destination
-              const prof = await db.profiles.get(user.id);
-              const isAdmin = prof?.role === "admin";
-              const dest = await getRedirectDestination(user.id, isAdmin);
-              toast({ title: "Enable notifications?", description: "Get emails about offers and updates.", action: (
-                <Button onClick={async () => { await upsertProfile(user.id, user.email, true); toast({ title: "Notifications enabled" }); }}>Enable</Button>
-              ) });
-              setTimeout(() => {
-                navigate(dest, { replace: true });
-              }, 500);
-            } else {
-              navigate("/", { replace: true });
-            }
-          } catch (err: any) {
-            const errorMsg = err?.message || "Authentication failed. Please try again.";
+        try {
+          const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+          if (error) {
+            const errorMsg = error.message || "Authentication failed. Please check your credentials.";
             toast({ title: "Authentication error", description: errorMsg, variant: "destructive" as any });
             setLoading(false);
+            return;
           }
+          const user = data?.user;
+          if (user) {
+            const prof = await db.profiles.get(user.id);
+            const isAdmin = prof?.role === "admin";
+            const dest = await getRedirectDestination(user.id, isAdmin);
+            toast({ title: "Enable notifications?", description: "Get emails about offers and updates.", action: (
+              <Button onClick={async () => { await upsertProfile(user.id, user.email, true); toast({ title: "Notifications enabled" }); }}>Enable</Button>
+            ) });
+            setTimeout(() => {
+              navigate(dest, { replace: true });
+            }, 500);
+          } else {
+            navigate("/", { replace: true });
+          }
+        } catch (err: any) {
+          const errorMsg = err?.message || "Authentication failed. Please try again.";
+          toast({ title: "Authentication error", description: errorMsg, variant: "destructive" as any });
+          setLoading(false);
         }
       }
     } catch (err: any) {
@@ -205,13 +158,6 @@ const Auth: React.FC = () => {
               <button className="underline" onClick={() => setMode("login")}>Have an account? Login</button>
             )}
           </div>
-          {isUsingMockDb && (
-            <div className="mt-6 p-3 bg-blue-50 border border-blue-200 rounded-md">
-              <p className="text-xs text-blue-800">
-                <strong>Demo Mode:</strong> Try logging in with <code>member@example.com</code> to see the member dashboard, or sign up with a new email.
-              </p>
-            </div>
-          )}
         </CardContent>
       </Card>
     </div>
