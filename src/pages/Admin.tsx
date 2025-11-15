@@ -29,6 +29,7 @@ const Admin: React.FC = () => {
   const isUsingMockDb = !isUsingSupabase;
   const { isAdmin } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const [stats, setStats] = useState({ users: 0, members: 0, accessCodes: 0, discountCodes: 0 });
   const [recent, setRecent] = useState<{ email: string | null; created_at: string }[]>([]);
