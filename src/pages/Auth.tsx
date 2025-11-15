@@ -76,50 +76,32 @@ const Auth: React.FC = () => {
           setLoading(false);
         }
       } else {
-        if (isUsingMockDb) {
-          // For mock DB, find user by email
-          const profiles = await db.profiles.list();
-          const userProfile = profiles.find((p: any) => p.email === email);
-          if (!userProfile) {
-            toast({ title: "Authentication error", description: "Email not found", variant: "destructive" as any });
-            setLoading(false);
-          } else {
-            localStorage.setItem("currentUserId", userProfile.user_id);
-            toast({ title: "Success!", description: "Logged in. Redirecting..." });
-            const dest = await getRedirectDestination(userProfile.user_id, userProfile.role === "admin");
-            setTimeout(() => {
-              window.location.href = dest;
-            }, 500);
-          }
-        } else {
-          try {
-            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-            if (error) {
-              const errorMsg = error.message || "Authentication failed. Please check your credentials.";
-              toast({ title: "Authentication error", description: errorMsg, variant: "destructive" as any });
-              setLoading(false);
-              return;
-            }
-            const user = data?.user;
-            if (user) {
-              // Check profile role to decide destination
-              const prof = await db.profiles.get(user.id);
-              const isAdmin = prof?.role === "admin";
-              const dest = await getRedirectDestination(user.id, isAdmin);
-              toast({ title: "Enable notifications?", description: "Get emails about offers and updates.", action: (
-                <Button onClick={async () => { await upsertProfile(user.id, user.email, true); toast({ title: "Notifications enabled" }); }}>Enable</Button>
-              ) });
-              setTimeout(() => {
-                navigate(dest, { replace: true });
-              }, 500);
-            } else {
-              navigate("/", { replace: true });
-            }
-          } catch (err: any) {
-            const errorMsg = err?.message || "Authentication failed. Please try again.";
+        try {
+          const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+          if (error) {
+            const errorMsg = error.message || "Authentication failed. Please check your credentials.";
             toast({ title: "Authentication error", description: errorMsg, variant: "destructive" as any });
             setLoading(false);
+            return;
           }
+          const user = data?.user;
+          if (user) {
+            const prof = await db.profiles.get(user.id);
+            const isAdmin = prof?.role === "admin";
+            const dest = await getRedirectDestination(user.id, isAdmin);
+            toast({ title: "Enable notifications?", description: "Get emails about offers and updates.", action: (
+              <Button onClick={async () => { await upsertProfile(user.id, user.email, true); toast({ title: "Notifications enabled" }); }}>Enable</Button>
+            ) });
+            setTimeout(() => {
+              navigate(dest, { replace: true });
+            }, 500);
+          } else {
+            navigate("/", { replace: true });
+          }
+        } catch (err: any) {
+          const errorMsg = err?.message || "Authentication failed. Please try again.";
+          toast({ title: "Authentication error", description: errorMsg, variant: "destructive" as any });
+          setLoading(false);
         }
       }
     } catch (err: any) {
