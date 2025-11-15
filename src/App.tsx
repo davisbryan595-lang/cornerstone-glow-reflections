@@ -15,6 +15,7 @@ import Terms from "./pages/Terms";
 import Membership from "./pages/Membership";
 import Checkout from "./pages/Checkout";
 import MemberSettings from "./pages/MemberSettings";
+import MembershipDashboard from "./pages/MembershipDashboard";
 import PasswordReset from "./pages/PasswordReset";
 import ForgotPassword from "./pages/ForgotPassword";
 
