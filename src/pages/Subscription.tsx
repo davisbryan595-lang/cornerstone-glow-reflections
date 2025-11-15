@@ -94,18 +94,64 @@ const Subscription = () => {
     },
   ];
 
-  const handleAccessCodeSubmit = (code: string) => {
-    // Validate access code (in a real app, this would be verified against the database)
-    if (code.length > 0) {
-      setState({ ...state, hasAccessCode: true, accessCode: code });
-      toast({
-        title: "Access Granted",
-        description: "Welcome back! You can now manage your subscription.",
-      });
-    } else {
+  const handleAccessCodeSubmit = async (code: string) => {
+    if (!code.length) {
       toast({
         title: "Invalid Code",
         description: "Please enter a valid access code.",
+      });
+      return;
+    }
+
+    try {
+      // Validate access code against database
+      const accessCode = await db.accessCodes.get(code);
+
+      if (!accessCode) {
+        toast({
+          title: "Invalid Code",
+          description: "The access code you entered is not valid.",
+        });
+        return;
+      }
+
+      // Check if code has expired
+      if (new Date(accessCode.expires_at) < new Date()) {
+        toast({
+          title: "Code Expired",
+          description: "This access code has expired. Please contact support.",
+        });
+        return;
+      }
+
+      // Check if code has already been used
+      if (accessCode.is_used) {
+        toast({
+          title: "Code Already Used",
+          description: "This access code has already been used.",
+        });
+        return;
+      }
+
+      // Set the user session in localStorage and refresh auth
+      localStorage.setItem("currentUserId", accessCode.user_id);
+      await useAuth?.refresh?.();
+
+      // Mark access code as used
+      await db.accessCodes.markAsUsed(accessCode.id);
+
+      toast({
+        title: "Access Granted",
+        description: "Welcome back! Redirecting to your dashboard...",
+      });
+
+      // Redirect to membership dashboard
+      setTimeout(() => navigate("/membership-dashboard"), 1500);
+    } catch (error) {
+      console.error("Error validating access code:", error);
+      toast({
+        title: "Error",
+        description: "Failed to validate access code. Please try again.",
       });
     }
   };
