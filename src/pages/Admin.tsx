@@ -107,7 +107,7 @@ const Admin: React.FC = () => {
           user_id: "",
           membership_id: "",
           plan_id: "all",
-          expires_at: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+          expires_at: null,
           is_used: false,
         });
         if (accessCode) {
