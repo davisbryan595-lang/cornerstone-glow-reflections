@@ -143,29 +143,53 @@ const Admin: React.FC = () => {
   };
 
   const handleGenerateDiscountCodes = async () => {
-    const count = parseInt(generateCount) || 10;
-    const codes = generateCouponBatch(discountTier, count);
-    const expiryDate = new Date(Date.now() + parseInt(discountExpiryDays) * 24 * 60 * 60 * 1000).toISOString();
+    try {
+      const count = parseInt(generateCount) || 10;
+      const codes = generateCouponBatch(discountTier, count);
+      const expiryDate = new Date(Date.now() + parseInt(discountExpiryDays) * 24 * 60 * 60 * 1000).toISOString();
 
-    const tierDiscounts = { basic: 10, premium: 20, elite: 25, referral: 15 };
-    const newCodes = [];
+      const tierDiscounts = { basic: 10, premium: 20, elite: 25, referral: 15 };
+      const newCodes = [];
 
-    for (const code of codes) {
-      const discountCode = await db.discountCodes.create({
-        code,
-        plan_id: discountTier,
-        discount_percentage: tierDiscounts[discountTier as keyof typeof tierDiscounts] || 10,
-        description: `${discountTier.charAt(0).toUpperCase() + discountTier.slice(1)} discount code`,
-        max_uses: count,
-        current_uses: 0,
-        expires_at: expiryDate,
-        is_active: true,
+      for (const code of codes) {
+        const discountCode = await db.discountCodes.create({
+          code,
+          plan_id: discountTier,
+          discount_percentage: tierDiscounts[discountTier as keyof typeof tierDiscounts] || 10,
+          description: `${discountTier.charAt(0).toUpperCase() + discountTier.slice(1)} discount code`,
+          max_uses: count,
+          current_uses: 0,
+          expires_at: expiryDate,
+          is_active: true,
+        });
+        if (discountCode) {
+          newCodes.push(discountCode);
+        }
+      }
+
+      if (newCodes.length > 0) {
+        // Reload all discount codes from database to ensure they're persisted
+        const allCodes = await db.discountCodes.listAll();
+        setDiscountCodes(allCodes);
+        toast({
+          title: "Success",
+          description: `Generated and saved ${newCodes.length} discount codes`
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to generate discount codes",
+          variant: "destructive"
+        });
+      }
+    } catch (error) {
+      console.error("Error generating discount codes:", error);
+      toast({
+        title: "Error",
+        description: "Failed to generate discount codes. Check console for details.",
+        variant: "destructive"
       });
-      newCodes.push(discountCode);
     }
-
-    setDiscountCodes((prev) => [...prev, ...newCodes]);
-    toast({ title: "Success", description: `Generated ${count} discount codes` });
   };
 
   const copyToClipboard = (text: string) => {
