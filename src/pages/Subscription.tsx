@@ -156,11 +156,12 @@ const Subscription = () => {
 
       // Redirect to membership dashboard
       setTimeout(() => navigate("/membership-dashboard"), 1500);
-    } catch (error) {
-      console.error("Error validating access code:", error);
+    } catch (error: any) {
+      const errorMsg = error?.message || error?.toString() || "Unknown error";
+      console.error("Error validating access code:", errorMsg, error);
       toast({
         title: "Error",
-        description: "Failed to validate access code. Please try again.",
+        description: errorMsg || "Failed to validate access code. Please try again.",
       });
     }
   };
