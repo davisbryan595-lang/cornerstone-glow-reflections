@@ -230,6 +230,16 @@ const Admin: React.FC = () => {
 
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-6">
+      <div className="flex items-center justify-between mb-4">
+        <button
+          onClick={() => navigate("/")}
+          className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
+          title="Back to home"
+        >
+          <ArrowLeft className="w-5 h-5" />
+          <span className="text-sm font-semibold">Back to Home</span>
+        </button>
+      </div>
       <h1 className="text-3xl font-montserrat font-bold">Admin Dashboard</h1>
 
       <div className="grid md:grid-cols-4 gap-4">
