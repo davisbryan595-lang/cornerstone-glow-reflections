@@ -51,41 +51,29 @@ const Auth: React.FC = () => {
       }
 
       if (mode === "signup") {
-        if (isUsingMockDb) {
-          // For mock DB, generate a simple user ID
-          const userId = `user-${Date.now()}`;
-          await upsertProfile(userId, email, marketingOptIn);
-          localStorage.setItem("currentUserId", userId);
-          toast({ title: "Success!", description: "Account created. Redirecting..." });
-          setTimeout(async () => {
-            const dest = await getRedirectDestination(userId, false);
-            window.location.href = dest;
-          }, 500);
-        } else {
-          try {
-            const { data, error } = await supabase.auth.signUp({ email, password });
-            if (error) {
-              const errorMsg = error.message || "Sign up failed. Please try again.";
-              toast({ title: "Sign up error", description: errorMsg, variant: "destructive" as any });
-              setLoading(false);
-              return;
-            }
-            const user = data?.user;
-            if (user) {
-              await upsertProfile(user.id, user.email, marketingOptIn);
-              toast({ title: "Success!", description: "Account created. Redirecting..." });
-              setTimeout(async () => {
-                const dest = await getRedirectDestination(user.id, false);
-                navigate(dest, { replace: true });
-              }, 500);
-            } else {
-              navigate("/", { replace: true });
-            }
-          } catch (err: any) {
-            const errorMsg = err?.message || "Sign up failed. Please try again.";
+        try {
+          const { data, error } = await supabase.auth.signUp({ email, password });
+          if (error) {
+            const errorMsg = error.message || "Sign up failed. Please try again.";
             toast({ title: "Sign up error", description: errorMsg, variant: "destructive" as any });
             setLoading(false);
+            return;
           }
+          const user = data?.user;
+          if (user) {
+            await upsertProfile(user.id, user.email, marketingOptIn);
+            toast({ title: "Success!", description: "Account created. Redirecting..." });
+            setTimeout(async () => {
+              const dest = await getRedirectDestination(user.id, false);
+              navigate(dest, { replace: true });
+            }, 500);
+          } else {
+            navigate("/", { replace: true });
+          }
+        } catch (err: any) {
+          const errorMsg = err?.message || "Sign up failed. Please try again.";
+          toast({ title: "Sign up error", description: errorMsg, variant: "destructive" as any });
+          setLoading(false);
         }
       } else {
         if (isUsingMockDb) {
