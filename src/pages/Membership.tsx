@@ -13,6 +13,7 @@ const Membership = () => {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { sessionUser, isMember } = useAuth();
 
   const benefits = [
     {
