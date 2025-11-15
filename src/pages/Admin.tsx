@@ -77,7 +77,7 @@ const Admin: React.FC = () => {
       }
     }
     if (isAdmin) void load();
-  }, [isAdmin, isUsingMockDb]);
+  }, [isAdmin]);
 
   const exportUsers = async () => {
     const profiles = await db.profiles.list();
