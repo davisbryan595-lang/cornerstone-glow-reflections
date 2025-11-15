@@ -262,13 +262,23 @@ const Navbar = () => {
                       </div>
                       <button
                         onClick={() => {
-                          navigate("/subscription-member");
+                          navigate("/membership-dashboard");
                           setIsUserMenuOpen(false);
                         }}
                         className="w-full text-left px-4 py-2 hover:bg-primary/10 transition-colors flex items-center gap-2 text-sm"
                       >
                         <User className="w-4 h-4" />
                         My Dashboard
+                      </button>
+                      <button
+                        onClick={() => {
+                          navigate("/member-settings");
+                          setIsUserMenuOpen(false);
+                        }}
+                        className="w-full text-left px-4 py-2 hover:bg-primary/10 transition-colors flex items-center gap-2 text-sm"
+                      >
+                        <User className="w-4 h-4" />
+                        Account Settings
                       </button>
                       <button
                         onClick={() => {
