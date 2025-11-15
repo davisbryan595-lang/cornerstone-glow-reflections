@@ -144,7 +144,12 @@ const Auth: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6">
+    <div className="min-h-screen flex items-center justify-center p-6 relative">
+      <Link to="/" className="absolute top-6 left-6 text-primary hover:text-primary/80 transition-colors">
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        </svg>
+      </Link>
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-2xl font-montserrat font-bold">{mode === "login" ? "Login" : "Create account"}</CardTitle>
