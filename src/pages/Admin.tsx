@@ -11,7 +11,8 @@ import { useAuth } from "@/context/AuthProvider";
 import { useToast } from "@/hooks/use-toast";
 import { generateAccessCode } from "@/lib/accessCodeGenerator";
 import { generateCouponBatch } from "@/lib/discountCodeManager";
-import { Copy, Download, Search, Filter, Mail, Lock, CheckCircle } from "lucide-react";
+import { Copy, Download, Search, Filter, Mail, Lock, CheckCircle, ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 function downloadCsv(filename: string, rows: any[]) {
   if (!rows || !rows.length) return;
