@@ -12,6 +12,7 @@ import { calculateTotalPrice, processPayment, generateAccessCode } from "@/lib/p
 import { useAuth } from "@/context/AuthProvider";
 import { createMembershipRecord } from "@/lib/membership";
 import { useNavigate } from "react-router-dom";
+import db from "@/lib/database";
 
 interface SubscriptionState {
   hasAccessCode: boolean;
