@@ -136,15 +136,29 @@ const Subscription = () => {
 
       // Create membership for user using the plan from access code
       const planId = accessCode.plan_id || "maintenance-basic";
-      const membership = await db.memberships.upsert({
-        user_id: sessionUser.id,
-        plan_id: planId,
-        status: "active",
-        payment_status: "paid",
-        access_code: code,
-        start_date: new Date().toISOString(),
-        next_billing_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-      });
+      const existingMembership = await db.memberships.get(sessionUser.id);
+
+      if (existingMembership) {
+        // Update existing membership
+        await db.memberships.update(sessionUser.id, {
+          plan_id: planId,
+          status: "active",
+          payment_status: "paid",
+          access_code: code,
+          next_billing_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+        });
+      } else {
+        // Create new membership
+        await db.memberships.upsert({
+          user_id: sessionUser.id,
+          plan_id: planId,
+          status: "active",
+          payment_status: "paid",
+          access_code: code,
+          start_date: new Date().toISOString(),
+          next_billing_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+        });
+      }
 
       // Refresh auth to update membership status
       await refresh();
