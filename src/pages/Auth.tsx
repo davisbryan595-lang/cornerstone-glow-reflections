@@ -74,7 +74,7 @@ const Auth: React.FC = () => {
           await upsertProfile(userId, email, marketingOptIn);
           localStorage.setItem("currentUserId", userId);
           toast({ title: "Success!", description: "Account created. Redirecting..." });
-          setTimeout(() => {
+          setTimeout(async () => {
             const dest = await getRedirectDestination(userId, false);
             window.location.href = dest;
           }, 500);
@@ -111,11 +111,12 @@ const Auth: React.FC = () => {
           const userProfile = profiles.find((p: any) => p.email === email);
           if (!userProfile) {
             toast({ title: "Authentication error", description: "Email not found", variant: "destructive" as any });
+            setLoading(false);
           } else {
             localStorage.setItem("currentUserId", userProfile.user_id);
             toast({ title: "Success!", description: "Logged in. Redirecting..." });
-            setTimeout(async () => {
-              const dest = await getRedirectDestination(userProfile.user_id, userProfile.role === "admin");
+            const dest = await getRedirectDestination(userProfile.user_id, userProfile.role === "admin");
+            setTimeout(() => {
               window.location.href = dest;
             }, 500);
           }
@@ -133,11 +134,11 @@ const Auth: React.FC = () => {
               // Check profile role to decide destination
               const prof = await db.profiles.get(user.id);
               const isAdmin = prof?.role === "admin";
+              const dest = await getRedirectDestination(user.id, isAdmin);
               toast({ title: "Enable notifications?", description: "Get emails about offers and updates.", action: (
                 <Button onClick={async () => { await upsertProfile(user.id, user.email, true); toast({ title: "Notifications enabled" }); }}>Enable</Button>
               ) });
-              setTimeout(async () => {
-                const dest = await getRedirectDestination(user.id, isAdmin);
+              setTimeout(() => {
                 navigate(dest, { replace: true });
               }, 500);
             } else {
