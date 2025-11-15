@@ -15,15 +15,7 @@ const Auth: React.FC = () => {
   const next = params.get("next");
   const { toast } = useToast();
 
-  const supabase = useMemo(() => {
-    try {
-      return getSupabase();
-    } catch {
-      return null;
-    }
-  }, []);
-
-  const isUsingMockDb = !supabase;
+  const supabase = useMemo(() => getSupabase(), []);
 
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
