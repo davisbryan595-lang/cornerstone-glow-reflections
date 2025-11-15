@@ -116,8 +116,8 @@ const Subscription = () => {
         return;
       }
 
-      // Check if code has expired
-      if (new Date(accessCode.expires_at) < new Date()) {
+      // Check if code has expired (only if expires_at is set)
+      if (accessCode.expires_at && new Date(accessCode.expires_at) < new Date()) {
         toast({
           title: "Code Expired",
           description: "This access code has expired. Please contact support.",

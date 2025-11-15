@@ -107,7 +107,7 @@ const Admin: React.FC = () => {
           user_id: "",
           membership_id: "",
           plan_id: "all",
-          expires_at: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+          expires_at: null,
           is_used: false,
         });
         if (accessCode) {
@@ -617,7 +617,7 @@ const Admin: React.FC = () => {
                       <TableRow key={`${code.code}-${i}`}>
                         <TableCell className="font-mono font-bold">{code.code}</TableCell>
                         <TableCell>{code.is_used ? "Used" : "Available"}</TableCell>
-                        <TableCell>{new Date(code.expires_at).toLocaleDateString()}</TableCell>
+                        <TableCell>{code.expires_at ? new Date(code.expires_at).toLocaleDateString() : "Never"}</TableCell>
                         <TableCell>
                           <Button variant="ghost" size="sm" onClick={() => copyToClipboard(code.code)}>
                             <Copy className="w-4 h-4" />
