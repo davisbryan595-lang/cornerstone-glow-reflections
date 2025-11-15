@@ -105,6 +105,15 @@ const Subscription = () => {
     }
 
     try {
+      if (!sessionUser) {
+        toast({
+          title: "Login Required",
+          description: "Please log in first to use an access code.",
+        });
+        navigate("/auth");
+        return;
+      }
+
       // Validate access code against database
       const accessCode = await db.accessCodes.get(code);
 
@@ -125,25 +134,24 @@ const Subscription = () => {
         return;
       }
 
-      // Check if code has already been used
-      if (accessCode.is_used) {
-        toast({
-          title: "Code Already Used",
-          description: "This access code has already been used.",
-        });
-        return;
-      }
+      // Create membership for user using the plan from access code
+      const planId = accessCode.plan_id || "maintenance-basic";
+      const membership = await db.memberships.upsert({
+        user_id: sessionUser.id,
+        plan_id: planId,
+        status: "active",
+        payment_status: "paid",
+        access_code: code,
+        start_date: new Date().toISOString(),
+        next_billing_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+      });
 
-      // Set the user session in localStorage and refresh auth
-      localStorage.setItem("currentUserId", accessCode.user_id);
+      // Refresh auth to update membership status
       await refresh();
-
-      // Mark access code as used
-      await db.accessCodes.markAsUsed(accessCode.id);
 
       toast({
         title: "Access Granted",
-        description: "Welcome back! Redirecting to your dashboard...",
+        description: "Welcome! Your membership is now active. Redirecting to your dashboard...",
       });
 
       // Redirect to membership dashboard
