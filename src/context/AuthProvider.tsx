@@ -90,13 +90,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     isMember: Boolean(membership && membership.status === "active"),
     isAdmin: profile?.role === "admin",
     signOut: async () => {
-      if (isUsingMockDb) {
-        localStorage.removeItem("currentUserId");
-        await loadUser();
-      } else if (supabase) {
-        await supabase.auth.signOut();
-        await loadUser();
-      }
+      await supabase.auth.signOut();
+      await loadUser();
     },
     refresh: loadUser,
   };
