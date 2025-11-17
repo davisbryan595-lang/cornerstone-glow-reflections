@@ -283,46 +283,13 @@ const Checkout: React.FC = () => {
                   <CardHeader>
                     <CardTitle>Payment Details</CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-6">
-                    <div>
-                      <Label htmlFor="card">Card Number</Label>
-                      <Input id="card" placeholder="4242 4242 4242 4242" className="mt-1 font-mono" />
-                      <div className="grid grid-cols-2 gap-2 mt-3">
-                        <div>
-                          <Label htmlFor="expiry">Expiry</Label>
-                          <Input id="expiry" placeholder="MM/YY" className="mt-1 font-mono" />
-                        </div>
-                        <div>
-                          <Label htmlFor="cvc">CVC</Label>
-                          <Input id="cvc" placeholder="123" className="mt-1 font-mono" />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="space-y-3 pt-4 border-t">
-                      <div className="flex justify-between text-sm">
-                        <span>Subtotal</span>
-                        <span>{formatPrice(plan.amount)}</span>
-                      </div>
-                      {summary.discountPercentage > 0 && (
-                        <div className="flex justify-between text-sm text-green-600">
-                          <span>Discount ({summary.discountPercentage}%)</span>
-                          <span>-{formatPrice(summary.discountAmount)}</span>
-                        </div>
-                      )}
-                      <div className="flex justify-between font-bold text-lg">
-                        <span>Total</span>
-                        <span>{formatPrice(summary.finalPrice)}</span>
-                      </div>
-                    </div>
-
-                    <Button className="w-full bg-gradient-primary" size="lg" onClick={handleCheckout} disabled={loading}>
-                      {loading ? "Processing..." : `Pay ${formatPrice(summary.finalPrice)}`}
-                    </Button>
-
-                    <p className="text-xs text-muted-foreground text-center">
-                      In demo mode, any card details work. Your membership will be activated immediately.
-                    </p>
+                  <CardContent>
+                    <StripePaymentForm
+                      amount={summary.finalPrice}
+                      planName={plan.planName}
+                      onSuccess={handlePaymentSuccess}
+                      isLoading={loading}
+                    />
                   </CardContent>
                 </Card>
               </div>
