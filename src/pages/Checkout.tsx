@@ -263,26 +263,16 @@ const Checkout: React.FC = () => {
 
                 <Card>
                   <CardHeader>
-                    <CardTitle>Billing Address</CardTitle>
+                    <CardTitle>Billing Information</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="name">Full Name</Label>
-                        <Input id="name" placeholder="John Doe" className="mt-1" />
-                      </div>
-                      <div>
-                        <Label htmlFor="email">Email</Label>
-                        <Input id="email" type="email" defaultValue={sessionUser?.email || ""} disabled className="mt-1" />
-                      </div>
-                      <div>
-                        <Label htmlFor="address">Address</Label>
-                        <Input id="address" placeholder="123 Main St" className="mt-1" />
-                      </div>
-                      <div>
-                        <Label htmlFor="city">City</Label>
-                        <Input id="city" placeholder="New York" className="mt-1" />
-                      </div>
+                    <div>
+                      <Label htmlFor="email">Email</Label>
+                      <Input id="email" type="email" value={sessionUser?.email || ""} disabled className="mt-1" />
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      <p>Payment will be processed using Stripe.</p>
+                      <p className="mt-2">Your billing details will be securely stored with Stripe.</p>
                     </div>
                   </CardContent>
                 </Card>
