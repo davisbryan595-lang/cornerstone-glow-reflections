@@ -41,6 +41,7 @@
     "@radix-ui/react-tooltip": "^1.2.7",
     "@stripe/react-stripe-js": "^2.7.0",
     "@stripe/stripe-js": "^4.5.0",
+    "stripe": "^15.0.0",
     "@supabase/supabase-js": "^2.79.0",
     "@tanstack/react-query": "^5.83.0",
     "@vercel/blob": "^1.0.0",
