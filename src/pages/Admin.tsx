@@ -104,8 +104,8 @@ const Admin: React.FC = () => {
         const code = generateAccessCode();
         const accessCode = await db.accessCodes.create({
           code,
-          user_id: "",
-          membership_id: "",
+          user_id: null,
+          membership_id: null,
           plan_id: "all",
           expires_at: null,
           is_used: false,
@@ -147,6 +147,7 @@ const Admin: React.FC = () => {
       const expiryDate = new Date(Date.now() + parseInt(discountExpiryDays) * 24 * 60 * 60 * 1000).toISOString();
 
       const tierDiscounts = { basic: 10, premium: 20, elite: 25, referral: 15 };
+      const tierNames = { basic: "Basic", premium: "Premium", elite: "Elite", referral: "Referral" };
       const newCodes = [];
 
       for (const code of codes) {
@@ -154,7 +155,7 @@ const Admin: React.FC = () => {
           code,
           plan_id: discountTier,
           discount_percentage: tierDiscounts[discountTier as keyof typeof tierDiscounts] || 10,
-          description: `${discountTier.charAt(0).toUpperCase() + discountTier.slice(1)} discount code`,
+          description: `${tierNames[discountTier as keyof typeof tierNames]} discount code`,
           max_uses: count,
           current_uses: 0,
           expires_at: expiryDate,
