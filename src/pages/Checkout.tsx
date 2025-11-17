@@ -4,7 +4,8 @@ import { useAuth } from "@/context/AuthProvider";
 import db, { validateAndGetDiscount } from "@/lib/database";
 import { MEMBERSHIP_PLANS } from "@/lib/payment";
 import { calculateCheckoutSummary, formatPrice } from "@/lib/discountCodeManager";
-import { generateAccessCode } from "@/lib/accessCodeGenerator";
+import { generateAccessCode, generateAccessCodeBatch } from "@/lib/accessCodeGenerator";
+import { generateCouponBatch } from "@/lib/discountCodeManager";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -86,23 +87,62 @@ const Checkout: React.FC = () => {
 
     setLoading(true);
     try {
-      const accessCode = generateAccessCode();
       const now = new Date().toISOString();
       const nextBilling = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+      const membershipId = `membership-${Date.now()}`;
 
       const membership = {
-        id: `membership-${Date.now()}`,
+        id: membershipId,
         user_id: sessionUser.id,
         plan_id: planId,
         status: "active" as const,
         payment_status: "paid" as const,
-        access_code: accessCode,
+        access_code: generateAccessCode(),
         next_billing_at: nextBilling,
         start_date: now,
         end_date: null,
       };
 
       await db.memberships.upsert(membership);
+
+      // Create an access code for this membership
+      const accessCode = generateAccessCode();
+      await db.accessCodes.create({
+        code: accessCode,
+        user_id: sessionUser.id,
+        membership_id: membershipId,
+        plan_id: planId,
+        expires_at: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+        is_used: true,
+        used_at: now,
+      });
+
+      // Generate and assign a discount code for future use
+      const tierMap: { [key: string]: string } = {
+        "maintenance-basic": "basic",
+        "maintenance-premium": "premium",
+        "maintenance-elite": "elite",
+      };
+      const discountTier = tierMap[planId] || "basic";
+      const discountPercentages = { basic: 10, premium: 20, elite: 25, referral: 15 };
+      const tierNames = { basic: "Basic", premium: "Premium", elite: "Elite", referral: "Referral" };
+
+      // Generate one discount code for the member
+      const discountCodes = generateCouponBatch(discountTier, 1);
+      const expiryDate = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString();
+
+      for (const discountCode of discountCodes) {
+        await db.discountCodes.create({
+          code: discountCode,
+          plan_id: planId,
+          discount_percentage: discountPercentages[discountTier as keyof typeof discountPercentages] || 10,
+          description: `${tierNames[discountTier as keyof typeof tierNames]} member discount`,
+          max_uses: 1,
+          current_uses: 0,
+          expires_at: expiryDate,
+          is_active: true,
+        });
+      }
 
       if (discountValid && appliedDiscount) {
         await db.discountCodes.incrementUses(appliedDiscount.code);
@@ -113,6 +153,7 @@ const Checkout: React.FC = () => {
       toast({ title: "Success!", description: "Your membership is now active" });
       navigate("/subscription-member");
     } catch (error) {
+      console.error("Checkout error:", error);
       toast({ title: "Error", description: "Failed to process payment", variant: "destructive" as any });
     } finally {
       setLoading(false);

@@ -13,6 +13,8 @@ import { useAuth } from "@/context/AuthProvider";
 import { createMembershipRecord } from "@/lib/membership";
 import { useNavigate } from "react-router-dom";
 import db from "@/lib/database";
+import { generateAccessCodeBatch } from "@/lib/accessCodeGenerator";
+import { generateCouponBatch } from "@/lib/discountCodeManager";
 
 interface SubscriptionState {
   hasAccessCode: boolean;
@@ -136,15 +138,61 @@ const Subscription = () => {
 
       // Create membership for user using the plan from access code
       const planId = accessCode.plan_id || "maintenance-basic";
+      const now = new Date().toISOString();
+      const membershipId = `membership-${Date.now()}`;
+
       const membership = await db.memberships.upsert({
+        id: membershipId,
         user_id: sessionUser.id,
         plan_id: planId,
         status: "active",
         payment_status: "paid",
         access_code: code,
-        start_date: new Date().toISOString(),
+        start_date: now,
         next_billing_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
       });
+
+      // Mark the original access code as used
+      await db.accessCodes.markAsUsed(accessCode.id);
+
+      // Create a new access code for this membership
+      const newAccessCode = generateAccessCode();
+      await db.accessCodes.create({
+        code: newAccessCode,
+        user_id: sessionUser.id,
+        membership_id: membershipId,
+        plan_id: planId,
+        expires_at: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+        is_used: true,
+        used_at: now,
+      });
+
+      // Generate and assign a discount code for future use
+      const tierMap: { [key: string]: string } = {
+        "maintenance-basic": "basic",
+        "maintenance-premium": "premium",
+        "maintenance-elite": "elite",
+      };
+      const discountTier = tierMap[planId] || "basic";
+      const discountPercentages = { basic: 10, premium: 20, elite: 25, referral: 15 };
+      const tierNames = { basic: "Basic", premium: "Premium", elite: "Elite", referral: "Referral" };
+
+      // Generate one discount code for the member
+      const discountCodes = generateCouponBatch(discountTier, 1);
+      const expiryDate = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString();
+
+      for (const discountCode of discountCodes) {
+        await db.discountCodes.create({
+          code: discountCode,
+          plan_id: planId,
+          discount_percentage: discountPercentages[discountTier as keyof typeof discountPercentages] || 10,
+          description: `${tierNames[discountTier as keyof typeof tierNames]} member discount`,
+          max_uses: 1,
+          current_uses: 0,
+          expires_at: expiryDate,
+          is_active: true,
+        });
+      }
 
       // Refresh auth to update membership status
       await refresh();

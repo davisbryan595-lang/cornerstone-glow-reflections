@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAuth } from "@/context/AuthProvider";
 import { useToast } from "@/hooks/use-toast";
 import { generateAccessCode } from "@/lib/accessCodeGenerator";
@@ -104,8 +105,8 @@ const Admin: React.FC = () => {
         const code = generateAccessCode();
         const accessCode = await db.accessCodes.create({
           code,
-          user_id: "",
-          membership_id: "",
+          user_id: null,
+          membership_id: null,
           plan_id: "all",
           expires_at: null,
           is_used: false,
@@ -147,6 +148,7 @@ const Admin: React.FC = () => {
       const expiryDate = new Date(Date.now() + parseInt(discountExpiryDays) * 24 * 60 * 60 * 1000).toISOString();
 
       const tierDiscounts = { basic: 10, premium: 20, elite: 25, referral: 15 };
+      const tierNames = { basic: "Basic", premium: "Premium", elite: "Elite", referral: "Referral" };
       const newCodes = [];
 
       for (const code of codes) {
@@ -154,7 +156,7 @@ const Admin: React.FC = () => {
           code,
           plan_id: discountTier,
           discount_percentage: tierDiscounts[discountTier as keyof typeof tierDiscounts] || 10,
-          description: `${discountTier.charAt(0).toUpperCase() + discountTier.slice(1)} discount code`,
+          description: `${tierNames[discountTier as keyof typeof tierNames]} discount code`,
           max_uses: count,
           current_uses: 0,
           expires_at: expiryDate,
@@ -378,17 +380,17 @@ const Admin: React.FC = () => {
                 </div>
                 <div>
                   <Label htmlFor="status-filter">Filter by status</Label>
-                  <select
-                    id="status-filter"
-                    value={memberStatusFilter}
-                    onChange={(e) => setMemberStatusFilter(e.target.value)}
-                    className="mt-1 border rounded px-2 py-2 text-sm"
-                  >
-                    <option value="all">All Status</option>
-                    <option value="active">Active</option>
-                    <option value="canceled">Canceled</option>
-                    <option value="past_due">Past Due</option>
-                  </select>
+                  <Select value={memberStatusFilter} onValueChange={setMemberStatusFilter}>
+                    <SelectTrigger className="mt-1">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Status</SelectItem>
+                      <SelectItem value="active">Active</SelectItem>
+                      <SelectItem value="canceled">Canceled</SelectItem>
+                      <SelectItem value="past_due">Past Due</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
 
@@ -642,17 +644,17 @@ const Admin: React.FC = () => {
               <div className="flex gap-4 flex-wrap items-end">
                 <div>
                   <Label htmlFor="discount-tier">Tier</Label>
-                  <select
-                    id="discount-tier"
-                    value={discountTier}
-                    onChange={(e) => setDiscountTier(e.target.value)}
-                    className="mt-1 border rounded px-2 py-2 text-sm"
-                  >
-                    <option value="basic">Basic (10%)</option>
-                    <option value="premium">Premium (20%)</option>
-                    <option value="elite">Elite (25%)</option>
-                    <option value="referral">Referral (15%)</option>
-                  </select>
+                  <Select value={discountTier} onValueChange={setDiscountTier}>
+                    <SelectTrigger className="mt-1">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="basic">Basic (10%)</SelectItem>
+                      <SelectItem value="premium">Premium (20%)</SelectItem>
+                      <SelectItem value="elite">Elite (25%)</SelectItem>
+                      <SelectItem value="referral">Referral (15%)</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
                 <div>
                   <Label htmlFor="discount-count">Number of codes</Label>
