@@ -80,7 +80,7 @@ const Checkout: React.FC = () => {
     }
   };
 
-  const handleCheckout = async () => {
+  const handlePaymentSuccess = async (paymentMethodId: string) => {
     if (!sessionUser) {
       navigate(`/auth?next=${encodeURIComponent(`/checkout?plan=${planId}`)}`);
       return;
@@ -88,6 +88,33 @@ const Checkout: React.FC = () => {
 
     setLoading(true);
     try {
+      // Create checkout session with Stripe
+      const checkoutResponse = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          planId,
+          planName: plan.planName,
+          amount: summary.finalPrice,
+          email: sessionUser.email,
+          customerId: sessionUser.id,
+          paymentMethodId,
+        }),
+      });
+
+      if (!checkoutResponse.ok) {
+        throw new Error('Failed to create checkout session');
+      }
+
+      const checkoutData = await checkoutResponse.json();
+
+      if (!checkoutData.success) {
+        throw new Error(checkoutData.error || 'Checkout failed');
+      }
+
+      // Create membership record
       const now = new Date().toISOString();
       const nextBilling = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
       const membershipId = `membership-${Date.now()}`;
@@ -154,8 +181,8 @@ const Checkout: React.FC = () => {
       toast({ title: "Success!", description: "Your membership is now active" });
       navigate("/subscription-member");
     } catch (error) {
-      console.error("Checkout error:", error);
-      toast({ title: "Error", description: "Failed to process payment", variant: "destructive" as any });
+      console.error("Payment error:", error);
+      toast({ title: "Error", description: error instanceof Error ? error.message : "Failed to process payment", variant: "destructive" as any });
     } finally {
       setLoading(false);
     }
