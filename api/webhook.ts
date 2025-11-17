@@ -26,8 +26,14 @@ export default async function handler(req: any, res: any) {
   let event: any;
 
   try {
+    const stripeClient = await getStripe();
+
+    if (!stripeClient) {
+      return res.status(500).json({ error: 'Stripe is not properly configured' });
+    }
+
     const body = req.body;
-    event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
+    event = stripeClient.webhooks.constructEvent(body, sig, webhookSecret);
   } catch (err: any) {
     console.error('Webhook signature verification failed:', err.message);
     return res.status(400).send(`Webhook Error: ${err.message}`);
@@ -36,7 +42,7 @@ export default async function handler(req: any, res: any) {
   try {
     switch (event.type) {
       case 'checkout.session.completed': {
-        const session = event.data.object as Stripe.Checkout.Session;
+        const session = event.data.object as any;
         console.log('Checkout session completed:', {
           sessionId: session.id,
           customerId: session.customer_email,
@@ -53,19 +59,19 @@ export default async function handler(req: any, res: any) {
       }
 
       case 'checkout.session.async_payment_succeeded': {
-        const session = event.data.object as Stripe.Checkout.Session;
+        const session = event.data.object as any;
         console.log('Async payment succeeded:', session.id);
         break;
       }
 
       case 'checkout.session.async_payment_failed': {
-        const session = event.data.object as Stripe.Checkout.Session;
+        const session = event.data.object as any;
         console.log('Async payment failed:', session.id);
         break;
       }
 
       case 'charge.refunded': {
-        const charge = event.data.object as Stripe.Charge;
+        const charge = event.data.object as any;
         console.log('Charge refunded:', {
           chargeId: charge.id,
           amount: charge.amount,
