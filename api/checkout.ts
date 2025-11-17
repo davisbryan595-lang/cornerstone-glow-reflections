@@ -1,8 +1,19 @@
-import Stripe from 'stripe';
+let stripe: any;
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-  apiVersion: '2024-11-20',
-});
+// Lazy load Stripe to avoid issues in development
+const getStripe = async () => {
+  if (!stripe) {
+    try {
+      const StripeModule = await import('stripe');
+      stripe = new StripeModule.default(process.env.STRIPE_SECRET_KEY || '', {
+        apiVersion: '2024-11-20' as any,
+      });
+    } catch (error) {
+      console.warn('Failed to load Stripe SDK:', error);
+    }
+  }
+  return stripe;
+};
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') {
