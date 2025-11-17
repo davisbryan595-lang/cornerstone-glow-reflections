@@ -14,6 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Check } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import StripePaymentForm from "@/components/StripePaymentForm";
 
 const Checkout: React.FC = () => {
   const navigate = useNavigate();
