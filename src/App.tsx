@@ -23,6 +23,7 @@ const queryClient = new QueryClient();
 
 import ChatBot from "@/components/ChatBot";
 import { AuthProvider } from "@/context/AuthProvider";
+import { StripeProvider } from "@/context/StripeProvider";
 import { RequireAdmin, RequireMember, RequireAuth } from "@/components/RouteGuards";
 import Admin from "@/pages/Admin";
 import Auth from "@/pages/Auth";
