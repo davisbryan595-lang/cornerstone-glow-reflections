@@ -35,7 +35,15 @@ export default async function handler(req: any, res: any) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    const session = await stripe.checkout.sessions.create({
+    const stripeClient = await getStripe();
+
+    if (!stripeClient) {
+      return res.status(500).json({
+        error: 'Stripe is not properly configured',
+      });
+    }
+
+    const session = await stripeClient.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
         {
