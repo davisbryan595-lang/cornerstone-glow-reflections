@@ -14,6 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Check } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import StripePaymentForm from "@/components/StripePaymentForm";
 
 const Checkout: React.FC = () => {
   const navigate = useNavigate();
@@ -79,7 +80,7 @@ const Checkout: React.FC = () => {
     }
   };
 
-  const handleCheckout = async () => {
+  const handlePaymentSuccess = async (paymentMethodId: string) => {
     if (!sessionUser) {
       navigate(`/auth?next=${encodeURIComponent(`/checkout?plan=${planId}`)}`);
       return;
@@ -87,6 +88,33 @@ const Checkout: React.FC = () => {
 
     setLoading(true);
     try {
+      // Create checkout session with Stripe
+      const checkoutResponse = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          planId,
+          planName: plan.planName,
+          amount: summary.finalPrice,
+          email: sessionUser.email,
+          customerId: sessionUser.id,
+          paymentMethodId,
+        }),
+      });
+
+      if (!checkoutResponse.ok) {
+        throw new Error('Failed to create checkout session');
+      }
+
+      const checkoutData = await checkoutResponse.json();
+
+      if (!checkoutData.success) {
+        throw new Error(checkoutData.error || 'Checkout failed');
+      }
+
+      // Create membership record
       const now = new Date().toISOString();
       const nextBilling = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
       const membershipId = `membership-${Date.now()}`;
@@ -153,8 +181,8 @@ const Checkout: React.FC = () => {
       toast({ title: "Success!", description: "Your membership is now active" });
       navigate("/subscription-member");
     } catch (error) {
-      console.error("Checkout error:", error);
-      toast({ title: "Error", description: "Failed to process payment", variant: "destructive" as any });
+      console.error("Payment error:", error);
+      toast({ title: "Error", description: error instanceof Error ? error.message : "Failed to process payment", variant: "destructive" as any });
     } finally {
       setLoading(false);
     }
@@ -235,26 +263,16 @@ const Checkout: React.FC = () => {
 
                 <Card>
                   <CardHeader>
-                    <CardTitle>Billing Address</CardTitle>
+                    <CardTitle>Billing Information</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="name">Full Name</Label>
-                        <Input id="name" placeholder="John Doe" className="mt-1" />
-                      </div>
-                      <div>
-                        <Label htmlFor="email">Email</Label>
-                        <Input id="email" type="email" defaultValue={sessionUser?.email || ""} disabled className="mt-1" />
-                      </div>
-                      <div>
-                        <Label htmlFor="address">Address</Label>
-                        <Input id="address" placeholder="123 Main St" className="mt-1" />
-                      </div>
-                      <div>
-                        <Label htmlFor="city">City</Label>
-                        <Input id="city" placeholder="New York" className="mt-1" />
-                      </div>
+                    <div>
+                      <Label htmlFor="email">Email</Label>
+                      <Input id="email" type="email" value={sessionUser?.email || ""} disabled className="mt-1" />
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      <p>Payment will be processed using Stripe.</p>
+                      <p className="mt-2">Your billing details will be securely stored with Stripe.</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -265,46 +283,13 @@ const Checkout: React.FC = () => {
                   <CardHeader>
                     <CardTitle>Payment Details</CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-6">
-                    <div>
-                      <Label htmlFor="card">Card Number</Label>
-                      <Input id="card" placeholder="4242 4242 4242 4242" className="mt-1 font-mono" />
-                      <div className="grid grid-cols-2 gap-2 mt-3">
-                        <div>
-                          <Label htmlFor="expiry">Expiry</Label>
-                          <Input id="expiry" placeholder="MM/YY" className="mt-1 font-mono" />
-                        </div>
-                        <div>
-                          <Label htmlFor="cvc">CVC</Label>
-                          <Input id="cvc" placeholder="123" className="mt-1 font-mono" />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="space-y-3 pt-4 border-t">
-                      <div className="flex justify-between text-sm">
-                        <span>Subtotal</span>
-                        <span>{formatPrice(plan.amount)}</span>
-                      </div>
-                      {summary.discountPercentage > 0 && (
-                        <div className="flex justify-between text-sm text-green-600">
-                          <span>Discount ({summary.discountPercentage}%)</span>
-                          <span>-{formatPrice(summary.discountAmount)}</span>
-                        </div>
-                      )}
-                      <div className="flex justify-between font-bold text-lg">
-                        <span>Total</span>
-                        <span>{formatPrice(summary.finalPrice)}</span>
-                      </div>
-                    </div>
-
-                    <Button className="w-full bg-gradient-primary" size="lg" onClick={handleCheckout} disabled={loading}>
-                      {loading ? "Processing..." : `Pay ${formatPrice(summary.finalPrice)}`}
-                    </Button>
-
-                    <p className="text-xs text-muted-foreground text-center">
-                      In demo mode, any card details work. Your membership will be activated immediately.
-                    </p>
+                  <CardContent>
+                    <StripePaymentForm
+                      amount={summary.finalPrice}
+                      planName={plan.planName}
+                      onSuccess={handlePaymentSuccess}
+                      isLoading={loading}
+                    />
                   </CardContent>
                 </Card>
               </div>

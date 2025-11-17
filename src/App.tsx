@@ -23,6 +23,7 @@ const queryClient = new QueryClient();
 
 import ChatBot from "@/components/ChatBot";
 import { AuthProvider } from "@/context/AuthProvider";
+import { StripeProvider } from "@/context/StripeProvider";
 import { RequireAdmin, RequireMember, RequireAuth } from "@/components/RouteGuards";
 import Admin from "@/pages/Admin";
 import Auth from "@/pages/Auth";
@@ -30,33 +31,35 @@ import Auth from "@/pages/Auth";
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <AuthProvider>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/pricing" element={<Pricing />} />
-            <Route path="/careers" element={<Careers />} />
-            <Route path="/faq" element={<FAQ />} />
-            <Route path="/subscription" element={<Subscription />} />
-            <Route path="/checkout" element={<RequireAuth><Checkout /></RequireAuth>} />
-            <Route path="/subscription-member" element={<RequireMember><SubscriptionMember /></RequireMember>} />
-            <Route path="/membership-dashboard" element={<RequireMember><MembershipDashboard /></RequireMember>} />
-            <Route path="/member-settings" element={<RequireMember><MemberSettings /></RequireMember>} />
-            <Route path="/maintenance-plans" element={<MaintenancePlans />} />
-            <Route path="/terms" element={<Terms />} />
-            <Route path="/membership" element={<Membership />} />
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/password-reset" element={<PasswordReset />} />
-            <Route path="/admin" element={<RequireAdmin><Admin /></RequireAdmin>} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </AuthProvider>
-      </BrowserRouter>
-      <ChatBot />
+      <StripeProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <AuthProvider>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/pricing" element={<Pricing />} />
+              <Route path="/careers" element={<Careers />} />
+              <Route path="/faq" element={<FAQ />} />
+              <Route path="/subscription" element={<Subscription />} />
+              <Route path="/checkout" element={<RequireAuth><Checkout /></RequireAuth>} />
+              <Route path="/subscription-member" element={<RequireMember><SubscriptionMember /></RequireMember>} />
+              <Route path="/membership-dashboard" element={<RequireMember><MembershipDashboard /></RequireMember>} />
+              <Route path="/member-settings" element={<RequireMember><MemberSettings /></RequireMember>} />
+              <Route path="/maintenance-plans" element={<MaintenancePlans />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/membership" element={<Membership />} />
+              <Route path="/auth" element={<Auth />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/password-reset" element={<PasswordReset />} />
+              <Route path="/admin" element={<RequireAdmin><Admin /></RequireAdmin>} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </AuthProvider>
+        </BrowserRouter>
+        <ChatBot />
+      </StripeProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
