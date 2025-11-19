@@ -1,7 +1,10 @@
 import { getSupabase } from "./supabase";
 
-const supabase = getSupabase();
 export const isUsingSupabase = true;
+
+function getSupabaseClient() {
+  return getSupabase();
+}
 
 export const db = {
   profiles: {
