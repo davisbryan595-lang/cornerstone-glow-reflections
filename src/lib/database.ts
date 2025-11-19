@@ -225,14 +225,18 @@ export const db = {
 };
 
 export async function validateAndGetDiscount(discountCode: string, planId: string) {
-  const code = (discountCode || "").toUpperCase();
-  const discount: any = await db.discountCodes.get(code);
-  if (!discount) return { valid: false, discount: null, error: "Discount code not found" };
-  if (!discount.is_active) return { valid: false, discount: null, error: "Discount code is inactive" };
-  if (discount.expires_at && new Date(discount.expires_at) < new Date()) return { valid: false, discount: null, error: "Discount code has expired" };
-  if ((discount.current_uses || 0) >= (discount.max_uses || 0)) return { valid: false, discount: null, error: "Discount code limit reached" };
-  if (discount.plan_id !== planId && discount.plan_id !== "all") return { valid: false, discount: null, error: "Discount code not valid for this plan" };
-  return { valid: true, discount };
+  try {
+    const code = (discountCode || "").toUpperCase();
+    const discount: any = await db.discountCodes.get(code);
+    if (!discount) return { valid: false, discount: null, error: "Discount code not found" };
+    if (!discount.is_active) return { valid: false, discount: null, error: "Discount code is inactive" };
+    if (discount.expires_at && new Date(discount.expires_at) < new Date()) return { valid: false, discount: null, error: "Discount code has expired" };
+    if ((discount.current_uses || 0) >= (discount.max_uses || 0)) return { valid: false, discount: null, error: "Discount code limit reached" };
+    if (discount.plan_id !== planId && discount.plan_id !== "all") return { valid: false, discount: null, error: "Discount code not valid for this plan" };
+    return { valid: true, discount };
+  } catch (error: any) {
+    return { valid: false, discount: null, error: error.message || "Failed to validate discount code" };
+  }
 }
 
 export default db;
