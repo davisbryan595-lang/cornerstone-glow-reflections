@@ -234,16 +234,18 @@ const Contact = () => {
             className="hover:border-primary/50 transition-all duration-300"
           >
             {usePaymentFlow ? (
-              <PaymentFlipCard
-                onSubmitContact={(data) => {
-                  setFormData(data);
-                  toast({
-                    title: "Message Sent!",
-                    description: "We'll get back to you within 24 hours.",
-                  });
-                  setUsePaymentFlow(false);
-                }}
-              />
+              <Elements stripe={stripePromise}>
+                <PaymentFlipCard
+                  onSubmitContact={(data) => {
+                    setFormData(data);
+                    toast({
+                      title: "Message Sent!",
+                      description: "We'll get back to you within 24 hours.",
+                    });
+                    setUsePaymentFlow(false);
+                  }}
+                />
+              </Elements>
             ) : (
               <div className="bg-card border border-border rounded-2xl p-8">
                 <h3 className="text-2xl font-montserrat font-bold mb-6">
