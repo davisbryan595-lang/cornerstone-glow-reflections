@@ -66,7 +66,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   useEffect(() => {
-    await loadUser();
+    (async () => {
+      await loadUser();
+    })();
 
     const supabase = getSupabase();
     const { data: sub } = supabase.auth.onAuthStateChange((_event, _session) => {
