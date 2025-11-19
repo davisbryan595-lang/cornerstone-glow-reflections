@@ -15,7 +15,13 @@ import {
 } from "./ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 import PaymentFlipCard from "./PaymentFlipCard";
+
+const stripePromise = loadStripe(
+  import.meta.env.VITE_STRIPE_PUBLIC_KEY || ''
+);
 
 const Contact = () => {
   const ref = useRef(null);
