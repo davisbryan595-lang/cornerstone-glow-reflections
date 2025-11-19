@@ -29,11 +29,14 @@ export default async function handler(req: any, res: any) {
       customerId,
       successUrl,
       cancelUrl,
+      paymentMethodId,
+      serviceType,
+      customerName,
+      customerEmail,
+      customerPhone,
+      subject,
+      message,
     } = req.body;
-
-    if (!planId || !planName || !amount || !email) {
-      return res.status(400).json({ error: 'Missing required fields' });
-    }
 
     const stripeClient = await getStripe();
 
@@ -41,6 +44,61 @@ export default async function handler(req: any, res: any) {
       return res.status(500).json({
         error: 'Stripe is not properly configured',
       });
+    }
+
+    // Handle direct payment method flow (from flip card)
+    if (paymentMethodId && amount && (serviceType || customerEmail)) {
+      try {
+        const paymentIntent = await stripeClient.paymentIntents.create({
+          amount: Math.round(amount),
+          currency: 'usd',
+          payment_method: paymentMethodId,
+          confirm: true,
+          automatic_payment_methods: {
+            enabled: false,
+          },
+          metadata: {
+            serviceType,
+            customerName,
+            customerEmail,
+            customerPhone,
+            subject,
+            message,
+          },
+          receipt_email: customerEmail || email,
+        });
+
+        if (paymentIntent.status === 'succeeded') {
+          return res.status(200).json({
+            success: true,
+            paymentIntentId: paymentIntent.id,
+            message: 'Payment successful',
+          });
+        } else if (paymentIntent.status === 'requires_action') {
+          return res.status(200).json({
+            success: false,
+            paymentIntentId: paymentIntent.id,
+            clientSecret: paymentIntent.client_secret,
+            message: 'Payment requires additional action',
+          });
+        } else {
+          return res.status(400).json({
+            success: false,
+            message: 'Payment failed',
+          });
+        }
+      } catch (paymentError: any) {
+        console.error('Payment method error:', paymentError);
+        return res.status(400).json({
+          success: false,
+          error: paymentError.message || 'Payment processing failed',
+        });
+      }
+    }
+
+    // Handle checkout session flow (existing membership plans)
+    if (!planId || !planName || !amount || !email) {
+      return res.status(400).json({ error: 'Missing required fields' });
     }
 
     const session = await stripeClient.checkout.sessions.create({
