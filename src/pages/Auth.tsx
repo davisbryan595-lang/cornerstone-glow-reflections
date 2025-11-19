@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams, useNavigate, Link } from "react-router-dom";
 import { getSupabase } from "@/lib/supabase";
 import db from "@/lib/database";
@@ -15,8 +15,6 @@ const Auth: React.FC = () => {
   const next = params.get("next");
   const { toast } = useToast();
 
-  const supabase = useMemo(() => getSupabase(), []);
-
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,6 +22,7 @@ const Auth: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   async function upsertProfile(userId: string, emailVal?: string | null, marketing?: boolean) {
+    const supabase = getSupabase();
     await supabase.from("profiles").upsert({ user_id: userId, email: emailVal, marketing_opt_in: marketing ?? undefined }).eq("user_id", userId);
   }
 
@@ -50,6 +49,7 @@ const Auth: React.FC = () => {
         return;
       }
 
+      const supabase = getSupabase();
       if (mode === "signup") {
         try {
           const { data, error } = await supabase.auth.signUp({ email, password });

@@ -42,11 +42,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [profile, setProfile] = useState<Profile | null>(null);
   const [membership, setMembership] = useState<Membership | null>(null);
 
-  const supabase = useMemo(() => getSupabase(), []);
-
   async function loadUser() {
     setLoading(true);
     try {
+      const supabase = getSupabase();
       const { data: { session } } = await supabase.auth.getSession();
       const user = session?.user ? { id: session.user.id, email: session.user.email } : null;
       setSessionUser(user);
@@ -67,19 +66,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   useEffect(() => {
-    const initializeAuth = async () => {
+    (async () => {
       await loadUser();
-    };
+    })();
 
-    initializeAuth();
-
+    const supabase = getSupabase();
     const { data: sub } = supabase.auth.onAuthStateChange((_event, _session) => {
       loadUser();
     });
+
     return () => {
       sub?.subscription.unsubscribe();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const value: AuthState = {
@@ -90,6 +88,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     isMember: Boolean(membership && membership.status === "active"),
     isAdmin: profile?.role === "admin",
     signOut: async () => {
+      const supabase = getSupabase();
       await supabase.auth.signOut();
       await loadUser();
     },
