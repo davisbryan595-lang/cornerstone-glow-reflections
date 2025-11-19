@@ -32,7 +32,6 @@ const Contact = () => {
   });
   const [agreed, setAgreed] = useState(false);
   const [usePaymentFlow, setUsePaymentFlow] = useState(false);
-  const elements = useElements();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
