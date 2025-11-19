@@ -16,7 +16,6 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import PaymentFlipCard from "./PaymentFlipCard";
-import { useElements } from "@stripe/react-stripe-js";
 
 const Contact = () => {
   const ref = useRef(null);
