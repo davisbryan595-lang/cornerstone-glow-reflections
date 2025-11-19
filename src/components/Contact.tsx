@@ -233,167 +233,17 @@ const Contact = () => {
             transition={{ duration: 0.8 }}
             className="hover:border-primary/50 transition-all duration-300"
           >
-            {usePaymentFlow ? (
-              <Elements stripe={stripePromise}>
-                <PaymentFlipCard
-                  onSubmitContact={(data) => {
-                    setFormData(data);
-                    toast({
-                      title: "Message Sent!",
-                      description: "We'll get back to you within 24 hours.",
-                    });
-                    setUsePaymentFlow(false);
-                  }}
-                />
-              </Elements>
-            ) : (
-              <div className="bg-card border border-border rounded-2xl p-8">
-                <h3 className="text-2xl font-montserrat font-bold mb-6">
-                  Send Us a Message
-                </h3>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div>
-                    <label className="text-sm font-medium mb-2 block font-inter">
-                      Name *
-                    </label>
-                    <Input
-                      type="text"
-                      required
-                      value={formData.name}
-                      onChange={(e) =>
-                        setFormData({ ...formData, name: e.target.value })
-                      }
-                      className="bg-background border-border focus:border-primary"
-                      placeholder="Your name"
-                    />
-                  </div>
-
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="text-sm font-medium mb-2 block font-inter">
-                        Email *
-                      </label>
-                      <Input
-                        type="email"
-                        required
-                        value={formData.email}
-                        onChange={(e) =>
-                          setFormData({ ...formData, email: e.target.value })
-                        }
-                        className="bg-background border-border focus:border-primary"
-                        placeholder="your@email.com"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium mb-2 block font-inter">
-                        Phone *
-                      </label>
-                      <Input
-                        type="tel"
-                        required
-                        value={formData.phone}
-                        onChange={(e) =>
-                          setFormData({ ...formData, phone: e.target.value })
-                        }
-                        className="bg-background border-border focus:border-primary"
-                        placeholder="(555) 123-4567"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="text-sm font-medium mb-2 block font-inter">
-                      Service Type *
-                    </label>
-                    <Select
-                      value={formData.service}
-                      onValueChange={(value) =>
-                        setFormData({ ...formData, service: value })
-                      }
-                    >
-                      <SelectTrigger className="bg-background border-border">
-                        <SelectValue placeholder="Select a service" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="paint-correction">
-                          Paint Correction
-                        </SelectItem>
-                        <SelectItem value="auto-detailing">
-                          Auto Detailing
-                        </SelectItem>
-                        <SelectItem value="headlight-trim-restoration">
-                          Headlight & Trim Restoration
-                        </SelectItem>
-                        <SelectItem value="custom">Custom Package</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div>
-                    <label className="text-sm font-medium mb-2 block font-inter">
-                      Subject
-                    </label>
-                    <Input
-                      type="text"
-                      value={formData.subject}
-                      onChange={(e) =>
-                        setFormData({ ...formData, subject: e.target.value })
-                      }
-                      className="bg-background border-border focus:border-primary"
-                      placeholder="How can we help?"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-sm font-medium mb-2 block font-inter">
-                      Message *
-                    </label>
-                    <Textarea
-                      required
-                      value={formData.message}
-                      onChange={(e) =>
-                        setFormData({ ...formData, message: e.target.value })
-                      }
-                      className="bg-background border-border focus:border-primary min-h-32"
-                      placeholder="Tell us about your vehicle and what solution you need..."
-                    />
-                  </div>
-
-                  <div className="flex items-start gap-3">
-                    <Checkbox
-                      id="agree"
-                      checked={agreed}
-                      onCheckedChange={(checked) => setAgreed(!!checked)}
-                      className="mt-1"
-                    />
-                    <label htmlFor="agree" className="text-sm text-muted-foreground font-inter">
-                      I agree to the <a href="/terms" className="text-primary hover:underline">Terms & Conditions</a> and Policy.
-                    </label>
-                  </div>
-
-                  <div className="flex gap-4">
-                    <Button
-                      type="button"
-                      size="lg"
-                      disabled={!agreed}
-                      onClick={() => setUsePaymentFlow(true)}
-                      className="flex-1 bg-gradient-primary hover:shadow-glow-primary"
-                    >
-                      Book & Pay
-                    </Button>
-                    <Button
-                      type="submit"
-                      size="lg"
-                      disabled={!agreed}
-                      variant="outline"
-                      className="flex-1"
-                    >
-                      Send Message
-                    </Button>
-                  </div>
-                </form>
-              </div>
-            )}
+            <Elements stripe={stripePromise}>
+              <PaymentFlipCard
+                onSubmitContact={(data) => {
+                  setFormData(data);
+                  toast({
+                    title: "Message Sent!",
+                    description: "We'll get back to you within 24 hours.",
+                  });
+                }}
+              />
+            </Elements>
           </motion.div>
         </div>
       </div>
