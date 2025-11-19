@@ -95,6 +95,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     isMember: Boolean(membership && membership.status === "active"),
     isAdmin: profile?.role === "admin",
     signOut: async () => {
+      const supabase = getSupabase();
       await supabase.auth.signOut();
       await loadUser();
     },
