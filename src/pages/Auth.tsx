@@ -49,6 +49,7 @@ const Auth: React.FC = () => {
         return;
       }
 
+      const supabase = getSupabase();
       if (mode === "signup") {
         try {
           const { data, error } = await supabase.auth.signUp({ email, password });
