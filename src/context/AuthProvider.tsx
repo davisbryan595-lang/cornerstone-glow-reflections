@@ -45,6 +45,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   async function loadUser() {
     setLoading(true);
     try {
+      const supabase = getSupabase();
       const { data: { session } } = await supabase.auth.getSession();
       const user = session?.user ? { id: session.user.id, email: session.user.email } : null;
       setSessionUser(user);
