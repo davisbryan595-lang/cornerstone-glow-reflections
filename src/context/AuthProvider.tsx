@@ -42,8 +42,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [profile, setProfile] = useState<Profile | null>(null);
   const [membership, setMembership] = useState<Membership | null>(null);
 
-  const supabase = useMemo(() => getSupabase(), []);
-
   async function loadUser() {
     setLoading(true);
     try {
