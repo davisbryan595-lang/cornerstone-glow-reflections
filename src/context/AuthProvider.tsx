@@ -66,25 +66,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   useEffect(() => {
-    const initializeAuth = async () => {
-      const supabase = getSupabase();
-      await loadUser();
+    await loadUser();
 
-      const { data: sub } = supabase.auth.onAuthStateChange((_event, _session) => {
-        loadUser();
-      });
-      return () => {
-        sub?.subscription.unsubscribe();
-      };
-    };
-
-    let unsubscribe: (() => void) | undefined;
-    initializeAuth().then((cleanup) => {
-      unsubscribe = cleanup;
+    const supabase = getSupabase();
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, _session) => {
+      loadUser();
     });
 
     return () => {
-      unsubscribe?.();
+      sub?.subscription.unsubscribe();
     };
   }, []);
 
