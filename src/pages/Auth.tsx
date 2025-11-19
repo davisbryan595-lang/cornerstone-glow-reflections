@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams, useNavigate, Link } from "react-router-dom";
 import { getSupabase } from "@/lib/supabase";
 import db from "@/lib/database";
