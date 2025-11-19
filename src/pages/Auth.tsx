@@ -24,6 +24,7 @@ const Auth: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   async function upsertProfile(userId: string, emailVal?: string | null, marketing?: boolean) {
+    const supabase = getSupabase();
     await supabase.from("profiles").upsert({ user_id: userId, email: emailVal, marketing_opt_in: marketing ?? undefined }).eq("user_id", userId);
   }
 
