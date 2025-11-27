@@ -221,49 +221,51 @@ const Checkout: React.FC = () => {
     <>
       <Navbar />
       <main className="min-h-screen bg-background" style={{ marginTop: 100 }}>
-        <section className="py-20">
-          <div className="container mx-auto px-4 max-w-2xl">
-            <h1 className="text-4xl font-montserrat font-bold mb-2">Complete Your Purchase</h1>
-            <p className="text-muted-foreground mb-8">Secure checkout for your membership</p>
+        <section className="py-12 md:py-20">
+          <div className="container mx-auto px-4 max-w-6xl">
+            <div className="mb-12">
+              <h1 className="text-4xl md:text-5xl font-montserrat font-bold mb-3">Complete Your Purchase</h1>
+              <p className="text-lg text-muted-foreground">Secure checkout for your membership</p>
+            </div>
 
-            <div className="grid md:grid-cols-3 gap-6">
-              <div className="md:col-span-2 space-y-6">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Order Summary</CardTitle>
+            <div className="grid lg:grid-cols-3 gap-8">
+              <div className="lg:col-span-2 space-y-8">
+                <Card className="border-border/50 shadow-lg">
+                  <CardHeader className="border-b border-border/50">
+                    <CardTitle className="text-2xl">Order Summary</CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="flex justify-between items-center pb-4 border-b">
-                      <div>
-                        <p className="font-semibold">{plan.planName}</p>
+                  <CardContent className="space-y-6 pt-8">
+                    <div className="flex justify-between items-center pb-6 border-b border-border/30">
+                      <div className="space-y-1">
+                        <p className="font-semibold text-lg text-foreground">{plan.planName}</p>
                         <p className="text-sm text-muted-foreground">Monthly subscription</p>
                       </div>
-                      <p className="font-semibold">{formatPrice(plan.amount)}</p>
+                      <p className="font-semibold text-lg">{formatPrice(plan.amount)}</p>
                     </div>
 
                     {summary.discountPercentage > 0 && (
-                      <div className="flex justify-between items-center pb-4 border-b text-green-600">
-                        <div>
-                          <p className="font-semibold">{summary.discountPercentage}% Discount</p>
-                          <p className="text-sm">{appliedDiscount?.code}</p>
+                      <div className="flex justify-between items-center pb-6 border-b border-border/30">
+                        <div className="space-y-1">
+                          <p className="font-semibold text-lg text-accent">{summary.discountPercentage}% Discount</p>
+                          <p className="text-sm text-muted-foreground">Code: {appliedDiscount?.code}</p>
                         </div>
-                        <p className="font-semibold">-{formatPrice(summary.discountAmount)}</p>
+                        <p className="font-semibold text-lg text-accent">-{formatPrice(summary.discountAmount)}</p>
                       </div>
                     )}
 
-                    <div className="flex justify-between items-center text-lg pt-2">
-                      <p className="font-bold">Total</p>
-                      <p className="font-bold">{formatPrice(summary.finalPrice)}</p>
+                    <div className="flex justify-between items-center pt-4">
+                      <p className="text-xl font-bold text-foreground">Total</p>
+                      <p className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">{formatPrice(summary.finalPrice)}</p>
                     </div>
                   </CardContent>
                 </Card>
 
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Apply Discount Code</CardTitle>
+                <Card className="border-border/50 shadow-lg">
+                  <CardHeader className="border-b border-border/50">
+                    <CardTitle className="text-2xl">Apply Discount Code</CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-3">
-                    <div className="flex gap-2">
+                  <CardContent className="space-y-5 pt-8">
+                    <div className="flex gap-3">
                       <Input
                         placeholder="Enter discount code"
                         value={discountCode}
@@ -272,43 +274,59 @@ const Checkout: React.FC = () => {
                           setDiscountValid(false);
                         }}
                         disabled={discountValid || validationLoading}
+                        className="flex-1 h-11"
                       />
-                      <Button onClick={handleValidateDiscount} disabled={validationLoading || discountValid} variant="outline">
+                      <Button
+                        onClick={handleValidateDiscount}
+                        disabled={validationLoading || discountValid}
+                        variant="outline"
+                        className="px-6 h-11 font-semibold"
+                      >
                         {validationLoading ? "Validating..." : "Apply"}
                       </Button>
                     </div>
                     {discountValid && (
-                      <div className="flex items-center gap-2 p-3 bg-green-50 border border-green-200 rounded-lg">
-                        <Check className="w-5 h-5 text-green-600" />
-                        <span className="text-green-700 font-medium">Discount code applied successfully!</span>
+                      <div className="flex items-center gap-3 p-4 bg-card border border-accent/30 rounded-lg animate-fade-in">
+                        <Check className="w-5 h-5 text-accent flex-shrink-0" />
+                        <span className="text-accent font-medium">Discount code applied successfully!</span>
                       </div>
                     )}
                   </CardContent>
                 </Card>
 
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Billing Information</CardTitle>
+                <Card className="border-border/50 shadow-lg">
+                  <CardHeader className="border-b border-border/50">
+                    <CardTitle className="text-2xl">Billing Information</CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div>
-                      <Label htmlFor="email">Email</Label>
-                      <Input id="email" type="email" value={sessionUser?.email || ""} disabled className="mt-1" />
+                  <CardContent className="space-y-6 pt-8">
+                    <div className="space-y-3">
+                      <Label htmlFor="email" className="text-sm font-semibold">Email Address</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        value={sessionUser?.email || ""}
+                        disabled
+                        className="h-11 bg-muted/30 cursor-not-allowed"
+                      />
                     </div>
-                    <div className="text-sm text-muted-foreground">
-                      <p>Payment will be processed using Stripe.</p>
-                      <p className="mt-2">Your billing details will be securely stored with Stripe.</p>
+                    <div className="space-y-3 pt-2 border-t border-border/30">
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        Payment will be processed securely using Stripe.
+                      </p>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        Your billing details will be securely stored and never shared with third parties.
+                      </p>
                     </div>
                   </CardContent>
                 </Card>
               </div>
 
-              <div className="md:col-span-1">
-                <Card className="sticky top-24">
-                  <CardHeader>
-                    <CardTitle>Payment Details</CardTitle>
+              <div className="lg:col-span-1">
+                <Card className="sticky top-32 border-border/50 shadow-lg">
+                  <CardHeader className="border-b border-border/50">
+                    <CardTitle className="text-2xl">Payment Details</CardTitle>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="pt-8">
                     <StripePaymentForm
                       amount={summary.finalPrice}
                       planName={plan.planName}
