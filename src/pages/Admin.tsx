@@ -90,9 +90,24 @@ const Admin: React.FC = () => {
 
   const exportMembers = async () => {
     const memberships = await db.memberships.list();
+    const allAccessCodes = await db.accessCodes.listAll();
+    const allProfiles = await db.profiles.list();
+
     downloadCsv(
       "members.csv",
-      memberships.map((m: any) => ({ user_id: m.user_id, plan_id: m.plan_id, status: m.status, payment_status: m.payment_status, access_code: m.access_code, next_billing_at: m.next_billing_at }))
+      memberships.map((m: any) => {
+        const profile = allProfiles.find((p: any) => p.user_id === m.user_id);
+        const accessCode = allAccessCodes.find((ac: any) => ac.membership_id === m.id && ac.is_used);
+        return {
+          email: profile?.email || "N/A",
+          user_id: m.user_id,
+          plan_id: m.plan_id,
+          status: m.status,
+          payment_status: m.payment_status,
+          assigned_access_code: accessCode?.code || "N/A",
+          next_billing_at: m.next_billing_at
+        };
+      })
     );
   };
 
