@@ -6,6 +6,7 @@ import { MEMBERSHIP_PLANS } from "@/lib/payment";
 import { calculateCheckoutSummary, formatPrice } from "@/lib/discountCodeManager";
 import { generateAccessCode, generateAccessCodeBatch } from "@/lib/accessCodeGenerator";
 import { generateCouponBatch } from "@/lib/discountCodeManager";
+import { sendMembershipConfirmationEmail } from "@/lib/membershipEmail";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -114,10 +115,17 @@ const Checkout: React.FC = () => {
         throw new Error(checkoutData.error || 'Checkout failed');
       }
 
+      // Get user profile for name
+      const userProfile = await db.profiles.get(sessionUser.id);
+      const userName = userProfile?.email?.split("@")[0] || "Member";
+
       // Create membership record
       const now = new Date().toISOString();
       const nextBilling = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
       const membershipId = `membership-${Date.now()}`;
+
+      // Generate access code for this membership
+      const accessCode = generateAccessCode();
 
       const membership = {
         id: membershipId,
@@ -125,7 +133,7 @@ const Checkout: React.FC = () => {
         plan_id: planId,
         status: "active" as const,
         payment_status: "paid" as const,
-        access_code: generateAccessCode(),
+        access_code: accessCode,
         next_billing_at: nextBilling,
         start_date: now,
         end_date: null,
@@ -133,8 +141,7 @@ const Checkout: React.FC = () => {
 
       await db.memberships.upsert(membership);
 
-      // Create an access code for this membership
-      const accessCode = generateAccessCode();
+      // Create access code record for this membership
       await db.accessCodes.create({
         code: accessCode,
         user_id: sessionUser.id,
@@ -144,6 +151,21 @@ const Checkout: React.FC = () => {
         is_used: true,
         used_at: now,
       });
+
+      // Send membership confirmation email with access code
+      try {
+        await sendMembershipConfirmationEmail({
+          customerName: userName,
+          customerEmail: sessionUser.email || "",
+          planName: plan.planName,
+          accessCode: accessCode,
+          monthlyPrice: plan.amount,
+          startDate: now,
+        });
+      } catch (emailError) {
+        console.error("Failed to send confirmation email:", emailError);
+        // Continue with membership creation even if email fails
+      }
 
       // Generate and assign a discount code for future use
       const tierMap: { [key: string]: string } = {
@@ -178,7 +200,10 @@ const Checkout: React.FC = () => {
 
       await refresh();
 
-      toast({ title: "Success!", description: "Your membership is now active" });
+      toast({
+        title: "Success!",
+        description: "Your membership is now active! Check your email for your access code."
+      });
       navigate("/subscription-member");
     } catch (error) {
       console.error("Payment error:", error);

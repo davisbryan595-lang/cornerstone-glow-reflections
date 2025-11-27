@@ -90,9 +90,24 @@ const Admin: React.FC = () => {
 
   const exportMembers = async () => {
     const memberships = await db.memberships.list();
+    const allAccessCodes = await db.accessCodes.listAll();
+    const allProfiles = await db.profiles.list();
+
     downloadCsv(
       "members.csv",
-      memberships.map((m: any) => ({ user_id: m.user_id, plan_id: m.plan_id, status: m.status, payment_status: m.payment_status, access_code: m.access_code, next_billing_at: m.next_billing_at }))
+      memberships.map((m: any) => {
+        const profile = allProfiles.find((p: any) => p.user_id === m.user_id);
+        const accessCode = allAccessCodes.find((ac: any) => ac.membership_id === m.id && ac.is_used);
+        return {
+          email: profile?.email || "N/A",
+          user_id: m.user_id,
+          plan_id: m.plan_id,
+          status: m.status,
+          payment_status: m.payment_status,
+          assigned_access_code: accessCode?.code || "N/A",
+          next_billing_at: m.next_billing_at
+        };
+      })
     );
   };
 
@@ -318,9 +333,10 @@ const Admin: React.FC = () => {
       </div>
 
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="grid w-full grid-cols-6">
+        <TabsList className="grid w-full grid-cols-7">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="members">Members</TabsTrigger>
+          <TabsTrigger value="member-codes">Member Codes</TabsTrigger>
           <TabsTrigger value="analytics">Analytics</TabsTrigger>
           <TabsTrigger value="access-codes">Access Codes</TabsTrigger>
           <TabsTrigger value="discount-codes">Discount Codes</TabsTrigger>
@@ -433,12 +449,14 @@ const Admin: React.FC = () => {
                       <TableHead>Email</TableHead>
                       <TableHead>Plan</TableHead>
                       <TableHead>Status</TableHead>
+                      <TableHead>Access Code</TableHead>
                       <TableHead>Next Billing</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {filteredMembers.slice(0, 20).map((member: any) => {
                       const profile = allProfiles.find((p: any) => p.user_id === member.user_id);
+                      const memberAccessCode = accessCodes.find((code: any) => code.membership_id === member.id && code.is_used);
                       return (
                         <TableRow key={member.id}>
                           <TableCell>
@@ -455,10 +473,124 @@ const Admin: React.FC = () => {
                               {member.status}
                             </span>
                           </TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-2">
+                              <code className="text-xs bg-muted px-2 py-1 rounded font-mono">{memberAccessCode?.code || "N/A"}</code>
+                              {memberAccessCode && (
+                                <button
+                                  onClick={() => {
+                                    navigator.clipboard.writeText(memberAccessCode.code);
+                                    toast({ title: "Copied!", description: "Access code copied to clipboard" });
+                                  }}
+                                  className="text-primary hover:text-primary/80 transition-colors"
+                                  title="Copy access code"
+                                >
+                                  <Copy className="w-4 h-4" />
+                                </button>
+                              )}
+                            </div>
+                          </TableCell>
                           <TableCell>{member.next_billing_at ? new Date(member.next_billing_at).toLocaleDateString() : "N/A"}</TableCell>
                         </TableRow>
                       );
                     })}
+                  </TableBody>
+                </Table>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="member-codes" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Member Access Code Assignments</CardTitle>
+              <p className="text-sm text-muted-foreground mt-2">View which access code is assigned to each member</p>
+              {allMembers.filter((m: any) => m.status === "active").length > 0 && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="mt-3"
+                  onClick={() => {
+                    const membersWithCodes = allMembers
+                      .filter((m: any) => m.status === "active")
+                      .map((m: any) => {
+                        const profile = allProfiles.find((p: any) => p.user_id === m.user_id);
+                        const memberAccessCode = accessCodes.find((code: any) => code.membership_id === m.id && code.is_used);
+                        return {
+                          email: profile?.email || "N/A",
+                          plan_id: m.plan_id,
+                          access_code: memberAccessCode?.code || "N/A",
+                          assigned_date: memberAccessCode?.created_at || m.start_date,
+                          status: m.status
+                        };
+                      });
+                    downloadCsv("member_access_code_assignments.csv", membersWithCodes);
+                  }}
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Export Assignments CSV
+                </Button>
+              )}
+            </CardHeader>
+            <CardContent>
+              {allMembers.filter((m: any) => m.status === "active").length === 0 ? (
+                <p className="text-muted-foreground">No active members yet</p>
+              ) : (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Email</TableHead>
+                      <TableHead>Plan</TableHead>
+                      <TableHead>Access Code</TableHead>
+                      <TableHead>Assigned Date</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Action</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {allMembers
+                      .filter((m: any) => m.status === "active")
+                      .slice(0, 50)
+                      .map((member: any) => {
+                        const profile = allProfiles.find((p: any) => p.user_id === member.user_id);
+                        const memberAccessCode = accessCodes.find((code: any) => code.membership_id === member.id && code.is_used);
+                        return (
+                          <TableRow key={member.id}>
+                            <TableCell className="font-medium">{profile?.email || "N/A"}</TableCell>
+                            <TableCell className="capitalize">{member.plan_id?.replace("maintenance-", "")}</TableCell>
+                            <TableCell>
+                              <code className="text-xs bg-muted px-2 py-1 rounded font-mono font-bold text-primary">
+                                {memberAccessCode?.code || "N/A"}
+                              </code>
+                            </TableCell>
+                            <TableCell className="text-sm">
+                              {memberAccessCode?.created_at
+                                ? new Date(memberAccessCode.created_at).toLocaleDateString()
+                                : new Date(member.start_date).toLocaleDateString()}
+                            </TableCell>
+                            <TableCell>
+                              <span className="px-2 py-1 rounded text-xs font-medium bg-green-100 text-green-700">
+                                {member.status}
+                              </span>
+                            </TableCell>
+                            <TableCell>
+                              {memberAccessCode && (
+                                <button
+                                  onClick={() => {
+                                    navigator.clipboard.writeText(memberAccessCode.code);
+                                    toast({ title: "Copied!", description: "Access code copied to clipboard" });
+                                  }}
+                                  className="text-primary hover:text-primary/80 transition-colors"
+                                  title="Copy access code"
+                                >
+                                  <Copy className="w-4 h-4" />
+                                </button>
+                              )}
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
                   </TableBody>
                 </Table>
               )}
