@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { Check, Calendar } from "lucide-react";
+import { Check, Calendar, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -16,6 +16,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
 import { sendSubscriptionEmail } from "@/lib/email";
+import { useAuth } from "@/context/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 interface MaintenancePlan {
   id: string;
