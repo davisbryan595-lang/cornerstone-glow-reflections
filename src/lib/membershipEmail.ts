@@ -8,36 +8,36 @@ export interface MembershipConfirmationDetails {
 }
 
 /**
- * Sends membership confirmation email with access code to the new member
+ * Sends membership confirmation email with access code to the new member via Resend API
  */
 export async function sendMembershipConfirmationEmail(details: MembershipConfirmationDetails): Promise<{ ok: boolean; status: number }> {
   const payload = {
-    to: details.customerEmail,
-    subject: `Welcome to Cornerstone Mobile Detailing - Your Access Code`,
-    type: 'membership_confirmation',
-    ...details,
+    customerName: details.customerName,
+    customerEmail: details.customerEmail,
+    planName: details.planName,
+    accessCode: details.accessCode,
+    monthlyPrice: details.monthlyPrice,
+    startDate: details.startDate,
   };
 
-  const webhook = import.meta.env.VITE_MEMBERSHIP_WEBHOOK_URL as string | undefined;
-  const targets = [
-    webhook?.trim(),
-    "/api/send-membership-confirmation",
-  ].filter(Boolean) as string[];
+  // Try the local API endpoint first (uses Resend)
+  const apiUrl = "/api/send-membership-confirmation";
 
-  for (const url of targets) {
-    try {
-      const res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      if (res.ok) return { ok: true, status: res.status };
-      if (res.status === 404) continue;
+  try {
+    const res = await fetch(apiUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    if (res.ok) {
+      return { ok: true, status: res.status };
+    } else {
+      console.error(`Email API returned status ${res.status}`);
       return { ok: false, status: res.status };
-    } catch {
-      continue;
     }
+  } catch (error) {
+    console.error("Error sending membership confirmation email:", error);
+    return { ok: false, status: 0 };
   }
-
-  return { ok: false, status: 0 };
 }
