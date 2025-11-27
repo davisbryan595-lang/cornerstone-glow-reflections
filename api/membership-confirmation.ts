@@ -1,3 +1,7 @@
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 export default async (req: any, res: any) => {
   // Only allow POST requests
   if (req.method !== 'POST') {
@@ -21,30 +25,39 @@ export default async (req: any, res: any) => {
       return;
     }
 
-    // Send email using a service like SendGrid, AWS SES, Mailgun, etc.
-    // For now, we'll log the email that would be sent
-    const emailContent = {
+    // Generate email HTML content
+    const emailHtml = generateMembershipConfirmationEmail({
+      name: customerName,
+      planName,
+      accessCode,
+      monthlyPrice,
+      startDate,
+    });
+
+    // Send email via Resend
+    const emailResponse = await resend.emails.send({
+      from: 'Cornerstone Mobile Detailing <noreply@cornerstone-detailing.com>',
       to: customerEmail,
       subject: '🎉 Welcome to Cornerstone Mobile Detailing - Your Access Code Inside',
-      html: generateMembershipConfirmationEmail({
-        name: customerName,
-        planName,
-        accessCode,
-        monthlyPrice,
-        startDate,
-      }),
-    };
+      html: emailHtml,
+    });
 
-    // If you have an email service configured, send it here
-    // Example: await sendEmailViaService(emailContent);
-    
-    // For development, log the email content
-    console.log('Membership confirmation email:', emailContent);
+    if (emailResponse.error) {
+      console.error('Resend email error:', emailResponse.error);
+      res.status(400).json({
+        error: 'Failed to send email',
+        message: emailResponse.error.message,
+      });
+      return;
+    }
+
+    console.log('Membership confirmation email sent:', emailResponse);
 
     res.status(200).json({
       success: true,
-      message: 'Membership confirmation email queued for delivery',
+      message: 'Membership confirmation email sent successfully',
       recipient: customerEmail,
+      emailId: emailResponse.data?.id,
     });
   } catch (error: any) {
     console.error('Error sending membership confirmation email:', error);
