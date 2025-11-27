@@ -100,7 +100,7 @@ const SpecialOfferPopup = () => {
 
       {/* View Offer Button */}
       <AnimatePresence>
-        {showViewButton && !isVisible && (
+        {showViewButton && !isVisible && shouldShowPopup && (
           <motion.button
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -110,9 +110,9 @@ const SpecialOfferPopup = () => {
               setIsVisible(true);
               setShowViewButton(false);
             }}
-            className="fixed bottom-4 left-4 sm:bottom-8 sm:left-8 z-40 w-14 h-14 sm:w-16 sm:h-16 bg-gradient-primary rounded-full shadow-lg border border-primary/30 flex items-center justify-center hover:shadow-glow-primary transition-all duration-300 group"
+            className="fixed bottom-4 left-4 sm:bottom-8 sm:left-8 z-40 w-14 h-14 sm:w-16 sm:h-16 bg-gradient-primary rounded-full shadow-lg border border-primary/30 flex items-center justify-center hover:shadow-glow-primary transition-all duration-300 group animate-bounce"
           >
-            <Gift className="w-6 h-6 sm:w-8 sm:h-8 text-white group-hover:scale-110 transition-transform" />
+            <Crown className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-300 group-hover:scale-110 transition-transform" />
           </motion.button>
         )}
       </AnimatePresence>
