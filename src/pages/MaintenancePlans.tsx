@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { Check, Calendar } from "lucide-react";
+import { Check, Calendar, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -16,6 +16,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
 import { sendSubscriptionEmail } from "@/lib/email";
+import { useAuth } from "@/context/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 interface MaintenancePlan {
   id: string;
@@ -46,6 +48,8 @@ const MaintenancePlans = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
   const { toast } = useToast();
+  const { isMember, loading } = useAuth();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState<SubscriptionForm>({
     serviceType: "",
@@ -190,6 +194,129 @@ const MaintenancePlans = () => {
       });
     }
   };
+
+  // Show loading state while checking membership
+  if (loading) {
+    return (
+      <>
+        <Navbar />
+        <main className="min-h-screen bg-background flex items-center justify-center" style={{ marginTop: 100 }}>
+          <motion.div
+            animate={{ opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="text-center"
+          >
+            <p className="text-lg text-muted-foreground">Loading...</p>
+          </motion.div>
+        </main>
+      </>
+    );
+  }
+
+  // Show member gate if user is not a member
+  if (!isMember) {
+    return (
+      <>
+        <Navbar />
+        <main className="min-h-screen bg-background" style={{ marginTop: 100 }}>
+          <section className="py-20 relative overflow-hidden min-h-[calc(100vh-100px)] flex items-center">
+            <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-background" />
+            <div className="container mx-auto px-4 relative z-10">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                className="max-w-3xl mx-auto text-center"
+              >
+                <motion.div
+                  className="inline-block mb-6 p-4 bg-primary/10 rounded-full"
+                  animate={{ scale: [1, 1.05, 1] }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                >
+                  <Lock className="w-12 h-12 text-primary mx-auto" />
+                </motion.div>
+
+                <h1 className="text-5xl md:text-6xl lg:text-7xl font-montserrat font-bold mb-6">
+                  Maintenance Plans{" "}
+                  <span className="bg-gradient-primary bg-clip-text text-transparent">
+                    For Members Only
+                  </span>
+                </h1>
+
+                <p className="text-xl text-muted-foreground mb-8 font-inter max-w-2xl mx-auto">
+                  Exclusive recurring maintenance subscriptions are available to our valued members only. Get access to convenient scheduling, priority booking, and member-exclusive discounts.
+                </p>
+
+                <div className="grid md:grid-cols-3 gap-6 mb-12">
+                  {[
+                    {
+                      title: "30% Off Plans",
+                      description: "Save up to 30% on maintenance subscriptions with membership",
+                      icon: "💰",
+                    },
+                    {
+                      title: "Priority Scheduling",
+                      description: "Book your appointments first with priority access",
+                      icon: "⏰",
+                    },
+                    {
+                      title: "Exclusive Offers",
+                      description: "Members-only discounts and special promotions",
+                      icon: "🎁",
+                    },
+                  ].map((benefit, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      className="bg-card border border-border rounded-2xl p-6 hover:border-primary/50 transition-all duration-300"
+                    >
+                      <div className="text-4xl mb-3">{benefit.icon}</div>
+                      <h3 className="text-xl font-montserrat font-bold mb-2 text-primary">
+                        {benefit.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground font-inter">
+                        {benefit.description}
+                      </p>
+                    </motion.div>
+                  ))}
+                </div>
+
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                  className="flex flex-col sm:flex-row gap-4 justify-center"
+                >
+                  <Button
+                    onClick={() => navigate("/pricing")}
+                    size="lg"
+                    className="bg-gradient-primary hover:shadow-glow-primary text-base font-semibold px-8 py-6"
+                  >
+                    Become a Member
+                  </Button>
+                  <Button
+                    onClick={() => navigate("/")}
+                    variant="outline"
+                    size="lg"
+                    className="text-base font-semibold px-8 py-6"
+                  >
+                    Back to Home
+                  </Button>
+                </motion.div>
+
+                <p className="text-sm text-muted-foreground mt-8 font-inter">
+                  Questions about membership? <a href="mailto:cornerstonemobile55@gmail.com" className="text-primary hover:underline font-semibold">Contact us</a>
+                </p>
+              </motion.div>
+            </div>
+          </section>
+        </main>
+        <Footer />
+      </>
+    );
+  }
 
   return (
     <>

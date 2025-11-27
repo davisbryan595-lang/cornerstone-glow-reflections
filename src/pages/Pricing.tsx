@@ -569,11 +569,13 @@ const Pricing = () => {
           <p className="text-muted-foreground mb-6 font-inter max-w-2xl mx-auto">
             Have a fleet, dealership, or special project? We offer custom packages and volume discounts. Contact us for a tailored quote.
           </p>
-          <a href="mailto:cornerstonemobile55@gmail.com">
-            <Button variant="outline" size="lg">
-              Request Custom Quote
-            </Button>
-          </a>
+          <Button
+            onClick={handleGetQuote}
+            variant="outline"
+            size="lg"
+          >
+            Request Custom Quote
+          </Button>
         </section>
       </main>
 
