@@ -110,41 +110,44 @@ export const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div>
-        <Label htmlFor="card-element" className="block mb-3">
+    <form onSubmit={handleSubmit} className="space-y-8">
+      <div className="space-y-4">
+        <Label htmlFor="card-element" className="block text-sm font-semibold text-foreground">
           Card Details
         </Label>
-        <div className="p-4 border border-input rounded-md bg-white">
+        <div className="p-5 border border-input rounded-lg bg-card hover:bg-card/80 transition-colors">
           <CardElement
             id="card-element"
             options={cardElementOptions}
             onChange={handleCardChange}
           />
         </div>
+        <p className="text-xs text-muted-foreground">
+          Enter your credit or debit card details
+        </p>
       </div>
 
-      <div className="pt-4 border-t space-y-2">
-        <div className="flex justify-between text-sm">
-          <span>Plan</span>
-          <span className="font-medium">{planName}</span>
+      <div className="pt-6 border-t border-border space-y-4">
+        <div className="flex justify-between items-center">
+          <span className="text-muted-foreground font-medium">Plan</span>
+          <span className="font-semibold text-foreground">{planName}</span>
         </div>
-        <div className="flex justify-between text-lg font-bold">
-          <span>Total</span>
-          <span>${(amount / 100).toFixed(2)}</span>
+        <div className="flex justify-between items-center pt-2 border-t border-border/50">
+          <span className="text-lg font-bold text-foreground">Total</span>
+          <span className="text-lg font-bold bg-gradient-primary bg-clip-text text-transparent">${(amount / 100).toFixed(2)}</span>
         </div>
       </div>
 
       <Button
         type="submit"
         disabled={!stripe || isProcessing || isLoading || !cardComplete}
-        className="w-full bg-gradient-primary"
+        className="w-full bg-gradient-primary hover:opacity-90 transition-opacity text-white font-semibold"
         size="lg"
       >
         {isProcessing || isLoading ? 'Processing...' : `Pay $${(amount / 100).toFixed(2)}`}
       </Button>
 
-      <p className="text-xs text-muted-foreground text-center">
+      <p className="text-xs text-muted-foreground text-center leading-relaxed">
         Your payment information is encrypted and secure. You will not be charged until you complete the purchase.
       </p>
     </form>
