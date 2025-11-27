@@ -48,6 +48,8 @@ const MaintenancePlans = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
   const { toast } = useToast();
+  const { isMember, loading } = useAuth();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState<SubscriptionForm>({
     serviceType: "",
