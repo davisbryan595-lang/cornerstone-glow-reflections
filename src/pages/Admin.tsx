@@ -433,12 +433,14 @@ const Admin: React.FC = () => {
                       <TableHead>Email</TableHead>
                       <TableHead>Plan</TableHead>
                       <TableHead>Status</TableHead>
+                      <TableHead>Access Code</TableHead>
                       <TableHead>Next Billing</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {filteredMembers.slice(0, 20).map((member: any) => {
                       const profile = allProfiles.find((p: any) => p.user_id === member.user_id);
+                      const memberAccessCode = accessCodes.find((code: any) => code.membership_id === member.id && code.is_used);
                       return (
                         <TableRow key={member.id}>
                           <TableCell>
@@ -454,6 +456,23 @@ const Admin: React.FC = () => {
                             <span className={`px-2 py-1 rounded text-xs font-medium ${member.status === "active" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
                               {member.status}
                             </span>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-2">
+                              <code className="text-xs bg-muted px-2 py-1 rounded font-mono">{memberAccessCode?.code || "N/A"}</code>
+                              {memberAccessCode && (
+                                <button
+                                  onClick={() => {
+                                    navigator.clipboard.writeText(memberAccessCode.code);
+                                    toast({ title: "Copied!", description: "Access code copied to clipboard" });
+                                  }}
+                                  className="text-primary hover:text-primary/80 transition-colors"
+                                  title="Copy access code"
+                                >
+                                  <Copy className="w-4 h-4" />
+                                </button>
+                              )}
+                            </div>
                           </TableCell>
                           <TableCell>{member.next_billing_at ? new Date(member.next_billing_at).toLocaleDateString() : "N/A"}</TableCell>
                         </TableRow>
