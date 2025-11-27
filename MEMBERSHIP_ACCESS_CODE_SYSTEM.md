@@ -163,15 +163,27 @@ db.accessCodes.markAsUsed(id)            // Mark code as used
 
 ## Email Service Integration
 
-The system is ready to integrate with any email service provider:
-- **SendGrid**: Configure VITE_MEMBERSHIP_WEBHOOK_URL to SendGrid webhook
-- **Mailgun**: Configure to Mailgun API endpoint
-- **AWS SES**: Configure to SES endpoint
-- **Custom**: Implement custom email handler in `/api/send-membership-confirmation`
+### ✅ Resend Integration (Active)
 
-For now, emails are logged to console in development. Configure your preferred email service by:
-1. Adding `VITE_MEMBERSHIP_WEBHOOK_URL` environment variable
-2. Implementing email sending in `/api/send-membership-confirmation`
+The system uses **Resend** for sending membership confirmation emails.
+
+**Configuration:**
+- API Key: Set as `RESEND_API_KEY` environment variable
+- From Email: `noreply@cornerstone-detailing.com` (configured in API endpoint)
+- Status: ✅ Active and configured
+
+**How it works:**
+1. When membership is created, confirmation email is queued
+2. Email includes access code in beautiful HTML format
+3. Resend sends email asynchronously via `/api/send-membership-confirmation`
+4. Delivery status is logged and tracked
+
+**Features:**
+- Beautiful HTML email template with branding
+- Automatic formatting of dates and prices
+- Safe HTML escaping for user data
+- Error handling and logging
+- Non-blocking: membership succeeds even if email fails
 
 ## Testing Checklist
 
