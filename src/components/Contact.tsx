@@ -1,76 +1,12 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { Mail, Phone, Clock, Facebook, Instagram } from "lucide-react";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
-import { Checkbox } from "./ui/checkbox";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
-import { useToast } from "@/hooks/use-toast";
-import { useNavigate } from "react-router-dom";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
-import PaymentFlipCard from "./PaymentFlipCard";
-
-const stripePromise = loadStripe(
-  import.meta.env.VITE_STRIPE_PUBLIC_KEY || ''
-);
+import ContactForm from "./ContactForm";
 
 const Contact = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
-  const { toast } = useToast();
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    service: "",
-    subject: "",
-    message: "",
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!agreed) {
-      toast({
-        title: "Terms Required",
-        description: "Please agree to the Terms & Conditions to proceed.",
-      });
-      return;
-    }
-
-    toast({
-      title: "Message Sent!",
-      description: "We'll get back to you within 24 hours.",
-    });
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      service: "",
-      subject: "",
-      message: "",
-    });
-    setAgreed(false);
-
-    // Redirect to home page and scroll to contact form
-    navigate("/");
-    setTimeout(() => {
-      const contactElement = document.getElementById("contact-form");
-      if (contactElement) {
-        contactElement.scrollIntoView({ behavior: "smooth" });
-      }
-    }, 100);
-  };
 
   const openHours = [
     "Monday: 24 Hours",
@@ -223,26 +159,13 @@ const Contact = () => {
             </motion.div>
           </motion.div>
 
-          {/* Contact Form / Payment Card */}
-          <motion.div
+          {/* Contact Form */}
+          <div
             id="contact-form"
-            initial={{ opacity: 0, x: 50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8 }}
             className="hover:border-primary/50 transition-all duration-300"
           >
-            <Elements stripe={stripePromise}>
-              <PaymentFlipCard
-                onSubmitContact={(data) => {
-                  setFormData(data);
-                  toast({
-                    title: "Message Sent!",
-                    description: "We'll get back to you within 24 hours.",
-                  });
-                }}
-              />
-            </Elements>
-          </motion.div>
+            <ContactForm />
+          </div>
         </div>
       </div>
     </section>
