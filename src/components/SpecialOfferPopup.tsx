@@ -1,11 +1,15 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { X, Gift } from "lucide-react";
+import { X, Crown, Zap } from "lucide-react";
 import { Button } from "./ui/button";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/context/AuthProvider";
 
 const SpecialOfferPopup = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [showViewButton, setShowViewButton] = useState(false);
+  const navigate = useNavigate();
+  const { isMember } = useAuth();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -25,12 +29,9 @@ const SpecialOfferPopup = () => {
     }
   }, [isVisible, showViewButton]);
 
-  const handleContactClick = () => {
-    const element = document.getElementById("contact-form");
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-      setIsVisible(false);
-    }
+  const handleJoinMembership = () => {
+    navigate("/pricing");
+    setIsVisible(false);
   };
 
   return (
