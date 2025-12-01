@@ -37,6 +37,19 @@ const Services = () => {
       image: "https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?w=600&h=400&fit=crop",
     },
     {
+      icon: Shield,
+      title: "Ceramic Coatings",
+      description:
+        "Protect and enhance your vehicle's paint with our professional ceramic coating application. Provides long-lasting protection against environmental damage.",
+      features: [
+        "UV protection",
+        "Water beading & repellency",
+        "Long-lasting protection",
+        "Enhanced gloss & shine",
+      ],
+      image: "https://images.unsplash.com/photo-1532581291347-9c6d6a84b413?w=600&h=400&fit=crop",
+    },
+    {
       icon: Sun,
       title: "Headlight & Trim Restoration",
       description:
