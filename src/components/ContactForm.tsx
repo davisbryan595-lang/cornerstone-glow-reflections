@@ -50,7 +50,7 @@ const ContactForm = () => {
       if (response.ok) {
         toast({
           title: 'Message Sent!',
-          description: 'Thank you! We\'ll get back to you within 24 hours.',
+          description: 'Thank you! We\'ll get back to you shortly.',
         });
 
         setFormData({
