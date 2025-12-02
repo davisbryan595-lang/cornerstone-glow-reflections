@@ -12,6 +12,7 @@ import Subscription from "./pages/Subscription";
 import SubscriptionMember from "./pages/SubscriptionMember";
 import MaintenancePlans from "./pages/MaintenancePlans";
 import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
 import Membership from "./pages/Membership";
 import Checkout from "./pages/Checkout";
 import MemberSettings from "./pages/MemberSettings";
