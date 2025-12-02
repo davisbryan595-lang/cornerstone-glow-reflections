@@ -536,6 +536,7 @@ const Pricing = () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
+              { name: "Ceramic Coating Application", price: 199.99 },
               { name: "Paint Removal", price: 45.00 },
               { name: "Headlight Restoration", price: 95.00 },
               { name: "Stain Removal", price: 50.00 },

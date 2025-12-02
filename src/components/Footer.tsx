@@ -143,6 +143,7 @@ const Footer = () => {
         <div className="border-t border-border pt-6 text-center text-sm text-muted-foreground font-inter">
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <p>© {currentYear} Cornerstone Mobile Detailing LLC. All Rights Reserved.</p>
+            <a href="/privacy" className="hover:text-primary">Privacy Policy</a>
             <a href="/terms" className="hover:text-primary">Terms & Conditions</a>
           </div>
         </div>

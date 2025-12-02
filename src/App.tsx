@@ -12,6 +12,7 @@ import Subscription from "./pages/Subscription";
 import SubscriptionMember from "./pages/SubscriptionMember";
 import MaintenancePlans from "./pages/MaintenancePlans";
 import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
 import Membership from "./pages/Membership";
 import Checkout from "./pages/Checkout";
 import MemberSettings from "./pages/MemberSettings";
@@ -48,6 +49,7 @@ const App = () => (
               <Route path="/member-settings" element={<RequireMember><MemberSettings /></RequireMember>} />
               <Route path="/maintenance-plans" element={<MaintenancePlans />} />
               <Route path="/terms" element={<Terms />} />
+              <Route path="/privacy" element={<Privacy />} />
               <Route path="/membership" element={<Membership />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
