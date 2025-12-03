@@ -158,15 +158,25 @@ Ceramic coatings provide industry-leading paint protection, gloss enhancement, a
                       View Disclaimer
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="max-w-2xl max-h-[80vh]">
+                  <DialogContent className="max-w-4xl max-h-[85vh] w-[95vw]">
                     <DialogHeader>
-                      <DialogTitle className="text-2xl">
+                      <DialogTitle className="text-2xl font-montserrat font-bold">
                         Ceramic Coating Disclaimer
                       </DialogTitle>
                     </DialogHeader>
-                    <ScrollArea className="h-full w-full pr-4">
-                      <div className="space-y-4 text-sm font-inter text-foreground whitespace-pre-wrap">
-                        {disclaimerText}
+                    <ScrollArea className="h-[calc(85vh-120px)] w-full">
+                      <div className="space-y-3 text-sm font-inter text-foreground leading-relaxed pr-4 text-justify">
+                        {disclaimerText.split('\n\n').map((section, idx) => (
+                          <div key={idx}>
+                            {section.split('\n').map((line, lineIdx) => (
+                              line.trim() && (
+                                <p key={lineIdx} className="mb-2">
+                                  {line}
+                                </p>
+                              )
+                            ))}
+                          </div>
+                        ))}
                       </div>
                     </ScrollArea>
                   </DialogContent>
