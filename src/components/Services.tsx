@@ -47,7 +47,7 @@ const Services = () => {
         "Long-lasting protection",
         "Enhanced gloss & shine",
       ],
-      image: "https://images.unsplash.com/photo-1532581291347-9c6d6a84b413?w=600&h=400&fit=crop",
+      image: "https://cdn.builder.io/api/v1/image/assets%2Fc70ebb3e5225486399c19406cd27bb43%2F129355e7e5ee45a39a678efa4e782bd5?format=webp&width=800",
     },
     {
       icon: Sun,
