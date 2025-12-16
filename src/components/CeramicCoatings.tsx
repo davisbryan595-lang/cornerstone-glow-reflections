@@ -18,6 +18,7 @@ const CeramicCoatings = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const scrollToContact = () => {
     const element = document.getElementById("contact");
