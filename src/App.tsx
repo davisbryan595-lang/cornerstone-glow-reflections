@@ -19,6 +19,7 @@ import MemberSettings from "./pages/MemberSettings";
 import MembershipDashboard from "./pages/MembershipDashboard";
 import PasswordReset from "./pages/PasswordReset";
 import ForgotPassword from "./pages/ForgotPassword";
+import CeramicCoatingsPage from "./pages/CeramicCoatingsPage";
 
 const queryClient = new QueryClient();
 
