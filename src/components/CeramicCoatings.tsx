@@ -4,6 +4,7 @@ import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { AlertCircle } from "lucide-react";
 import { Button } from "./ui/button";
+import { useNavigate } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
