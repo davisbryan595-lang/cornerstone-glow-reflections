@@ -149,6 +149,15 @@ Ceramic coatings provide industry-leading paint protection, gloss enhancement, a
                   Book Ceramic Coating
                 </Button>
 
+                <Button
+                  onClick={() => navigate("/ceramic-coatings")}
+                  variant="outline"
+                  size="lg"
+                  className="border-primary hover:bg-primary/10"
+                >
+                  Learn More
+                </Button>
+
                 <Dialog open={isOpen} onOpenChange={setIsOpen}>
                   <DialogTrigger asChild>
                     <Button
