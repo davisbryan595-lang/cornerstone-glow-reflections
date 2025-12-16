@@ -4,6 +4,7 @@ import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { AlertCircle } from "lucide-react";
 import { Button } from "./ui/button";
+import { useNavigate } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -17,6 +18,7 @@ const CeramicCoatings = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const scrollToContact = () => {
     const element = document.getElementById("contact");
@@ -145,6 +147,15 @@ Ceramic coatings provide industry-leading paint protection, gloss enhancement, a
                   className="bg-gradient-primary hover:shadow-glow-primary"
                 >
                   Book Ceramic Coating
+                </Button>
+
+                <Button
+                  onClick={() => navigate("/ceramic-coatings")}
+                  variant="outline"
+                  size="lg"
+                  className="border-primary hover:bg-primary/10"
+                >
+                  Learn More
                 </Button>
 
                 <Dialog open={isOpen} onOpenChange={setIsOpen}>

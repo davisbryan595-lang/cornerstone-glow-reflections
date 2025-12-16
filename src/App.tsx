@@ -19,6 +19,7 @@ import MemberSettings from "./pages/MemberSettings";
 import MembershipDashboard from "./pages/MembershipDashboard";
 import PasswordReset from "./pages/PasswordReset";
 import ForgotPassword from "./pages/ForgotPassword";
+import CeramicCoatingsPage from "./pages/CeramicCoatingsPage";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +52,7 @@ const App = () => (
               <Route path="/terms" element={<Terms />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/membership" element={<Membership />} />
+              <Route path="/ceramic-coatings" element={<CeramicCoatingsPage />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/password-reset" element={<PasswordReset />} />
