@@ -39,15 +39,30 @@ const ContactForm = () => {
     setIsSubmitting(true);
 
     try {
-      const formElement = e.currentTarget;
-      const formDataToSend = new FormData(formElement);
+      const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+      if (!accessKey) {
+        throw new Error('Web3Forms access key is not configured.');
+      }
 
-      const response = await fetch('https://formsubmit.co/cornerstonemobile55@gmail.com', {
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        body: formDataToSend,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: accessKey,
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          subject: formData.subject,
+          message: formData.message,
+        }),
       });
 
-      if (response.ok) {
+      const result = await response.json();
+
+      if (result.success) {
         toast({
           title: 'Message Sent!',
           description: 'Thank you! We\'ll get back to you shortly.',
@@ -63,7 +78,7 @@ const ContactForm = () => {
       } else {
         toast({
           title: 'Error',
-          description: 'Failed to send message. Please try again.',
+          description: result.message || 'Failed to send message. Please try again.',
           variant: 'destructive' as any,
         });
       }
