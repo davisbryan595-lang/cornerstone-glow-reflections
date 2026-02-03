@@ -67,7 +67,7 @@ You're receiving this email because you created an account on our website.
         access_key: '045ecce7-3791-4ad7-946c-86810d670291', // Same key as ContactForm
         name: 'Cornerstone Mobile Detailing',
         email: details.customerEmail,
-        subject: '🎉 Welcome to Cornerstone Mobile Detailing - Your Access Code Inside',
+        subject: 'Welcome to Cornerstone Mobile Detailing - Your Access Code Inside',
         message: emailMessage,
         from_name: 'Cornerstone Mobile Detailing',
         replyto: 'cornerstonemobile55@gmail.com',
