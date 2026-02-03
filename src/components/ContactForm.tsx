@@ -57,6 +57,7 @@ const ContactForm = () => {
           phone: formData.phone,
           subject: formData.subject,
           message: formData.message,
+          to: 'cornerstonemobile55@gmail.com',
         }),
       });
 
