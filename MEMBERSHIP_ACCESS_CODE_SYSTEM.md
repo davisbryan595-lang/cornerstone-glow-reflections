@@ -163,25 +163,25 @@ db.accessCodes.markAsUsed(id)            // Mark code as used
 
 ## Email Service Integration
 
-### ✅ Resend Integration (Active)
+### ✅ Web3Forms Integration (Active)
 
-The system uses **Resend** for sending membership confirmation emails.
+The system uses **Web3Forms** for sending membership confirmation emails.
 
 **Configuration:**
-- API Key: Set as `RESEND_API_KEY` environment variable
-- From Email: `noreply@cornerstone-detailing.com` (configured in API endpoint)
+- Access Key: `045ecce7-3791-4ad7-946c-86810d670291` (configured in membershipEmail.ts)
+- From Email: `cornerstonemobile55@gmail.com` (reply-to address)
 - Status: ✅ Active and configured
 
 **How it works:**
-1. When membership is created, confirmation email is queued
-2. Email includes access code in beautiful HTML format
-3. Resend sends email asynchronously via `/api/send-membership-confirmation`
+1. When membership is created, confirmation email is sent via Web3Forms API
+2. Email includes access code in plain text format
+3. Web3Forms sends email directly to customer's email address
 4. Delivery status is logged and tracked
 
 **Features:**
-- Beautiful HTML email template with branding
+- Clean email template with membership details
 - Automatic formatting of dates and prices
-- Safe HTML escaping for user data
+- Access code prominently displayed
 - Error handling and logging
 - Non-blocking: membership succeeds even if email fails
 
