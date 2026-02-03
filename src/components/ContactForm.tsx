@@ -39,11 +39,6 @@ const ContactForm = () => {
     setIsSubmitting(true);
 
     try {
-      const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
-      if (!accessKey) {
-        throw new Error('Web3Forms access key is not configured.');
-      }
-
       const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
@@ -51,13 +46,12 @@ const ContactForm = () => {
           'Accept': 'application/json',
         },
         body: JSON.stringify({
-          access_key: accessKey,
+          access_key: '045ecce7-3791-4ad7-946c-86810d670291',
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
           subject: formData.subject,
           message: formData.message,
-          to: 'cornerstonemobile55@gmail.com',
         }),
       });
 
