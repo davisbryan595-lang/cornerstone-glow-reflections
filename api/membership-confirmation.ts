@@ -36,7 +36,7 @@ export default async (req: any, res: any) => {
 
     // Send email via Resend
     const emailResponse = await resend.emails.send({
-      from: 'Cornerstone Mobile Detailing <noreply@cornerstone-detailing.com>',
+      from: 'Cornerstone Mobile Detailing <support@cornerstone-detailing.com>',
       to: customerEmail,
       subject: '🎉 Welcome to Cornerstone Mobile Detailing - Your Access Code Inside',
       html: emailHtml,
