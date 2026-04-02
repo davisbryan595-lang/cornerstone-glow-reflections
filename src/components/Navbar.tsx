@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Facebook, Instagram, Mail, Phone, Menu, X, Linkedin, LogOut, User } from "lucide-react";
 import { Button } from "./ui/button";
+import { ThemeToggle } from "./ThemeToggle";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthProvider";
 
@@ -227,6 +228,7 @@ const Navbar = () => {
 
             {/* CTA Buttons & User Menu */}
             <div className="hidden lg:flex items-center gap-3">
+              <ThemeToggle />
               <Button
                 onClick={() => navigate("/careers")}
                 className="bg-secondary hover:shadow-glow-secondary transition-all duration-300"
@@ -361,15 +363,18 @@ const Navbar = () => {
             </div>
           )}
 
-          <Button
-            onClick={() => {
-              navigate("/careers");
-              setIsMobileMenuOpen(false);
-            }}
-            className="w-full bg-secondary mb-6"
-          >
-            Apply for Job
-          </Button>
+          <div className="flex gap-3 mb-6">
+            <Button
+              onClick={() => {
+                navigate("/careers");
+                setIsMobileMenuOpen(false);
+              }}
+              className="flex-1 bg-secondary"
+            >
+              Apply for Job
+            </Button>
+            <ThemeToggle />
+          </div>
 
           <div className="flex flex-col gap-2 flex-1">
             {navLinks.map((link) => (

@@ -26,12 +26,14 @@ const queryClient = new QueryClient();
 import ChatBot from "@/components/ChatBot";
 import { AuthProvider } from "@/context/AuthProvider";
 import { StripeProvider } from "@/context/StripeProvider";
+import { ThemeProvider } from "@/context/ThemeProvider";
 import { RequireAdmin, RequireMember, RequireAuth } from "@/components/RouteGuards";
 import Admin from "@/pages/Admin";
 import Auth from "@/pages/Auth";
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
+  <ThemeProvider>
+    <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <StripeProvider>
         <Toaster />
@@ -66,6 +68,7 @@ const App = () => (
       </StripeProvider>
     </TooltipProvider>
   </QueryClientProvider>
+  </ThemeProvider>
 );
 
 export default App;
